@@ -8,290 +8,361 @@
 <meta name="apple-mobile-web-app-title" content="جدول رومل">
 <title>جدول رومل</title>
 <style>
-/* ============================
-   ✏️ الألوان — عدّل هون
-   ============================ */
-:root {
-  --orange: #F97316;
-  --orange2: #EA580C;
-  --amber: #D97706;
-  --green: #16A34A;
-  --purple: #7C3AED;
-  --red: #EF4444;
-  --bg: #FFF8F0;
-  --card: #FFFFFF;
-  --border: #F3E8DA;
-  --txt: #1C1917;
-  --txt2: #78716C;
-  --txt3: #A8A29E;
-  --r: 14px;
+/* ================================================
+   THEME VARIABLES
+   ================================================ */
+body { --r:14px; transition: background .4s, color .4s; }
+
+/* 🌅 الفجر - Sunrise */
+body[data-theme="dawn"] {
+  --h1:#C2410C; --h2:#F97316; --h3:#FBBF24;
+  --acc:#F97316; --acc2:#C2410C;
+  --bg:#FFF8F0; --card:#fff; --border:#FDE8CC;
+  --txt:#1C1917; --txt2:#78716C; --txt3:#A8A29E;
+  --task-bg:#FFF8F0; --header-txt:#fff;
+}
+/* 🌌 الكون - Cosmos */
+body[data-theme="cosmos"] {
+  --h1:#020617; --h2:#0F172A; --h3:#1E1B4B;
+  --acc:#818CF8; --acc2:#4F46E5;
+  --bg:#060616; --card:#0F0F2A; --border:#1E1B4B;
+  --txt:#E2E8FF; --txt2:#818CF8; --txt3:#3730A3;
+  --task-bg:#0a0a20; --header-txt:#E2E8FF;
+}
+/* ⚡ النيون - Synthwave */
+body[data-theme="neon"] {
+  --h1:#1a0030; --h2:#2d0060; --h3:#0d0020;
+  --acc:#D946EF; --acc2:#A21CAF;
+  --bg:#0D0015; --card:#160025; --border:#3B0060;
+  --txt:#F5D0FE; --txt2:#C084FC; --txt3:#7E22CE;
+  --task-bg:#110020; --header-txt:#F5D0FE;
+}
+/* 🖋 الحبر - Ink */
+body[data-theme="ink"] {
+  --h1:#111; --h2:#222; --h3:#000;
+  --acc:#111; --acc2:#333;
+  --bg:#F5F0E8; --card:#FDFAF5; --border:#E5DDD0;
+  --txt:#111; --txt2:#555; --txt3:#999;
+  --task-bg:#F5F0E8; --header-txt:#fff;
+}
+/* 🌿 الغابة - Forest */
+body[data-theme="forest"] {
+  --h1:#052E16; --h2:#14532D; --h3:#166534;
+  --acc:#22C55E; --acc2:#16A34A;
+  --bg:#F0FDF4; --card:#fff; --border:#BBF7D0;
+  --txt:#052E16; --txt2:#166534; --txt3:#4ADE80;
+  --task-bg:#F0FDF4; --header-txt:#fff;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { background: var(--bg); color: var(--txt); font-family: 'Segoe UI', Tahoma, Arial, sans-serif; padding-bottom: 30px; }
-button, input, select, textarea { font-family: inherit; }
+/* ================================================
+   BASE STYLES
+   ================================================ */
+* { box-sizing: border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+body { background:var(--bg); color:var(--txt); font-family:'Segoe UI',Tahoma,Arial,sans-serif; padding-bottom:40px; }
+button,input,select,textarea { font-family:inherit; }
 
-/* ====== HEADER ====== */
+/* ================================================
+   HEADER
+   ================================================ */
 .hdr {
-  background: linear-gradient(135deg, #F97316 0%, #FB923C 50%, #D97706 100%);
+  background: linear-gradient(160deg, var(--h1), var(--h2) 50%, var(--h3));
   padding: 22px 16px 16px;
-  color: #fff;
-}
-.hdr-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 16px;
-}
-.greeting { font-size: 22px; font-weight: 700; letter-spacing: -0.3px; }
-.motto { font-size: 12px; opacity: .85; margin-top: 4px; }
-.date-pill {
-  background: rgba(255,255,255,.22);
-  border-radius: 12px;
-  padding: 8px 13px;
-  text-align: center;
-  backdrop-filter: blur(4px);
-  min-width: 72px;
-}
-.date-pill-day { font-size: 13px; font-weight: 700; }
-.date-pill-full { font-size: 10px; opacity: .8; margin-top: 2px; }
-
-/* habits */
-.habits { display: flex; gap: 7px; margin-bottom: 14px; flex-wrap: wrap; }
-.hab {
-  display: flex; align-items: center; gap: 5px;
-  background: rgba(255,255,255,.18);
-  border: 1.5px solid transparent;
-  border-radius: 20px; padding: 6px 12px;
-  font-size: 12px; cursor: pointer; user-select: none;
-  transition: .2s;
-}
-.hab.done { background: rgba(255,255,255,.35); border-color: rgba(255,255,255,.6); }
-
-/* stats */
-.stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 12px; }
-.stat { background: rgba(255,255,255,.18); border-radius: 12px; padding: 10px 6px; text-align: center; }
-.stat-n { font-size: 22px; font-weight: 700; }
-.stat-l { font-size: 10px; opacity: .8; margin-top: 2px; }
-
-/* progress */
-.pw { background: rgba(255,255,255,.25); border-radius: 10px; height: 7px; overflow: hidden; }
-.pf { height: 100%; background: #fff; border-radius: 10px; transition: width .5s cubic-bezier(.4,0,.2,1); }
-
-/* reset */
-.reset-btn {
-  display: block; width: 100%; margin-top: 13px;
-  padding: 9px; background: rgba(255,255,255,.15);
-  border: 1.5px solid rgba(255,255,255,.35);
-  border-radius: 10px; color: #fff;
-  font-size: 12px; font-weight: 600;
-}
-.reset-btn:active { background: rgba(255,255,255,.25); }
-.confirm-box {
-  display: none; background: #fff;
-  border-radius: 14px; margin-top: 10px;
-  padding: 14px; border: 1px solid #FED7AA;
-}
-.confirm-box.show { display: block; }
-.confirm-msg { font-size: 13px; color: var(--txt); margin-bottom: 10px; font-weight: 500; }
-.confirm-btns { display: flex; gap: 8px; }
-.btn-yes { flex: 1; padding: 9px; background: var(--red); color: #fff; border: none; border-radius: 9px; font-size: 13px; font-weight: 600; }
-.btn-no { padding: 9px 18px; background: var(--bg); border: 1px solid var(--border); border-radius: 9px; font-size: 13px; color: var(--txt2); }
-
-/* ====== FILTER BAR ====== */
-.fbar { display: flex; gap: 7px; padding: 12px 14px 4px; overflow-x: auto; }
-.fbar::-webkit-scrollbar { display: none; }
-.flt {
-  white-space: nowrap; padding: 7px 16px; border-radius: 20px;
-  font-size: 12px; border: 1px solid var(--border);
-  background: var(--card); color: var(--txt2); font-weight: 500;
-}
-.flt.on { background: var(--orange); color: #fff; border-color: var(--orange); }
-
-/* ====== DAY CARDS ====== */
-.days { padding: 10px 14px 0; }
-.dc {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  margin-bottom: 10px;
+  color: var(--header-txt);
+  position: relative;
   overflow: hidden;
-  transition: box-shadow .2s;
 }
-.dc.today { border-color: var(--orange); box-shadow: 0 0 0 2px rgba(249,115,22,.14); }
-.dc.heavy  { border-right: 4px solid #FCA5A5; }
-.dc.light  { border-right: 4px solid #6EE7B7; }
-.dc.free   { border-right: 4px solid #C4B5FD; }
+/* Animation layer — sits behind content */
+.hdr-anim { position:absolute; inset:0; pointer-events:none; z-index:0; }
+.hdr-content { position:relative; z-index:1; }
 
-.dh {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 13px 14px 11px; cursor: pointer; user-select: none;
+/* Dawn shimmer */
+body[data-theme="dawn"] .hdr::after {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(255,200,100,.25) 0%, transparent 70%);
+  animation: dawn-pulse 4s ease-in-out infinite;
 }
-.dh:active { background: var(--bg); }
-.dr { display: flex; align-items: center; gap: 7px; }
-.dl { display: flex; align-items: center; gap: 7px; }
-.dn { font-size: 15px; font-weight: 600; color: var(--txt); }
-.today .dn { color: var(--orange); }
-.dtype {
-  font-size: 11px; font-weight: 700;
-  padding: 4px 10px; border-radius: 20px;
-}
-.heavy .dtype { background: #FEF2F2; color: #B91C1C; }
-.light .dtype { background: #ECFDF5; color: #065F46; }
-.free  .dtype { background: #F5F3FF; color: #5B21B6; }
-.ddate { font-size: 12px; color: var(--txt2); }
-.ddone { font-size: 12px; color: var(--txt3); }
+@keyframes dawn-pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
 
-.dprog { height: 3px; background: var(--border); margin: 0 14px 11px; border-radius: 2px; overflow: hidden; }
-.dprogf { height: 100%; background: var(--green); border-radius: 2px; transition: width .4s; }
-.dc:not(.expanded) .dprog { display: none; }
+/* Cosmos stars drawn by JS canvas */
+.star-canvas { position:absolute; inset:0; width:100%; height:100%; }
 
-.tw { padding: 0 10px 10px; display: none; }
-.dc.expanded .tw { display: block; }
+/* Neon grid */
+.neon-grid {
+  position:absolute; bottom:0; left:0; right:0; height:90px;
+  background:
+    repeating-linear-gradient(90deg, rgba(217,70,239,.35) 0, rgba(217,70,239,.35) 1px, transparent 1px, transparent 40px),
+    repeating-linear-gradient(0deg,  rgba(217,70,239,.25) 0, rgba(217,70,239,.25) 1px, transparent 1px, transparent 20px);
+  transform: perspective(200px) rotateX(50deg);
+  transform-origin: bottom;
+  animation: grid-scroll 2s linear infinite;
+  background-size: 40px 20px;
+}
+@keyframes grid-scroll { from{background-position:0 0} to{background-position:0 -20px} }
+.neon-glow {
+  position:absolute; top:10px; left:50%; transform:translateX(-50%);
+  width:200px; height:80px;
+  background: radial-gradient(ellipse, rgba(217,70,239,.4) 0%, transparent 70%);
+  animation: neon-pulse 2s ease-in-out infinite;
+}
+@keyframes neon-pulse { 0%,100%{opacity:.5;transform:translateX(-50%) scaleX(.9)} 50%{opacity:1;transform:translateX(-50%) scaleX(1.1)} }
 
-/* ====== TASKS ====== */
-.task {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px 10px; border-radius: 12px;
-  margin-bottom: 6px; background: var(--bg);
-  min-height: 48px;
+/* Ink scan line */
+body[data-theme="ink"] .hdr::before {
+  content:''; position:absolute; inset:0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,.03) 3px, rgba(255,255,255,.03) 4px);
 }
-.task.done .ttxt { text-decoration: line-through; color: var(--txt3); }
-.cdot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-.ttxt { flex: 1; font-size: 14px; color: var(--txt); line-height: 1.4; }
-.ttime { font-size: 12px; color: var(--txt3); flex-shrink: 0; }
-/* touch targets minimum 44x44 */
-.tdel {
-  background: none; border: none; font-size: 18px; color: var(--txt3);
-  min-width: 44px; height: 44px; display: flex; align-items: center;
-  justify-content: center; flex-shrink: 0;
+
+/* Forest particles */
+.forest-particle {
+  position:absolute; border-radius:50%;
+  width:5px; height:5px;
+  background:rgba(134,239,172,.6);
+  animation: float-up var(--dur,6s) var(--delay,0s) ease-in infinite;
 }
-.tdel:active { color: var(--red); }
+@keyframes float-up {
+  0%   { transform:translateY(0) translateX(0) scale(1);  opacity:.8; }
+  50%  { transform:translateY(-60px) translateX(10px) scale(.8); opacity:.5; }
+  100% { transform:translateY(-120px) translateX(-5px) scale(.4); opacity:0; }
+}
+
+/* ================================================
+   HEADER CONTENT
+   ================================================ */
+.hdr-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+.greeting { font-size:22px; font-weight:700; }
+.motto { font-size:12px; opacity:.8; margin-top:4px; }
+.date-pill { background:rgba(255,255,255,.18); border-radius:12px; padding:8px 13px; text-align:center; min-width:72px; backdrop-filter:blur(4px); }
+.date-pill-day { font-size:13px; font-weight:700; }
+.date-pill-full { font-size:10px; opacity:.8; margin-top:2px; }
+
+/* ================================================
+   THEME SWITCHER
+   ================================================ */
+.themes { display:flex; gap:7px; margin-bottom:14px; overflow-x:auto; padding-bottom:2px; }
+.themes::-webkit-scrollbar { display:none; }
+.th-btn {
+  display:flex; align-items:center; gap:5px;
+  background:rgba(255,255,255,.12);
+  border:1.5px solid rgba(255,255,255,.2);
+  border-radius:20px; padding:6px 12px;
+  font-size:11px; color:rgba(255,255,255,.8);
+  white-space:nowrap; transition:.25s;
+}
+.th-btn:active { transform:scale(.96); }
+.th-btn.active {
+  background:rgba(255,255,255,.28);
+  border-color:rgba(255,255,255,.6);
+  color:#fff; font-weight:700;
+  box-shadow: 0 0 12px rgba(255,255,255,.2);
+}
+
+/* ================================================
+   HABITS
+   ================================================ */
+.habits { display:flex; gap:7px; margin-bottom:14px; flex-wrap:wrap; }
+.hab { display:flex; align-items:center; gap:5px; background:rgba(255,255,255,.14); border:1.5px solid transparent; border-radius:20px; padding:7px 12px; font-size:12px; user-select:none; transition:.2s; min-height:36px; }
+.hab.done { background:rgba(255,255,255,.3); border-color:rgba(255,255,255,.55); }
+
+/* ================================================
+   STATS
+   ================================================ */
+.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:12px; }
+.stat { background:rgba(255,255,255,.14); border-radius:12px; padding:10px 6px; text-align:center; backdrop-filter:blur(4px); }
+.stat-n { font-size:22px; font-weight:700; }
+.stat-l { font-size:11px; opacity:.8; margin-top:2px; }
+.pw { background:rgba(255,255,255,.2); border-radius:10px; height:7px; overflow:hidden; }
+.pf { height:100%; background:#fff; border-radius:10px; transition:width .5s cubic-bezier(.4,0,.2,1); }
+
+/* ================================================
+   RESET
+   ================================================ */
+.reset-btn { display:block; width:100%; margin-top:12px; padding:10px; background:rgba(255,255,255,.12); border:1.5px solid rgba(255,255,255,.3); border-radius:10px; color:rgba(255,255,255,.9); font-size:13px; font-weight:600; }
+.confirm-box { display:none; background:var(--card); border-radius:14px; margin-top:10px; padding:14px; border:1px solid var(--border); }
+.confirm-box.show { display:block; }
+.confirm-msg { font-size:14px; color:var(--txt); margin-bottom:10px; font-weight:600; }
+.confirm-btns { display:flex; gap:8px; }
+.btn-yes { flex:1; padding:11px; background:#EF4444; color:#fff; border:none; border-radius:10px; font-size:14px; font-weight:700; }
+.btn-no  { padding:11px 20px; background:var(--bg); border:1px solid var(--border); border-radius:10px; font-size:14px; color:var(--txt2); }
+
+/* ================================================
+   FILTER
+   ================================================ */
+.fbar { display:flex; gap:7px; padding:12px 14px 6px; overflow-x:auto; }
+.fbar::-webkit-scrollbar { display:none; }
+.flt { white-space:nowrap; padding:8px 16px; border-radius:20px; font-size:13px; border:1px solid var(--border); background:var(--card); color:var(--txt2); font-weight:500; min-height:38px; }
+.flt.on { background:var(--acc); color:#fff; border-color:var(--acc); }
+
+/* ================================================
+   DAY CARDS
+   ================================================ */
+.days { padding:10px 14px 0; }
+.dc { background:var(--card); border:1px solid var(--border); border-radius:var(--r); margin-bottom:10px; overflow:hidden; transition:border-color .3s, box-shadow .3s; }
+.dc.today { border-color:var(--acc); box-shadow:0 0 0 2px color-mix(in srgb,var(--acc) 20%,transparent); }
+.dc.heavy { border-right:4px solid #FCA5A5; }
+.dc.light { border-right:4px solid #6EE7B7; }
+.dc.free  { border-right:4px solid #C4B5FD; }
+
+/* dark theme card adjustments */
+body[data-theme="cosmos"] .dc.heavy { border-right-color:#7F1D1D; }
+body[data-theme="cosmos"] .dc.light { border-right-color:#065F46; }
+body[data-theme="cosmos"] .dc.free  { border-right-color:#4C1D95; }
+body[data-theme="neon"]   .dc.heavy { border-right-color:#BE123C; }
+body[data-theme="neon"]   .dc.light { border-right-color:#166534; }
+body[data-theme="neon"]   .dc.free  { border-right-color:#7E22CE; }
+
+.dh { display:flex; align-items:center; justify-content:space-between; padding:14px 14px 12px; user-select:none; min-height:56px; }
+.dh:active { background:var(--task-bg); }
+.dr { display:flex; align-items:center; gap:8px; }
+.dl { display:flex; align-items:center; gap:8px; }
+.dn { font-size:15px; font-weight:600; color:var(--txt); }
+.today .dn { color:var(--acc); }
+.dtype { font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; }
+.heavy .dtype { background:#FEF2F2; color:#B91C1C; }
+.light .dtype { background:#ECFDF5; color:#065F46; }
+.free  .dtype { background:#F5F3FF; color:#5B21B6; }
+body[data-theme="cosmos"] .dtype,
+body[data-theme="neon"]   .dtype { background:rgba(255,255,255,.08); color:var(--txt2); }
+.ddate { font-size:12px; color:var(--txt2); }
+.ddone { font-size:12px; color:var(--txt3); }
+.chev { font-size:12px; color:var(--txt3); transition:transform .25s; flex-shrink:0; }
+.dc.expanded .chev { transform:rotate(180deg); }
+
+.dprog { height:3px; background:var(--border); margin:0 14px 12px; border-radius:2px; overflow:hidden; }
+.dprogf { height:100%; background:var(--acc); border-radius:2px; transition:width .4s; }
+.dc:not(.expanded) .dprog { display:none; }
+
+.tw { padding:0 10px 12px; display:none; }
+.dc.expanded .tw { display:block; }
+
+/* ================================================
+   TASKS
+   ================================================ */
+.task { display:flex; align-items:center; gap:9px; padding:10px; border-radius:12px; margin-bottom:6px; background:var(--task-bg); min-height:52px; transition:opacity .2s; }
+.task.done .ttxt { text-decoration:line-through; color:var(--txt3); }
+.cdot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.ttxt { flex:1; font-size:14px; color:var(--txt); line-height:1.4; }
+.ttime { font-size:12px; color:var(--txt3); flex-shrink:0; }
+
+/* check button — animated */
 .chk {
-  background: none; border: 2px solid var(--txt3);
-  border-radius: 50%; width: 26px; height: 26px; min-width: 26px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; color: transparent; flex-shrink: 0;
-  transition: .15s;
+  background:none; border:2px solid var(--txt3); border-radius:50%;
+  width:28px; height:28px; min-width:28px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; color:transparent; flex-shrink:0; transition:.2s;
 }
-.task.done .chk { background: var(--green); border-color: var(--green); color: #fff; }
-.hw-tag {
-  font-size: 11px; background: #FEF9C3; color: #854D0E;
-  border-radius: 5px; padding: 2px 7px; margin-left: 5px; font-weight: 600;
+.task.done .chk {
+  background:var(--acc); border-color:var(--acc); color:#fff;
+  animation: check-pop .3s cubic-bezier(.34,1.56,.64,1);
 }
-.an-btn {
-  background: none; border: none; font-size: 18px; color: var(--txt3);
-  min-width: 44px; height: 44px; display: flex; align-items: center;
-  justify-content: center; flex-shrink: 0;
-}
-.an-btn:active { color: var(--orange); }
+@keyframes check-pop { 0%{transform:scale(.6)} 100%{transform:scale(1)} }
 
-/* analysis box */
-.an-box {
-  margin: 3px 0 7px;
-  padding: 10px 12px;
-  background: #FFF7ED;
-  border: 1px solid #FED7AA;
-  border-radius: 10px;
-}
-.an-box textarea {
-  width: 100%; background: transparent; border: none; outline: none;
-  font-size: 12px; color: var(--txt); resize: none;
-  min-height: 70px; direction: rtl; line-height: 1.6;
-}
-.an-box textarea::placeholder { color: var(--txt3); }
-.an-save { font-size: 11px; color: var(--orange); background: none; border: none; font-weight: 700; padding: 4px 0 0; }
+.hw-tag { font-size:11px; background:#FEF9C3; color:#854D0E; border-radius:5px; padding:2px 7px; margin-left:5px; font-weight:600; white-space:nowrap; }
+body[data-theme="cosmos"] .hw-tag,
+body[data-theme="neon"]   .hw-tag { background:#2D2000; color:#FDE68A; }
 
-/* free block */
-.fb-box {
-  background: #F5F3FF;
-  border: 1px solid #DDD6FE;
-  border-radius: 10px;
-  padding: 10px 12px;
-  margin-bottom: 6px;
-}
-.fb-lbl { font-size: 11px; color: var(--purple); font-weight: 700; margin-bottom: 6px; }
-.fb-box textarea {
-  width: 100%; background: transparent; border: none; outline: none;
-  font-size: 12px; color: var(--txt); resize: none; min-height: 55px;
-  direction: rtl; line-height: 1.5;
-}
-.fb-save { font-size: 11px; color: var(--purple); background: none; border: none; font-weight: 700; padding: 4px 0 0; }
+.an-btn { background:none; border:none; font-size:18px; color:var(--txt3); min-width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.tdel   { background:none; border:none; font-size:18px; color:var(--txt3); min-width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:.15s; }
+.tdel:active { color:#EF4444; transform:scale(1.2); }
 
-/* action row */
-.arow { display: flex; gap: 7px; margin-top: 6px; }
-.add-btn {
-  flex: 1; min-height: 46px; background: none;
-  border: 1.5px dashed var(--border);
-  border-radius: 12px; font-size: 14px; color: var(--txt3); text-align: center;
-}
-.add-btn:active { border-color: var(--orange); color: var(--orange); }
-.free-btn {
-  min-height: 46px; padding: 0 18px; background: #F5F3FF;
-  border: 1.5px dashed #C4B5FD;
-  border-radius: 12px; font-size: 14px; color: var(--purple); font-weight: 600;
-}
+/* ================================================
+   ANALYSIS + FREE BLOCK
+   ================================================ */
+.an-box { margin:3px 0 7px; padding:12px; background:color-mix(in srgb,var(--acc) 8%,var(--card)); border:1px solid color-mix(in srgb,var(--acc) 30%,transparent); border-radius:12px; }
+.an-box textarea { width:100%; background:transparent; border:none; outline:none; font-size:13px; color:var(--txt); resize:none; min-height:75px; direction:rtl; line-height:1.6; }
+.an-save { font-size:12px; color:var(--acc); background:none; border:none; font-weight:700; padding:4px 0 0; }
 
-/* add form */
-.af { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); padding-top: 12px; }
-.af input, .af select {
-  width: 100%; padding: 13px 14px; border-radius: 12px;
-  background: #fff; border: 1px solid var(--border);
-  color: var(--txt); font-size: 15px; direction: rtl; outline: none;
-  min-height: 48px;
-}
-.af input:focus, .af select:focus { border-color: var(--orange); }
-.af-row { display: flex; gap: 8px; }
-.af-btns { display: flex; gap: 8px; }
-.af-ok { flex: 1; min-height: 48px; background: var(--orange); color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; }
-.af-ok:active { background: var(--orange2); }
-.af-cancel { min-height: 48px; padding: 0 20px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px; font-size: 15px; color: var(--txt2); }
+.fb-box { background:rgba(124,58,237,.1); border:1px solid rgba(124,58,237,.25); border-radius:12px; padding:12px; margin-bottom:6px; }
+.fb-lbl { font-size:12px; color:#7C3AED; font-weight:700; margin-bottom:7px; }
+.fb-box textarea { width:100%; background:transparent; border:none; outline:none; font-size:13px; color:var(--txt); resize:none; min-height:55px; direction:rtl; line-height:1.5; }
+.fb-save { font-size:12px; color:#7C3AED; background:none; border:none; font-weight:700; padding:4px 0 0; }
 
-/* thu banner */
-.thu {
-  margin-bottom: 8px;
-  background: linear-gradient(135deg, #FEF9C3, #FEF3C7);
-  border: 1px solid #FDE68A; border-radius: 12px;
-  padding: 10px 13px; display: flex; align-items: center; gap: 9px;
-}
-.thu-t { font-size: 12px; color: #92400E; font-weight: 600; line-height: 1.4; }
+/* ================================================
+   ACTIONS + FORM
+   ================================================ */
+.arow { display:flex; gap:8px; margin-top:6px; }
+.add-btn  { flex:1; min-height:48px; background:none; border:1.5px dashed var(--border); border-radius:12px; font-size:14px; color:var(--txt3); transition:.2s; }
+.add-btn:active { border-color:var(--acc); color:var(--acc); }
+.free-btn { min-height:48px; padding:0 18px; background:rgba(124,58,237,.08); border:1.5px dashed rgba(124,58,237,.35); border-radius:12px; font-size:14px; color:#7C3AED; font-weight:600; }
+
+.af { margin-top:10px; display:flex; flex-direction:column; gap:9px; border-top:1px solid var(--border); padding-top:12px; }
+.af input,.af select { width:100%; padding:13px 14px; border-radius:12px; background:var(--card); border:1.5px solid var(--border); color:var(--txt); font-size:15px; direction:rtl; outline:none; min-height:50px; }
+.af input:focus,.af select:focus { border-color:var(--acc); }
+.af-row   { display:flex; gap:8px; }
+.af-btns  { display:flex; gap:8px; }
+.af-ok     { flex:1; min-height:50px; background:var(--acc); color:#fff; border:none; border-radius:12px; font-size:15px; font-weight:700; transition:.15s; }
+.af-ok:active { background:var(--acc2); transform:scale(.98); }
+.af-cancel { min-height:50px; padding:0 20px; background:var(--bg); border:1.5px solid var(--border); border-radius:12px; font-size:15px; color:var(--txt2); }
+
+/* ================================================
+   THU BANNER
+   ================================================ */
+.thu { margin-bottom:10px; background:linear-gradient(135deg,#FEF9C3,#FEF3C7); border:1px solid #FDE68A; border-radius:12px; padding:11px 13px; display:flex; align-items:center; gap:10px; }
+.thu-t { font-size:13px; color:#92400E; font-weight:600; line-height:1.4; }
+body[data-theme="cosmos"] .thu,
+body[data-theme="neon"]   .thu { background:rgba(251,191,36,.1); border-color:rgba(251,191,36,.3); }
+body[data-theme="cosmos"] .thu-t,
+body[data-theme="neon"]   .thu-t { color:#FDE68A; }
+
+/* ================================================
+   NEON GLOW EFFECTS
+   ================================================ */
+body[data-theme="neon"] .dc.today { box-shadow:0 0 0 2px rgba(217,70,239,.4), 0 0 20px rgba(217,70,239,.15); }
+body[data-theme="neon"] .task.done .chk { box-shadow:0 0 8px rgba(217,70,239,.6); }
+body[data-theme="cosmos"] .task.done .chk { box-shadow:0 0 8px rgba(129,140,248,.6); }
+
+/* ================================================
+   INK THEME TYPOGRAPHY
+   ================================================ */
+body[data-theme="ink"] .greeting { font-family: Georgia, serif; letter-spacing:1px; }
+body[data-theme="ink"] .dn { font-family: Georgia, serif; }
+body[data-theme="ink"] .stat-n { font-family: Georgia, serif; font-style: italic; }
 </style>
 </head>
-<body>
+<body data-theme="dawn">
 
-<!-- HEADER -->
 <div class="hdr">
-  <div class="hdr-top">
-    <div>
-      <div class="greeting">مرحبا، رومل 👋</div>
-      <div class="motto" id="motto"></div>
+  <div class="hdr-anim" id="hdr-anim"></div>
+  <div class="hdr-content">
+    <div class="hdr-top">
+      <div>
+        <div class="greeting">مرحبا، رومل 👋</div>
+        <div class="motto" id="motto"></div>
+      </div>
+      <div class="date-pill">
+        <div class="date-pill-day" id="hdr-day"></div>
+        <div class="date-pill-full" id="hdr-date"></div>
+      </div>
     </div>
-    <div class="date-pill">
-      <div class="date-pill-day" id="hdr-day"></div>
-      <div class="date-pill-full" id="hdr-date"></div>
+
+    <!-- THEME SWITCHER -->
+    <div class="themes">
+      <button class="th-btn active" data-t="dawn"   onclick="setTheme('dawn',this)">🌅 فجر</button>
+      <button class="th-btn"        data-t="cosmos" onclick="setTheme('cosmos',this)">🌌 كون</button>
+      <button class="th-btn"        data-t="neon"   onclick="setTheme('neon',this)">⚡ نيون</button>
+      <button class="th-btn"        data-t="ink"    onclick="setTheme('ink',this)">🖋 حبر</button>
+      <button class="th-btn"        data-t="forest" onclick="setTheme('forest',this)">🌿 غابة</button>
     </div>
-  </div>
 
-  <div class="habits" id="habits"></div>
+    <div class="habits" id="habits"></div>
 
-  <div class="stats">
-    <div class="stat"><div class="stat-n" id="s-tot">0</div><div class="stat-l">مهام الأسبوع</div></div>
-    <div class="stat"><div class="stat-n" id="s-don">0</div><div class="stat-l">مكتملة</div></div>
-    <div class="stat"><div class="stat-n" id="s-pct">0%</div><div class="stat-l">تقدم</div></div>
-  </div>
-  <div class="pw"><div class="pf" id="wprog" style="width:0%"></div></div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="s-tot">0</div><div class="stat-l">مهام الأسبوع</div></div>
+      <div class="stat"><div class="stat-n" id="s-don">0</div><div class="stat-l">مكتملة</div></div>
+      <div class="stat"><div class="stat-n" id="s-pct">0%</div><div class="stat-l">تقدم</div></div>
+    </div>
+    <div class="pw"><div class="pf" id="wprog" style="width:0%"></div></div>
 
-  <button class="reset-btn" onclick="showReset()">↺ إعادة تعيين الأسبوع</button>
-  <div class="confirm-box" id="cbox">
-    <div class="confirm-msg">بدك تمسح كل الأسبوع وتبدأ من أول؟</div>
-    <div class="confirm-btns">
-      <button class="btn-no" onclick="hideReset()">لا، إلغاء</button>
-      <button class="btn-yes" onclick="doReset()">نعم، امسح</button>
+    <button class="reset-btn" onclick="showReset()">↺ إعادة تعيين الأسبوع</button>
+    <div class="confirm-box" id="cbox">
+      <div class="confirm-msg">بدك تمسح كل الأسبوع وتبدأ من أول؟</div>
+      <div class="confirm-btns">
+        <button class="btn-no" onclick="hideReset()">لا، إلغاء</button>
+        <button class="btn-yes" onclick="doReset()">نعم، امسح</button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- FILTER -->
 <div class="fbar">
   <button class="flt on" onclick="setF('all',this)">الكل</button>
   <button class="flt" onclick="setF('0',this)">محاضرات</button>
@@ -304,281 +375,284 @@ button, input, select, textarea { font-family: inherit; }
 <div class="days" id="plan"></div>
 
 <script>
-/* ✏️ عدّل هون */
+/* ====================================================
+   DATA
+   ==================================================== */
 const MOTTOS = [
-  "ابن نفسك كل يوم 💪",
-  "الفرق بتعمله التفاصيل الصغيرة ✨",
-  "يوم ما بيرجع — استغله 🔥",
-  "المنتج الحقيقي بيلاقي الوقت 🎯",
+  "ابن نفسك كل يوم 💪","الفرق بتعمله التفاصيل الصغيرة ✨",
+  "يوم ما بيرجع — استغله 🔥","المنتج الحقيقي بيلاقي الوقت 🎯",
   "خطوة صغيرة كل يوم = سنة مختلفة 🚀",
-  "ما بتقدر ترجع الوقت، بس بتقدر تستثمره 💡",
-  "نظّم يومك، بتنظّم حياتك 📅",
+  "نظّم يومك، بتنظّم حياتك 📅","الإنتاج عادة، مش حظ 💡",
 ];
-
-const CATS = [
-  { name: 'محاضرات',      dot: '#3B82F6' },
-  { name: 'دراسة',        dot: '#10B981' },
-  { name: 'ماتريكس',      dot: '#F59E0B' },
-  { name: 'محتوى شخصي',   dot: '#8B5CF6' },
-  { name: 'تداول وتحليل', dot: '#EF4444' },
-  { name: 'وقت حر',       dot: '#9CA3AF' },
+const CATS=[
+  {name:'محاضرات',dot:'#3B82F6'},{name:'دراسة',dot:'#10B981'},
+  {name:'ماتريكس',dot:'#F59E0B'},{name:'محتوى شخصي',dot:'#8B5CF6'},
+  {name:'تداول وتحليل',dot:'#EF4444'},{name:'وقت حر',dot:'#9CA3AF'},
 ];
+const DAYS  =['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const MONTHS=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+const DTYPE =['light','heavy','light','heavy','free','free','light'];
+const DLBL  =['خفيف','ثقيل','خفيف','ثقيل','حر','حر','خفيف'];
+const HABITS=[{id:'w',icon:'💧',lbl:'ماء'},{id:'s',icon:'🏃',lbl:'رياضة'},{id:'r',icon:'📖',lbl:'قراءة'},{id:'n',icon:'😴',lbl:'نوم'}];
 
-const DAYS = ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-const MONTHS = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-const DTYPE = ['light','heavy','light','heavy','free','free','light'];
-const DLBL  = ['خفيف','ثقيل','خفيف','ثقيل','حر','حر','خفيف'];
-
-const HABITS = [
-  { id:'w', icon:'💧', lbl:'ماء' },
-  { id:'s', icon:'🏃', lbl:'رياضة' },
-  { id:'r', icon:'📖', lbl:'قراءة' },
-  { id:'n', icon:'😴', lbl:'نوم جيد' },
-];
-
-/* ✏️ المهام — عدّل وأضف */
-function T(id,txt,cat,time,hw){ return {id,txt,cat,time:time||'',hw:!!hw}; }
-const TPL = {
-  0:[ // الأحد — خفيف
-    T('u-s1','نظرية المنظمة',0,'10:00'),
-    T('u-s2','مبادئ التسويق',0,'12:00'),
-    T('rs0','استراحة + وجبة',5,'17:30'),
-    T('tr-s','تحليل السوق',4,'18:00'),
-    T('ds1','مراجعة المحاضرات',1,'19:00'),
-    T('cs1','تصوير فيديو شخصي',3,'20:00'),
-    T('ms1','ماتريكس — 15 دقيقة',2,'21:00'),
-    T('rv-s','مراجعة المساء (5 د)',1,'22:00'),
-  ],
-  1:[ // الاثنين — ثقيل
-    T('u-m1','إدارة المستشفيات',0,'09:30'),
-    T('u-m2','إدارة سلسلة التوريد',0,'11:00'),
-    T('u-m3','إدارة العمليات والإنتاج',0,'12:30'),
-    T('rm0','استراحة + وجبة',5,'17:30'),
-    T('tr-m','تحليل السوق',4,'18:15'),
-    T('sp-m','رياضة 30 دقيقة',5,'19:00'),
-    T('dm1','مراجعة المحاضرات',1,'19:45'),
-    T('mm1','ماتريكس — 15 دقيقة',2,'21:00'),
-    T('rv-m','مراجعة المساء (5 د)',1,'22:00'),
-  ],
-  2:[ // الثلاثاء — خفيف
-    T('u-t1','نظرية المنظمة',0,'10:00'),
-    T('u-t2','مبادئ التسويق',0,'12:00'),
-    T('rt0','استراحة + وجبة',5,'17:30'),
-    T('tr-t','تحليل السوق',4,'18:00'),
-    T('dt1','دراسة + تحضير مواد غد',1,'19:00'),
-    T('ct1','تصوير فيديو شخصي',3,'20:00'),
-    T('mt1','ماتريكس — 15 دقيقة',2,'21:00'),
-    T('rv-t','مراجعة المساء (5 د)',1,'22:00'),
-  ],
-  3:[ // الأربعاء — ثقيل
-    T('u-w1','إدارة المستشفيات',0,'09:30'),
-    T('u-w2','إدارة سلسلة التوريد',0,'11:00'),
-    T('u-w3','إدارة العمليات والإنتاج',0,'12:30'),
-    T('rw0','استراحة + وجبة',5,'17:30'),
-    T('tr-w','تحليل السوق',4,'18:15'),
-    T('sp-w','رياضة 30 دقيقة',5,'19:00'),
-    T('dw1','مراجعة سريعة',1,'19:45'),
-    T('mw1','ماتريكس — 15 دقيقة',2,'21:00'),
-    T('rv-w','مراجعة المساء (5 د)',1,'22:00'),
-  ],
-  4:[ // الخميس — حر
-    T('tr-th','تحليل السوق',4,'09:00'),
-    T('sp-th','رياضة 30 دقيقة',5,'10:00'),
-    T('hw1','واجب: إدارة العمليات والإنتاج',1,'11:00',true),
-    T('hw2','واجب: نظرية المنظمة',1,'12:30',true),
-    T('hw3','واجب: إدارة سلسلة التوريد',1,'14:00',true),
-    T('hw4','واجب: إدارة المستشفيات',1,'15:30',true),
-    T('hw5','واجب: مبادئ التسويق',1,'17:00',true),
-    T('cth','تصوير batch — 2 فيديوهات',3,'18:30'),
-    T('mth','ماتريكس — 15 دقيقة',2,'21:00'),
-    T('rv-th','مراجعة المساء (5 د)',1,'22:00'),
-  ],
-  5:[ // الجمعة — حر
-    T('tr-f','تحليل السوق',4,'09:00'),
-    T('cf1','تصوير batch — 2 فيديوهات',3,'10:30'),
-    T('cf2','مونتاج + تحرير',3,'14:00'),
-    T('df1','مراجعة شاملة للأسبوع',1,'17:00'),
-    T('df2','تخطيط الأسبوع القادم',1,'18:30'),
-    T('mf1','ماتريكس — 15 دقيقة',2,'20:30'),
-    T('rv-f','مراجعة المساء + امتنان',1,'22:00'),
-  ],
-  6:[ // السبت — خفيف
-    T('tr-sa','تحليل السوق',4,'09:30'),
-    T('dsa1','مراجعة غير متزامن',1,'11:00'),
-    T('csa1','مونتاج وأرشفة',3,'14:00'),
-    T('msa1','ماتريكس — 15 دقيقة',2,'17:00'),
-    T('rv-sa','مراجعة المساء (5 د)',1,'22:00'),
-  ],
+function T(id,txt,cat,time,hw){return{id,txt,cat,time:time||'',hw:!!hw};}
+const TPL={
+  0:[T('u-s1','نظرية المنظمة',0,'10:00'),T('u-s2','مبادئ التسويق',0,'12:00'),T('rs0','استراحة + وجبة',5,'17:30'),T('tr-s','تحليل السوق',4,'18:00'),T('ds1','مراجعة المحاضرات',1,'19:00'),T('cs1','تصوير فيديو شخصي',3,'20:00'),T('ms1','ماتريكس — 15 دقيقة',2,'21:00'),T('rv-s','مراجعة المساء (5 د)',1,'22:00')],
+  1:[T('u-m1','إدارة المستشفيات',0,'09:30'),T('u-m2','إدارة سلسلة التوريد',0,'11:00'),T('u-m3','إدارة العمليات والإنتاج',0,'12:30'),T('rm0','استراحة + وجبة',5,'17:30'),T('tr-m','تحليل السوق',4,'18:15'),T('sp-m','رياضة 30 دقيقة',5,'19:00'),T('dm1','مراجعة المحاضرات',1,'19:45'),T('mm1','ماتريكس — 15 دقيقة',2,'21:00'),T('rv-m','مراجعة المساء (5 د)',1,'22:00')],
+  2:[T('u-t1','نظرية المنظمة',0,'10:00'),T('u-t2','مبادئ التسويق',0,'12:00'),T('rt0','استراحة + وجبة',5,'17:30'),T('tr-t','تحليل السوق',4,'18:00'),T('dt1','دراسة + تحضير مواد غد',1,'19:00'),T('ct1','تصوير فيديو شخصي',3,'20:00'),T('mt1','ماتريكس — 15 دقيقة',2,'21:00'),T('rv-t','مراجعة المساء (5 د)',1,'22:00')],
+  3:[T('u-w1','إدارة المستشفيات',0,'09:30'),T('u-w2','إدارة سلسلة التوريد',0,'11:00'),T('u-w3','إدارة العمليات والإنتاج',0,'12:30'),T('rw0','استراحة + وجبة',5,'17:30'),T('tr-w','تحليل السوق',4,'18:15'),T('sp-w','رياضة 30 دقيقة',5,'19:00'),T('dw1','مراجعة سريعة',1,'19:45'),T('mw1','ماتريكس — 15 دقيقة',2,'21:00'),T('rv-w','مراجعة المساء (5 د)',1,'22:00')],
+  4:[T('tr-th','تحليل السوق',4,'09:00'),T('sp-th','رياضة 30 دقيقة',5,'10:00'),T('hw1','واجب: إدارة العمليات والإنتاج',1,'11:00',true),T('hw2','واجب: نظرية المنظمة',1,'12:30',true),T('hw3','واجب: إدارة سلسلة التوريد',1,'14:00',true),T('hw4','واجب: إدارة المستشفيات',1,'15:30',true),T('hw5','واجب: مبادئ التسويق',1,'17:00',true),T('cth','تصوير batch — 2 فيديوهات',3,'18:30'),T('mth','ماتريكس — 15 دقيقة',2,'21:00'),T('rv-th','مراجعة المساء (5 د)',1,'22:00')],
+  5:[T('tr-f','تحليل السوق',4,'09:00'),T('cf1','تصوير batch — 2 فيديوهات',3,'10:30'),T('cf2','مونتاج + تحرير',3,'14:00'),T('df1','مراجعة شاملة للأسبوع',1,'17:00'),T('df2','تخطيط الأسبوع القادم',1,'18:30'),T('mf1','ماتريكس — 15 دقيقة',2,'20:30'),T('rv-f','مراجعة المساء + امتنان',1,'22:00')],
+  6:[T('tr-sa','تحليل السوق',4,'09:30'),T('dsa1','مراجعة غير متزامن',1,'11:00'),T('csa1','مونتاج وأرشفة',3,'14:00'),T('msa1','ماتريكس — 15 دقيقة',2,'17:00'),T('rv-sa','مراجعة المساء (5 د)',1,'22:00')],
 };
 
-/* ====== State ====== */
-const today = new Date();
-const sun = new Date(today); sun.setDate(today.getDate() - today.getDay());
+/* ====================================================
+   STATE
+   ==================================================== */
+const today=new Date(), todayIdx=today.getDay();
+const sun=new Date(today); sun.setDate(today.getDate()-todayIdx);
 
-function wKey() {
-  const y = today.getFullYear();
-  const s = new Date(y,0,1);
-  return `rp7_${y}W${Math.ceil(((today-s)/864e5+s.getDay()+1)/7)}`;
-}
-function hKey() { return `rp7h_${today.toDateString().replace(/\s/g,'')}`; }
+function wKey(){const y=today.getFullYear(),s=new Date(y,0,1);return`rp9_${y}W${Math.ceil(((today-s)/864e5+s.getDay()+1)/7)}`;}
+function hKey(){return`rp9h_${today.toDateString().replace(/\s/g,'')}`;}
 
-let D={}, C={}, AN={}, FB={}, HB={};
-let formDay=null, openAN=null, freeDay=null, fil='all';
+let expDays=new Set([todayIdx]);
+let D={},C={},DEL={},AN={},FB={},HB={};
+let formDay=null,openAN=null,freeDay=null,fil='all';
+let currentTheme='dawn';
+let starAnim=null;
 
 function load(){
-  try{ const r=JSON.parse(localStorage.getItem(wKey())||'{}'); D=r.d||{}; C=r.c||{}; AN=r.an||{}; FB=r.fb||{}; } catch(e){}
-  try{ HB=JSON.parse(localStorage.getItem(hKey())||'{}'); } catch(e){}
+  try{const r=JSON.parse(localStorage.getItem(wKey())||'{}');D=r.d||{};C=r.c||{};DEL=r.del||{};AN=r.an||{};FB=r.fb||{};if(r.exp)expDays=new Set(r.exp);else expDays=new Set([todayIdx]);}catch(e){expDays=new Set([todayIdx]);}
+  try{HB=JSON.parse(localStorage.getItem(hKey())||'{}');}catch(e){}
+  try{currentTheme=localStorage.getItem('rp9_theme')||'dawn';}catch(e){}
 }
 function save(){
-  try{ localStorage.setItem(wKey(), JSON.stringify({d:D,c:C,an:AN,fb:FB})); } catch(e){}
-  try{ localStorage.setItem(hKey(), JSON.stringify(HB)); } catch(e){}
+  try{localStorage.setItem(wKey(),JSON.stringify({d:D,c:C,del:DEL,an:AN,fb:FB,exp:[...expDays]}));}catch(e){}
+  try{localStorage.setItem(hKey(),JSON.stringify(HB));}catch(e){}
 }
-function gd(i){ const d=new Date(sun); d.setDate(sun.getDate()+i); return d; }
+function gd(i){const d=new Date(sun);d.setDate(sun.getDate()+i);return d;}
 function gt(i){
-  const base=(TPL[i]||[]).map(t=>({...t,done:!!D[t.id]}));
-  const extra=(C[i]||[]).map(t=>({...t,done:!!D[t.id]}));
-  return [...base,...extra];
+  const base=(TPL[i]||[]).filter(t=>!DEL[t.id]).map(t=>({...t,done:!!D[t.id],isBase:true}));
+  const extra=(C[i]||[]).map(t=>({...t,done:!!D[t.id],isBase:false}));
+  return[...base,...extra];
 }
 
-/* ====== Render Header ====== */
-function rHdr(){
-  document.getElementById('hdr-day').textContent = DAYS[today.getDay()];
-  document.getElementById('hdr-date').textContent = `${today.getDate()} ${MONTHS[today.getMonth()]}`;
-  document.getElementById('motto').textContent = MOTTOS[today.getDay() % MOTTOS.length];
-
-  document.getElementById('habits').innerHTML = HABITS.map(h =>
-    `<div class="hab${HB[h.id]?' done':''}" onclick="tHab('${h.id}')">${h.icon} ${h.lbl}${HB[h.id]?' ✓':''}</div>`
-  ).join('');
-
-  const all = Array.from({length:7},(_,i)=>gt(i)).flat();
-  const tot=all.length, don=all.filter(t=>t.done).length, pct=tot?Math.round(don/tot*100):0;
-  document.getElementById('s-tot').textContent = tot;
-  document.getElementById('s-don').textContent = don;
-  document.getElementById('s-pct').textContent = pct+'%';
-  document.getElementById('wprog').style.width = pct+'%';
+/* ====================================================
+   THEME ANIMATIONS
+   ==================================================== */
+function clearAnim(){
+  if(starAnim){cancelAnimationFrame(starAnim);starAnim=null;}
+  document.getElementById('hdr-anim').innerHTML='';
 }
 
-/* ====== Render Days ====== */
-function rDays(){
-  const plan = document.getElementById('plan'); plan.innerHTML='';
-  for(let i=0;i<7;i++){
-    const d=gd(i), isT=d.toDateString()===today.toDateString();
-    let tasks=gt(i);
-    if(fil!=='all') tasks=tasks.filter(t=>t.cat===+fil);
-    const donC=tasks.filter(t=>t.done).length;
-    const pct=tasks.length?Math.round(donC/tasks.length*100):0;
-    const isExp=isT||formDay===i||freeDay===i;
+function initCosmosAnim(){
+  const anim=document.getElementById('hdr-anim');
+  const canvas=document.createElement('canvas');
+  canvas.className='star-canvas';
+  anim.appendChild(canvas);
+  const hdr=document.querySelector('.hdr');
 
-    const card=document.createElement('div');
-    card.className=`dc ${DTYPE[i]}${isT?' today':''}${isExp?' expanded':''}`;
-    card.dataset.day=i;
+  function resize(){
+    canvas.width=hdr.offsetWidth;
+    canvas.height=hdr.offsetHeight;
+  }
+  resize();
 
-    /* day header */
-    const dh=document.createElement('div'); dh.className='dh'; dh.onclick=()=>togExp(i);
-    dh.innerHTML=`
-      <div class="dr">
-        <span class="dn">${DAYS[d.getDay()]}${isT?' · اليوم':''}</span>
-        <span class="dtype">${DLBL[i]}</span>
-      </div>
-      <div class="dl">
-        ${tasks.length?`<span class="ddone">${donC}/${tasks.length}</span>`:''}
-        <span class="ddate">${d.getDate()}/${d.getMonth()+1}</span>
-      </div>`;
-    card.appendChild(dh);
+  const ctx=canvas.getContext('2d');
+  // generate stars
+  const stars=Array.from({length:80},()=>({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*1.5+.3,
+    phase:Math.random()*Math.PI*2,
+    speed:Math.random()*.02+.01,
+  }));
 
-    /* progress bar */
-    const dp=document.createElement('div'); dp.className='dprog';
-    dp.innerHTML=`<div class="dprogf" style="width:${pct}%"></div>`;
-    card.appendChild(dp);
-
-    /* tasks wrap */
-    const tw=document.createElement('div'); tw.className='tw';
-
-    if(i===4) tw.innerHTML=`<div class="thu"><span style="font-size:18px">📋</span><div class="thu-t">يوم الواجبات — خلص الكل اليوم وارتاح باقي الأسبوع 💪</div></div>`;
-
-    tasks.forEach(t=>{
-      const isAn=t.cat===4;
-      const el=document.createElement('div'); el.className=`task${t.done?' done':''}`;
-      el.innerHTML=`
-        <button class="chk" onclick="tDone('${t.id}')">${t.done?'✓':''}</button>
-        <span class="cdot" style="background:${CATS[t.cat].dot}"></span>
-        <span class="ttxt">${t.hw?'<span class="hw-tag">واجب</span>':''}${t.txt}</span>
-        <span class="ttime">${t.time}</span>
-        ${isAn?`<button class="an-btn" onclick="tAN('${t.id}')">📝</button>`:''}
-        <button class="tdel" onclick="tDel('${t.id}',${i})">×</button>`;
-      tw.appendChild(el);
-
-      if(isAn && openAN===t.id){
-        const ab=document.createElement('div'); ab.className='an-box';
-        ab.innerHTML=`<textarea id="an-${t.id}" placeholder="تحليلك هون... ترند، مستويات، فرص..." rows="3">${AN[t.id]||''}</textarea><button class="an-save" onclick="saveAN('${t.id}')">حفظ ✓</button>`;
-        tw.appendChild(ab);
-        setTimeout(()=>{const a=document.getElementById(`an-${t.id}`);if(a)a.focus();},50);
+  function draw(t){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    stars.forEach(s=>{
+      const alpha=.4+.6*Math.sin(s.phase+t*s.speed);
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(200,210,255,${alpha})`;
+      ctx.fill();
+      // tiny cross sparkle on brighter stars
+      if(s.r>1.2&&alpha>.8){
+        ctx.strokeStyle=`rgba(200,210,255,${alpha*.5})`;
+        ctx.lineWidth=.5;
+        ctx.beginPath();ctx.moveTo(s.x-4,s.y);ctx.lineTo(s.x+4,s.y);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(s.x,s.y-4);ctx.lineTo(s.x,s.y+4);ctx.stroke();
       }
     });
-
-    /* free block */
-    if(freeDay===i){
-      const fb=document.createElement('div'); fb.className='fb-box';
-      fb.innerHTML=`<div class="fb-lbl">⬜ وقت حر</div><textarea id="fb-${i}" placeholder="شو بدك تعمل بوقتك الحر؟" rows="3">${FB[i]||''}</textarea><button class="fb-save" onclick="saveFB(${i})">حفظ ✓</button>`;
-      tw.appendChild(fb);
-      setTimeout(()=>{const f=document.getElementById(`fb-${i}`);if(f)f.focus();},50);
-    }
-
-    /* action buttons / form */
-    const acts=document.createElement('div');
-    if(formDay===i){
-      acts.className='af';
-      acts.innerHTML=`
-        <input type="text" id="inp-${i}" placeholder="اكتب المهمة..." style="direction:rtl">
-        <div class="af-row">
-          <select id="cat-${i}" style="flex:1;direction:rtl">${CATS.map((c,x)=>`<option value="${x}">${c.name}</option>`).join('')}</select>
-          <input type="time" id="tim-${i}" style="width:100px">
-        </div>
-        <div class="af-btns">
-          <button class="af-cancel" onclick="cForm()">إلغاء</button>
-          <button class="af-ok" onclick="addT(${i})">إضافة</button>
-        </div>`;
-      setTimeout(()=>{
-        const inp=document.getElementById(`inp-${i}`);
-        if(inp){ inp.focus(); inp.onkeydown=e=>{ if(e.key==='Enter')addT(i); if(e.key==='Escape')cForm(); }; }
-      },50);
-    } else {
-      acts.className='arow';
-      acts.innerHTML=`<button class="add-btn" onclick="oForm(${i},event)">+ مهمة</button><button class="free-btn" onclick="oFree(${i},event)">⬜ حر</button>`;
-    }
-    tw.appendChild(acts);
-    card.appendChild(tw);
-    plan.appendChild(card);
+    starAnim=requestAnimationFrame(draw);
   }
+  starAnim=requestAnimationFrame(draw);
 }
 
-function rAll(){ rHdr(); rDays(); }
-
-/* ====== Actions ====== */
-function togExp(i){ const c=document.querySelector(`[data-day="${i}"]`); if(c) c.classList.toggle('expanded'); }
-function tHab(id){ HB[id]=!HB[id]; save(); rHdr(); }
-function tDone(id){ D[id]=!D[id]; save(); rAll(); }
-function tDel(id,i){ if(C[i]) C[i]=C[i].filter(t=>t.id!==id); delete D[id]; save(); rAll(); }
-function tAN(id){ openAN=openAN===id?null:id; rAll(); }
-function saveAN(id){ const el=document.getElementById(`an-${id}`); if(el) AN[id]=el.value; openAN=null; save(); rAll(); }
-function oFree(i,e){ e.stopPropagation(); freeDay=freeDay===i?null:i; const c=document.querySelector(`[data-day="${i}"]`); if(c) c.classList.add('expanded'); rAll(); }
-function saveFB(i){ const el=document.getElementById(`fb-${i}`); if(el) FB[i]=el.value; freeDay=null; save(); rAll(); }
-function oForm(i,e){ e.stopPropagation(); formDay=i; const c=document.querySelector(`[data-day="${i}"]`); if(c) c.classList.add('expanded'); rAll(); }
-function cForm(){ formDay=null; rAll(); }
-function setF(f,btn){ fil=f; document.querySelectorAll('.flt').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); rAll(); }
-function addT(i){
-  const txt=document.getElementById(`inp-${i}`)?.value?.trim(); if(!txt) return;
-  const cat=+(document.getElementById(`cat-${i}`)?.value||0);
-  const time=document.getElementById(`tim-${i}`)?.value||'';
-  if(!C[i]) C[i]=[];
-  C[i].push({id:'c'+Date.now(),txt,cat,time});
-  formDay=null; save(); rAll();
+function initNeonAnim(){
+  const anim=document.getElementById('hdr-anim');
+  anim.innerHTML=`<div class="neon-glow"></div><div class="neon-grid"></div>`;
 }
-function showReset(){ document.getElementById('cbox').classList.add('show'); }
-function hideReset(){ document.getElementById('cbox').classList.remove('show'); }
-function doReset(){ D={}; C={}; AN={}; FB={}; HB={}; formDay=null; openAN=null; freeDay=null; save(); hideReset(); rAll(); }
 
-load(); rAll();
+function initForestAnim(){
+  const anim=document.getElementById('hdr-anim');
+  const hdr=document.querySelector('.hdr');
+  const w=hdr.offsetWidth, h=hdr.offsetHeight;
+  const particles=Array.from({length:18},(_,i)=>{
+    const x=Math.random()*100;
+    const dur=(4+Math.random()*5).toFixed(1);
+    const delay=(Math.random()*6).toFixed(1);
+    const size=3+Math.floor(Math.random()*4);
+    return `<div class="forest-particle" style="left:${x}%;bottom:${Math.random()*40}%;--dur:${dur}s;--delay:${delay}s;width:${size}px;height:${size}px;"></div>`;
+  });
+  anim.innerHTML=particles.join('');
+}
+
+function applyThemeAnim(t){
+  clearAnim();
+  if(t==='cosmos') initCosmosAnim();
+  else if(t==='neon') initNeonAnim();
+  else if(t==='forest') initForestAnim();
+}
+
+function setTheme(t,el){
+  currentTheme=t;
+  document.body.setAttribute('data-theme',t);
+  try{localStorage.setItem('rp9_theme',t);}catch(e){}
+  document.querySelectorAll('.th-btn').forEach(b=>b.classList.toggle('active',b.dataset.t===t));
+  applyThemeAnim(t);
+}
+
+/* ====================================================
+   RENDER HEADER
+   ==================================================== */
+function rHdr(){
+  document.getElementById('hdr-day').textContent=DAYS[today.getDay()];
+  document.getElementById('hdr-date').textContent=`${today.getDate()} ${MONTHS[today.getMonth()]}`;
+  document.getElementById('motto').textContent=MOTTOS[today.getDay()%MOTTOS.length];
+  document.getElementById('habits').innerHTML=HABITS.map(h=>`<div class="hab${HB[h.id]?' done':''}" onclick="tHab('${h.id}')">${h.icon} ${h.lbl}${HB[h.id]?' ✓':''}</div>`).join('');
+  const all=Array.from({length:7},(_,i)=>gt(i)).flat();
+  const tot=all.length,don=all.filter(t=>t.done).length,pct=tot?Math.round(don/tot*100):0;
+  document.getElementById('s-tot').textContent=tot;
+  document.getElementById('s-don').textContent=don;
+  document.getElementById('s-pct').textContent=pct+'%';
+  document.getElementById('wprog').style.width=pct+'%';
+}
+
+/* ====================================================
+   RENDER SINGLE DAY
+   ==================================================== */
+function rDay(i){
+  const old=document.querySelector(`[data-day="${i}"]`);
+  const d=gd(i),isT=d.toDateString()===today.toDateString(),isExp=expDays.has(i);
+  let tasks=gt(i);
+  if(fil!=='all')tasks=tasks.filter(t=>t.cat===+fil);
+  const donC=tasks.filter(t=>t.done).length,pct=tasks.length?Math.round(donC/tasks.length*100):0;
+
+  const card=document.createElement('div');
+  card.className=`dc ${DTYPE[i]}${isT?' today':''}${isExp?' expanded':''}`;
+  card.dataset.day=i;
+
+  const dh=document.createElement('div');dh.className='dh';dh.onclick=()=>togExp(i);
+  dh.innerHTML=`
+    <div class="dr">
+      <span class="dn">${DAYS[d.getDay()]}${isT?' · اليوم':''}</span>
+      <span class="dtype">${DLBL[i]}</span>
+    </div>
+    <div class="dl">
+      ${tasks.length?`<span class="ddone">${donC}/${tasks.length}</span>`:''}
+      <span class="ddate">${d.getDate()}/${d.getMonth()+1}</span>
+      <span class="chev">▾</span>
+    </div>`;
+  card.appendChild(dh);
+
+  const dp=document.createElement('div');dp.className='dprog';
+  dp.innerHTML=`<div class="dprogf" style="width:${pct}%"></div>`;
+  card.appendChild(dp);
+
+  const tw=document.createElement('div');tw.className='tw';
+  if(i===4)tw.innerHTML=`<div class="thu"><span style="font-size:20px">📋</span><div class="thu-t">يوم الواجبات — خلص الكل اليوم وارتاح باقي الأسبوع 💪</div></div>`;
+
+  tasks.forEach(t=>{
+    const isAn=t.cat===4;
+    const el=document.createElement('div');el.className=`task${t.done?' done':''}`;
+    el.innerHTML=`
+      <button class="chk" onclick="tDone('${t.id}',${i})">${t.done?'✓':''}</button>
+      <span class="cdot" style="background:${CATS[t.cat].dot}"></span>
+      <span class="ttxt">${t.hw?'<span class="hw-tag">واجب</span>':''}${t.txt}</span>
+      <span class="ttime">${t.time}</span>
+      ${isAn?`<button class="an-btn" onclick="tAN('${t.id}',${i})">📝</button>`:''}
+      <button class="tdel" onclick="tDel('${t.id}',${i},${t.isBase})">✕</button>`;
+    tw.appendChild(el);
+    if(isAn&&openAN===t.id){
+      const ab=document.createElement('div');ab.className='an-box';
+      ab.innerHTML=`<textarea id="an-${t.id}" placeholder="تحليلك هون... ترند، مستويات، فرص..." rows="3">${AN[t.id]||''}</textarea><button class="an-save" onclick="saveAN('${t.id}',${i})">حفظ ✓</button>`;
+      tw.appendChild(ab);
+      setTimeout(()=>{const a=document.getElementById(`an-${t.id}`);if(a)a.focus();},50);
+    }
+  });
+
+  if(freeDay===i){
+    const fb=document.createElement('div');fb.className='fb-box';
+    fb.innerHTML=`<div class="fb-lbl">⬜ وقت حر</div><textarea id="fb-${i}" placeholder="شو بدك تعمل؟" rows="3">${FB[i]||''}</textarea><button class="fb-save" onclick="saveFB(${i})">حفظ ✓</button>`;
+    tw.appendChild(fb);
+    setTimeout(()=>{const f=document.getElementById(`fb-${i}`);if(f)f.focus();},50);
+  }
+
+  const acts=document.createElement('div');
+  if(formDay===i){
+    acts.className='af';
+    acts.innerHTML=`
+      <input type="text" id="inp-${i}" placeholder="اكتب المهمة..." style="direction:rtl">
+      <div class="af-row">
+        <select id="cat-${i}" style="flex:1;direction:rtl">${CATS.map((c,x)=>`<option value="${x}">${c.name}</option>`).join('')}</select>
+        <input type="time" id="tim-${i}" style="width:110px">
+      </div>
+      <div class="af-btns">
+        <button class="af-cancel" onclick="cForm(${i})">إلغاء</button>
+        <button class="af-ok" onclick="addT(${i})">إضافة</button>
+      </div>`;
+    setTimeout(()=>{const inp=document.getElementById(`inp-${i}`);if(inp){inp.focus();inp.onkeydown=e=>{if(e.key==='Enter')addT(i);if(e.key==='Escape')cForm(i);};}},50);
+  }else{
+    acts.className='arow';
+    acts.innerHTML=`<button class="add-btn" onclick="oForm(${i},event)">+ مهمة</button><button class="free-btn" onclick="oFree(${i},event)">⬜ حر</button>`;
+  }
+  tw.appendChild(acts);
+  card.appendChild(tw);
+  if(old)old.replaceWith(card);
+  else document.getElementById('plan').appendChild(card);
+}
+
+function rAll(){rHdr();for(let i=0;i<7;i++)rDay(i);}
+
+/* ====================================================
+   ACTIONS
+   ==================================================== */
+function togExp(i){if(expDays.has(i))expDays.delete(i);else expDays.add(i);save();rDay(i);}
+function tHab(id){HB[id]=!HB[id];save();rHdr();}
+function tDone(id,i){D[id]=!D[id];save();rHdr();rDay(i);}
+function tDel(id,i,isBase){if(isBase)DEL[id]=true;else if(C[i])C[i]=C[i].filter(t=>t.id!==id);delete D[id];save();rHdr();rDay(i);}
+function tAN(id,i){openAN=openAN===id?null:id;rDay(i);}
+function saveAN(id,i){const el=document.getElementById(`an-${id}`);if(el)AN[id]=el.value;openAN=null;save();rDay(i);}
+function oFree(i,e){e.stopPropagation();freeDay=freeDay===i?null:i;if(!expDays.has(i))expDays.add(i);save();rDay(i);}
+function saveFB(i){const el=document.getElementById(`fb-${i}`);if(el)FB[i]=el.value;freeDay=null;save();rDay(i);}
+function oForm(i,e){e.stopPropagation();formDay=i;if(!expDays.has(i))expDays.add(i);save();rDay(i);}
+function cForm(i){formDay=null;rDay(i);}
+function setF(f,btn){fil=f;document.querySelectorAll('.flt').forEach(b=>b.classList.remove('on'));btn.classList.add('on');rAll();}
+function addT(i){const txt=document.getElementById(`inp-${i}`)?.value?.trim();if(!txt)return;const cat=+(document.getElementById(`cat-${i}`)?.value||0),time=document.getElementById(`tim-${i}`)?.value||'';if(!C[i])C[i]=[];C[i].push({id:'c'+Date.now(),txt,cat,time});formDay=null;save();rHdr();rDay(i);}
+function showReset(){document.getElementById('cbox').classList.add('show');}
+function hideReset(){document.getElementById('cbox').classList.remove('show');}
+function doReset(){D={};C={};DEL={};AN={};FB={};HB={};expDays=new Set([todayIdx]);formDay=null;openAN=null;freeDay=null;save();hideReset();rAll();}
+
+/* ====================================================
+   INIT
+   ==================================================== */
+load();
+document.body.setAttribute('data-theme', currentTheme);
+document.querySelectorAll('.th-btn').forEach(b=>b.classList.toggle('active',b.dataset.t===currentTheme));
+rAll();
+applyThemeAnim(currentTheme);
+setTimeout(()=>{const c=document.querySelector('.dc.today');if(c)c.scrollIntoView({behavior:'smooth',block:'start'});},150);
 </script>
 </body>
 </html>
