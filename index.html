@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -14,72 +15,73 @@
 body { --r:14px; transition: background .4s, color .4s; }
 
 /* 🌅 الفجر - Sunrise */
-body[data-theme="dawn"] {
-  --h1:#C2410C; --h2:#F97316; --h3:#FBBF24;
-  --acc:#F97316; --acc2:#C2410C;
-  --bg:#FFF8F0; --card:#fff; --border:#FDE8CC;
-  --txt:#1C1917; --txt2:#78716C; --txt3:#A8A29E;
-  --task-bg:#FFF8F0; --header-txt:#fff;
+body[data-theme=“dawn”] {
+–h1:#C2410C; –h2:#F97316; –h3:#FBBF24;
+–acc:#F97316; –acc2:#C2410C;
+–bg:#FFF8F0; –card:#fff; –border:#FDE8CC;
+–txt:#1C1917; –txt2:#78716C; –txt3:#A8A29E;
+–task-bg:#FFF8F0; –header-txt:#fff;
 }
 /* 🌌 الكون - Cosmos */
-body[data-theme="cosmos"] {
-  --h1:#020617; --h2:#0F172A; --h3:#1E1B4B;
-  --acc:#818CF8; --acc2:#4F46E5;
-  --bg:#060616; --card:#0F0F2A; --border:#1E1B4B;
-  --txt:#E2E8FF; --txt2:#818CF8; --txt3:#3730A3;
-  --task-bg:#0a0a20; --header-txt:#E2E8FF;
+body[data-theme=“cosmos”] {
+–h1:#020617; –h2:#0F172A; –h3:#1E1B4B;
+–acc:#818CF8; –acc2:#4F46E5;
+–bg:#060616; –card:#0F0F2A; –border:#1E1B4B;
+–txt:#E2E8FF; –txt2:#818CF8; –txt3:#3730A3;
+–task-bg:#0a0a20; –header-txt:#E2E8FF;
 }
 /* ⚡ النيون - Synthwave */
-body[data-theme="neon"] {
-  --h1:#1a0030; --h2:#2d0060; --h3:#0d0020;
-  --acc:#D946EF; --acc2:#A21CAF;
-  --bg:#0D0015; --card:#160025; --border:#3B0060;
-  --txt:#F5D0FE; --txt2:#C084FC; --txt3:#7E22CE;
-  --task-bg:#110020; --header-txt:#F5D0FE;
+body[data-theme=“neon”] {
+–h1:#1a0030; –h2:#2d0060; –h3:#0d0020;
+–acc:#D946EF; –acc2:#A21CAF;
+–bg:#0D0015; –card:#160025; –border:#3B0060;
+–txt:#F5D0FE; –txt2:#C084FC; –txt3:#7E22CE;
+–task-bg:#110020; –header-txt:#F5D0FE;
 }
 /* 🖋 الحبر - Ink */
-body[data-theme="ink"] {
-  --h1:#111; --h2:#222; --h3:#000;
-  --acc:#111; --acc2:#333;
-  --bg:#F5F0E8; --card:#FDFAF5; --border:#E5DDD0;
-  --txt:#111; --txt2:#555; --txt3:#999;
-  --task-bg:#F5F0E8; --header-txt:#fff;
+body[data-theme=“ink”] {
+–h1:#111; –h2:#222; –h3:#000;
+–acc:#111; –acc2:#333;
+–bg:#F5F0E8; –card:#FDFAF5; –border:#E5DDD0;
+–txt:#111; –txt2:#555; –txt3:#999;
+–task-bg:#F5F0E8; –header-txt:#fff;
 }
 /* 🌿 الغابة - Forest */
-body[data-theme="forest"] {
-  --h1:#052E16; --h2:#14532D; --h3:#166534;
-  --acc:#22C55E; --acc2:#16A34A;
-  --bg:#F0FDF4; --card:#fff; --border:#BBF7D0;
-  --txt:#052E16; --txt2:#166534; --txt3:#4ADE80;
-  --task-bg:#F0FDF4; --header-txt:#fff;
+body[data-theme=“forest”] {
+–h1:#052E16; –h2:#14532D; –h3:#166534;
+–acc:#22C55E; –acc2:#16A34A;
+–bg:#F0FDF4; –card:#fff; –border:#BBF7D0;
+–txt:#052E16; –txt2:#166534; –txt3:#4ADE80;
+–task-bg:#F0FDF4; –header-txt:#fff;
 }
 
 /* ================================================
-   BASE STYLES
-   ================================================ */
-* { box-sizing: border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
-body { background:var(--bg); color:var(--txt); font-family:'Segoe UI',Tahoma,Arial,sans-serif; padding-bottom:40px; }
-button,input,select,textarea { font-family:inherit; }
+BASE STYLES
+================================================ */
+
+- { box-sizing: border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  body { background:var(–bg); color:var(–txt); font-family:‘Segoe UI’,Tahoma,Arial,sans-serif; padding-bottom:40px; }
+  button,input,select,textarea { font-family:inherit; }
 
 /* ================================================
-   HEADER
-   ================================================ */
+HEADER
+================================================ */
 .hdr {
-  background: linear-gradient(160deg, var(--h1), var(--h2) 50%, var(--h3));
-  padding: 22px 16px 16px;
-  color: var(--header-txt);
-  position: relative;
-  overflow: hidden;
+background: linear-gradient(160deg, var(–h1), var(–h2) 50%, var(–h3));
+padding: 22px 16px 16px;
+color: var(–header-txt);
+position: relative;
+overflow: hidden;
 }
 /* Animation layer — sits behind content */
 .hdr-anim { position:absolute; inset:0; pointer-events:none; z-index:0; }
 .hdr-content { position:relative; z-index:1; }
 
 /* Dawn shimmer */
-body[data-theme="dawn"] .hdr::after {
-  content:''; position:absolute; inset:0;
-  background: radial-gradient(ellipse at 30% 50%, rgba(255,200,100,.25) 0%, transparent 70%);
-  animation: dawn-pulse 4s ease-in-out infinite;
+body[data-theme=“dawn”] .hdr::after {
+content:’’; position:absolute; inset:0;
+background: radial-gradient(ellipse at 30% 50%, rgba(255,200,100,.25) 0%, transparent 70%);
+animation: dawn-pulse 4s ease-in-out infinite;
 }
 @keyframes dawn-pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
 
@@ -88,46 +90,46 @@ body[data-theme="dawn"] .hdr::after {
 
 /* Neon grid */
 .neon-grid {
-  position:absolute; bottom:0; left:0; right:0; height:90px;
-  background:
-    repeating-linear-gradient(90deg, rgba(217,70,239,.35) 0, rgba(217,70,239,.35) 1px, transparent 1px, transparent 40px),
-    repeating-linear-gradient(0deg,  rgba(217,70,239,.25) 0, rgba(217,70,239,.25) 1px, transparent 1px, transparent 20px);
-  transform: perspective(200px) rotateX(50deg);
-  transform-origin: bottom;
-  animation: grid-scroll 2s linear infinite;
-  background-size: 40px 20px;
+position:absolute; bottom:0; left:0; right:0; height:90px;
+background:
+repeating-linear-gradient(90deg, rgba(217,70,239,.35) 0, rgba(217,70,239,.35) 1px, transparent 1px, transparent 40px),
+repeating-linear-gradient(0deg,  rgba(217,70,239,.25) 0, rgba(217,70,239,.25) 1px, transparent 1px, transparent 20px);
+transform: perspective(200px) rotateX(50deg);
+transform-origin: bottom;
+animation: grid-scroll 2s linear infinite;
+background-size: 40px 20px;
 }
 @keyframes grid-scroll { from{background-position:0 0} to{background-position:0 -20px} }
 .neon-glow {
-  position:absolute; top:10px; left:50%; transform:translateX(-50%);
-  width:200px; height:80px;
-  background: radial-gradient(ellipse, rgba(217,70,239,.4) 0%, transparent 70%);
-  animation: neon-pulse 2s ease-in-out infinite;
+position:absolute; top:10px; left:50%; transform:translateX(-50%);
+width:200px; height:80px;
+background: radial-gradient(ellipse, rgba(217,70,239,.4) 0%, transparent 70%);
+animation: neon-pulse 2s ease-in-out infinite;
 }
 @keyframes neon-pulse { 0%,100%{opacity:.5;transform:translateX(-50%) scaleX(.9)} 50%{opacity:1;transform:translateX(-50%) scaleX(1.1)} }
 
 /* Ink scan line */
-body[data-theme="ink"] .hdr::before {
-  content:''; position:absolute; inset:0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,.03) 3px, rgba(255,255,255,.03) 4px);
+body[data-theme=“ink”] .hdr::before {
+content:’’; position:absolute; inset:0;
+background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,.03) 3px, rgba(255,255,255,.03) 4px);
 }
 
 /* Forest particles */
 .forest-particle {
-  position:absolute; border-radius:50%;
-  width:5px; height:5px;
-  background:rgba(134,239,172,.6);
-  animation: float-up var(--dur,6s) var(--delay,0s) ease-in infinite;
+position:absolute; border-radius:50%;
+width:5px; height:5px;
+background:rgba(134,239,172,.6);
+animation: float-up var(–dur,6s) var(–delay,0s) ease-in infinite;
 }
 @keyframes float-up {
-  0%   { transform:translateY(0) translateX(0) scale(1);  opacity:.8; }
-  50%  { transform:translateY(-60px) translateX(10px) scale(.8); opacity:.5; }
-  100% { transform:translateY(-120px) translateX(-5px) scale(.4); opacity:0; }
+0%   { transform:translateY(0) translateX(0) scale(1);  opacity:.8; }
+50%  { transform:translateY(-60px) translateX(10px) scale(.8); opacity:.5; }
+100% { transform:translateY(-120px) translateX(-5px) scale(.4); opacity:0; }
 }
 
 /* ================================================
-   HEADER CONTENT
-   ================================================ */
+HEADER CONTENT
+================================================ */
 .hdr-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
 .greeting { font-size:22px; font-weight:700; }
 .motto { font-size:12px; opacity:.8; margin-top:4px; }
@@ -136,36 +138,43 @@ body[data-theme="ink"] .hdr::before {
 .date-pill-full { font-size:10px; opacity:.8; margin-top:2px; }
 
 /* ================================================
-   THEME SWITCHER
-   ================================================ */
+THEME SWITCHER
+================================================ */
 .themes { display:flex; gap:7px; margin-bottom:14px; overflow-x:auto; padding-bottom:2px; }
 .themes::-webkit-scrollbar { display:none; }
 .th-btn {
-  display:flex; align-items:center; gap:5px;
-  background:rgba(255,255,255,.12);
-  border:1.5px solid rgba(255,255,255,.2);
-  border-radius:20px; padding:6px 12px;
-  font-size:11px; color:rgba(255,255,255,.8);
-  white-space:nowrap; transition:.25s;
+display:flex; align-items:center; gap:5px;
+background:rgba(255,255,255,.12);
+border:1.5px solid rgba(255,255,255,.2);
+border-radius:20px; padding:6px 12px;
+font-size:11px; color:rgba(255,255,255,.8);
+white-space:nowrap; transition:.25s;
 }
 .th-btn:active { transform:scale(.96); }
 .th-btn.active {
-  background:rgba(255,255,255,.28);
-  border-color:rgba(255,255,255,.6);
-  color:#fff; font-weight:700;
-  box-shadow: 0 0 12px rgba(255,255,255,.2);
+background:rgba(255,255,255,.28);
+border-color:rgba(255,255,255,.6);
+color:#fff; font-weight:700;
+box-shadow: 0 0 12px rgba(255,255,255,.2);
 }
 
-/* ================================================
-   HABITS
-   ================================================ */
+/* lang toggle */
+.lang-btn {
+background: rgba(255,255,255,.2);
+border: 1.5px solid rgba(255,255,255,.4);
+border-radius: 20px; padding: 5px 14px;
+color: #fff; font-size: 12px; font-weight: 700;
+letter-spacing: 1px; transition: .2s;
+}
+.lang-btn:active { background: rgba(255,255,255,.35); transform: scale(.96); }
+
 .habits { display:flex; gap:7px; margin-bottom:14px; flex-wrap:wrap; }
 .hab { display:flex; align-items:center; gap:5px; background:rgba(255,255,255,.14); border:1.5px solid transparent; border-radius:20px; padding:7px 12px; font-size:12px; user-select:none; transition:.2s; min-height:36px; }
 .hab.done { background:rgba(255,255,255,.3); border-color:rgba(255,255,255,.55); }
 
 /* ================================================
-   STATS
-   ================================================ */
+STATS
+================================================ */
 .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:12px; }
 .stat { background:rgba(255,255,255,.14); border-radius:12px; padding:10px 6px; text-align:center; backdrop-filter:blur(4px); }
 .stat-n { font-size:22px; font-weight:700; }
@@ -174,149 +183,150 @@ body[data-theme="ink"] .hdr::before {
 .pf { height:100%; background:#fff; border-radius:10px; transition:width .5s cubic-bezier(.4,0,.2,1); }
 
 /* ================================================
-   RESET
-   ================================================ */
+RESET
+================================================ */
 .reset-btn { display:block; width:100%; margin-top:12px; padding:10px; background:rgba(255,255,255,.12); border:1.5px solid rgba(255,255,255,.3); border-radius:10px; color:rgba(255,255,255,.9); font-size:13px; font-weight:600; }
-.confirm-box { display:none; background:var(--card); border-radius:14px; margin-top:10px; padding:14px; border:1px solid var(--border); }
+.confirm-box { display:none; background:var(–card); border-radius:14px; margin-top:10px; padding:14px; border:1px solid var(–border); }
 .confirm-box.show { display:block; }
-.confirm-msg { font-size:14px; color:var(--txt); margin-bottom:10px; font-weight:600; }
+.confirm-msg { font-size:14px; color:var(–txt); margin-bottom:10px; font-weight:600; }
 .confirm-btns { display:flex; gap:8px; }
 .btn-yes { flex:1; padding:11px; background:#EF4444; color:#fff; border:none; border-radius:10px; font-size:14px; font-weight:700; }
-.btn-no  { padding:11px 20px; background:var(--bg); border:1px solid var(--border); border-radius:10px; font-size:14px; color:var(--txt2); }
+.btn-no  { padding:11px 20px; background:var(–bg); border:1px solid var(–border); border-radius:10px; font-size:14px; color:var(–txt2); }
 
 /* ================================================
-   FILTER
-   ================================================ */
+FILTER
+================================================ */
 .fbar { display:flex; gap:7px; padding:12px 14px 6px; overflow-x:auto; }
 .fbar::-webkit-scrollbar { display:none; }
-.flt { white-space:nowrap; padding:8px 16px; border-radius:20px; font-size:13px; border:1px solid var(--border); background:var(--card); color:var(--txt2); font-weight:500; min-height:38px; }
-.flt.on { background:var(--acc); color:#fff; border-color:var(--acc); }
+.flt { white-space:nowrap; padding:8px 16px; border-radius:20px; font-size:13px; border:1px solid var(–border); background:var(–card); color:var(–txt2); font-weight:500; min-height:38px; }
+.flt.on { background:var(–acc); color:#fff; border-color:var(–acc); }
 
 /* ================================================
-   DAY CARDS
-   ================================================ */
+DAY CARDS
+================================================ */
 .days { padding:10px 14px 0; }
-.dc { background:var(--card); border:1px solid var(--border); border-radius:var(--r); margin-bottom:10px; overflow:hidden; transition:border-color .3s, box-shadow .3s; }
-.dc.today { border-color:var(--acc); box-shadow:0 0 0 2px color-mix(in srgb,var(--acc) 20%,transparent); }
+.dc { background:var(–card); border:1px solid var(–border); border-radius:var(–r); margin-bottom:10px; overflow:hidden; transition:border-color .3s, box-shadow .3s; }
+.dc.today { border-color:var(–acc); box-shadow:0 0 0 2px color-mix(in srgb,var(–acc) 20%,transparent); }
 .dc.heavy { border-right:4px solid #FCA5A5; }
 .dc.light { border-right:4px solid #6EE7B7; }
 .dc.free  { border-right:4px solid #C4B5FD; }
 
 /* dark theme card adjustments */
-body[data-theme="cosmos"] .dc.heavy { border-right-color:#7F1D1D; }
-body[data-theme="cosmos"] .dc.light { border-right-color:#065F46; }
-body[data-theme="cosmos"] .dc.free  { border-right-color:#4C1D95; }
-body[data-theme="neon"]   .dc.heavy { border-right-color:#BE123C; }
-body[data-theme="neon"]   .dc.light { border-right-color:#166534; }
-body[data-theme="neon"]   .dc.free  { border-right-color:#7E22CE; }
+body[data-theme=“cosmos”] .dc.heavy { border-right-color:#7F1D1D; }
+body[data-theme=“cosmos”] .dc.light { border-right-color:#065F46; }
+body[data-theme=“cosmos”] .dc.free  { border-right-color:#4C1D95; }
+body[data-theme=“neon”]   .dc.heavy { border-right-color:#BE123C; }
+body[data-theme=“neon”]   .dc.light { border-right-color:#166534; }
+body[data-theme=“neon”]   .dc.free  { border-right-color:#7E22CE; }
 
 .dh { display:flex; align-items:center; justify-content:space-between; padding:14px 14px 12px; user-select:none; min-height:56px; }
-.dh:active { background:var(--task-bg); }
+.dh:active { background:var(–task-bg); }
 .dr { display:flex; align-items:center; gap:8px; }
 .dl { display:flex; align-items:center; gap:8px; }
-.dn { font-size:15px; font-weight:600; color:var(--txt); }
-.today .dn { color:var(--acc); }
+.dn { font-size:15px; font-weight:600; color:var(–txt); }
+.today .dn { color:var(–acc); }
 .dtype { font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; }
 .heavy .dtype { background:#FEF2F2; color:#B91C1C; }
 .light .dtype { background:#ECFDF5; color:#065F46; }
 .free  .dtype { background:#F5F3FF; color:#5B21B6; }
-body[data-theme="cosmos"] .dtype,
-body[data-theme="neon"]   .dtype { background:rgba(255,255,255,.08); color:var(--txt2); }
-.ddate { font-size:12px; color:var(--txt2); }
-.ddone { font-size:12px; color:var(--txt3); }
-.chev { font-size:12px; color:var(--txt3); transition:transform .25s; flex-shrink:0; }
+body[data-theme=“cosmos”] .dtype,
+body[data-theme=“neon”]   .dtype { background:rgba(255,255,255,.08); color:var(–txt2); }
+.ddate { font-size:12px; color:var(–txt2); }
+.ddone { font-size:12px; color:var(–txt3); }
+.chev { font-size:12px; color:var(–txt3); transition:transform .25s; flex-shrink:0; }
 .dc.expanded .chev { transform:rotate(180deg); }
 
-.dprog { height:3px; background:var(--border); margin:0 14px 12px; border-radius:2px; overflow:hidden; }
-.dprogf { height:100%; background:var(--acc); border-radius:2px; transition:width .4s; }
+.dprog { height:3px; background:var(–border); margin:0 14px 12px; border-radius:2px; overflow:hidden; }
+.dprogf { height:100%; background:var(–acc); border-radius:2px; transition:width .4s; }
 .dc:not(.expanded) .dprog { display:none; }
 
 .tw { padding:0 10px 12px; display:none; }
 .dc.expanded .tw { display:block; }
 
 /* ================================================
-   TASKS
-   ================================================ */
-.task { display:flex; align-items:center; gap:9px; padding:10px; border-radius:12px; margin-bottom:6px; background:var(--task-bg); min-height:52px; transition:opacity .2s; }
-.task.done .ttxt { text-decoration:line-through; color:var(--txt3); }
+TASKS
+================================================ */
+.task { display:flex; align-items:center; gap:9px; padding:10px; border-radius:12px; margin-bottom:6px; background:var(–task-bg); min-height:52px; transition:opacity .2s; }
+.task.done .ttxt { text-decoration:line-through; color:var(–txt3); }
 .cdot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
-.ttxt { flex:1; font-size:14px; color:var(--txt); line-height:1.4; }
-.ttime { font-size:12px; color:var(--txt3); flex-shrink:0; }
+.ttxt { flex:1; font-size:14px; color:var(–txt); line-height:1.4; }
+.ttime { font-size:12px; color:var(–txt3); flex-shrink:0; }
 
 /* check button — animated */
 .chk {
-  background:none; border:2px solid var(--txt3); border-radius:50%;
-  width:28px; height:28px; min-width:28px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:14px; color:transparent; flex-shrink:0; transition:.2s;
+background:none; border:2px solid var(–txt3); border-radius:50%;
+width:28px; height:28px; min-width:28px;
+display:flex; align-items:center; justify-content:center;
+font-size:14px; color:transparent; flex-shrink:0; transition:.2s;
 }
 .task.done .chk {
-  background:var(--acc); border-color:var(--acc); color:#fff;
-  animation: check-pop .3s cubic-bezier(.34,1.56,.64,1);
+background:var(–acc); border-color:var(–acc); color:#fff;
+animation: check-pop .3s cubic-bezier(.34,1.56,.64,1);
 }
 @keyframes check-pop { 0%{transform:scale(.6)} 100%{transform:scale(1)} }
 
 .hw-tag { font-size:11px; background:#FEF9C3; color:#854D0E; border-radius:5px; padding:2px 7px; margin-left:5px; font-weight:600; white-space:nowrap; }
-body[data-theme="cosmos"] .hw-tag,
-body[data-theme="neon"]   .hw-tag { background:#2D2000; color:#FDE68A; }
+body[data-theme=“cosmos”] .hw-tag,
+body[data-theme=“neon”]   .hw-tag { background:#2D2000; color:#FDE68A; }
 
-.an-btn { background:none; border:none; font-size:18px; color:var(--txt3); min-width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.tdel   { background:none; border:none; font-size:18px; color:var(--txt3); min-width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:.15s; }
+.an-btn { background:none; border:none; font-size:18px; color:var(–txt3); min-width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.tdel   { background:none; border:none; font-size:18px; color:var(–txt3); min-width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:.15s; }
 .tdel:active { color:#EF4444; transform:scale(1.2); }
 
 /* ================================================
-   ANALYSIS + FREE BLOCK
-   ================================================ */
-.an-box { margin:3px 0 7px; padding:12px; background:color-mix(in srgb,var(--acc) 8%,var(--card)); border:1px solid color-mix(in srgb,var(--acc) 30%,transparent); border-radius:12px; }
-.an-box textarea { width:100%; background:transparent; border:none; outline:none; font-size:13px; color:var(--txt); resize:none; min-height:75px; direction:rtl; line-height:1.6; }
-.an-save { font-size:12px; color:var(--acc); background:none; border:none; font-weight:700; padding:4px 0 0; }
+ANALYSIS + FREE BLOCK
+================================================ */
+.an-box { margin:3px 0 7px; padding:12px; background:color-mix(in srgb,var(–acc) 8%,var(–card)); border:1px solid color-mix(in srgb,var(–acc) 30%,transparent); border-radius:12px; }
+.an-box textarea { width:100%; background:transparent; border:none; outline:none; font-size:13px; color:var(–txt); resize:none; min-height:75px; direction:rtl; line-height:1.6; }
+.an-save { font-size:12px; color:var(–acc); background:none; border:none; font-weight:700; padding:4px 0 0; }
 
 .fb-box { background:rgba(124,58,237,.1); border:1px solid rgba(124,58,237,.25); border-radius:12px; padding:12px; margin-bottom:6px; }
 .fb-lbl { font-size:12px; color:#7C3AED; font-weight:700; margin-bottom:7px; }
-.fb-box textarea { width:100%; background:transparent; border:none; outline:none; font-size:13px; color:var(--txt); resize:none; min-height:55px; direction:rtl; line-height:1.5; }
+.fb-box textarea { width:100%; background:transparent; border:none; outline:none; font-size:13px; color:var(–txt); resize:none; min-height:55px; direction:rtl; line-height:1.5; }
 .fb-save { font-size:12px; color:#7C3AED; background:none; border:none; font-weight:700; padding:4px 0 0; }
 
 /* ================================================
-   ACTIONS + FORM
-   ================================================ */
+ACTIONS + FORM
+================================================ */
 .arow { display:flex; gap:8px; margin-top:6px; }
-.add-btn  { flex:1; min-height:48px; background:none; border:1.5px dashed var(--border); border-radius:12px; font-size:14px; color:var(--txt3); transition:.2s; }
-.add-btn:active { border-color:var(--acc); color:var(--acc); }
+.add-btn  { flex:1; min-height:48px; background:none; border:1.5px dashed var(–border); border-radius:12px; font-size:14px; color:var(–txt3); transition:.2s; }
+.add-btn:active { border-color:var(–acc); color:var(–acc); }
 .free-btn { min-height:48px; padding:0 18px; background:rgba(124,58,237,.08); border:1.5px dashed rgba(124,58,237,.35); border-radius:12px; font-size:14px; color:#7C3AED; font-weight:600; }
 
-.af { margin-top:10px; display:flex; flex-direction:column; gap:9px; border-top:1px solid var(--border); padding-top:12px; }
-.af input,.af select { width:100%; padding:13px 14px; border-radius:12px; background:var(--card); border:1.5px solid var(--border); color:var(--txt); font-size:15px; direction:rtl; outline:none; min-height:50px; }
-.af input:focus,.af select:focus { border-color:var(--acc); }
+.af { margin-top:10px; display:flex; flex-direction:column; gap:9px; border-top:1px solid var(–border); padding-top:12px; }
+.af input,.af select { width:100%; padding:13px 14px; border-radius:12px; background:var(–card); border:1.5px solid var(–border); color:var(–txt); font-size:15px; direction:rtl; outline:none; min-height:50px; }
+.af input:focus,.af select:focus { border-color:var(–acc); }
 .af-row   { display:flex; gap:8px; }
 .af-btns  { display:flex; gap:8px; }
-.af-ok     { flex:1; min-height:50px; background:var(--acc); color:#fff; border:none; border-radius:12px; font-size:15px; font-weight:700; transition:.15s; }
-.af-ok:active { background:var(--acc2); transform:scale(.98); }
-.af-cancel { min-height:50px; padding:0 20px; background:var(--bg); border:1.5px solid var(--border); border-radius:12px; font-size:15px; color:var(--txt2); }
+.af-ok     { flex:1; min-height:50px; background:var(–acc); color:#fff; border:none; border-radius:12px; font-size:15px; font-weight:700; transition:.15s; }
+.af-ok:active { background:var(–acc2); transform:scale(.98); }
+.af-cancel { min-height:50px; padding:0 20px; background:var(–bg); border:1.5px solid var(–border); border-radius:12px; font-size:15px; color:var(–txt2); }
 
 /* ================================================
-   THU BANNER
-   ================================================ */
+THU BANNER
+================================================ */
 .thu { margin-bottom:10px; background:linear-gradient(135deg,#FEF9C3,#FEF3C7); border:1px solid #FDE68A; border-radius:12px; padding:11px 13px; display:flex; align-items:center; gap:10px; }
 .thu-t { font-size:13px; color:#92400E; font-weight:600; line-height:1.4; }
-body[data-theme="cosmos"] .thu,
-body[data-theme="neon"]   .thu { background:rgba(251,191,36,.1); border-color:rgba(251,191,36,.3); }
-body[data-theme="cosmos"] .thu-t,
-body[data-theme="neon"]   .thu-t { color:#FDE68A; }
+body[data-theme=“cosmos”] .thu,
+body[data-theme=“neon”]   .thu { background:rgba(251,191,36,.1); border-color:rgba(251,191,36,.3); }
+body[data-theme=“cosmos”] .thu-t,
+body[data-theme=“neon”]   .thu-t { color:#FDE68A; }
 
 /* ================================================
-   NEON GLOW EFFECTS
-   ================================================ */
-body[data-theme="neon"] .dc.today { box-shadow:0 0 0 2px rgba(217,70,239,.4), 0 0 20px rgba(217,70,239,.15); }
-body[data-theme="neon"] .task.done .chk { box-shadow:0 0 8px rgba(217,70,239,.6); }
-body[data-theme="cosmos"] .task.done .chk { box-shadow:0 0 8px rgba(129,140,248,.6); }
+NEON GLOW EFFECTS
+================================================ */
+body[data-theme=“neon”] .dc.today { box-shadow:0 0 0 2px rgba(217,70,239,.4), 0 0 20px rgba(217,70,239,.15); }
+body[data-theme=“neon”] .task.done .chk { box-shadow:0 0 8px rgba(217,70,239,.6); }
+body[data-theme=“cosmos”] .task.done .chk { box-shadow:0 0 8px rgba(129,140,248,.6); }
 
 /* ================================================
-   INK THEME TYPOGRAPHY
-   ================================================ */
-body[data-theme="ink"] .greeting { font-family: Georgia, serif; letter-spacing:1px; }
-body[data-theme="ink"] .dn { font-family: Georgia, serif; }
-body[data-theme="ink"] .stat-n { font-family: Georgia, serif; font-style: italic; }
+INK THEME TYPOGRAPHY
+================================================ */
+body[data-theme=“ink”] .greeting { font-family: Georgia, serif; letter-spacing:1px; }
+body[data-theme=“ink”] .dn { font-family: Georgia, serif; }
+body[data-theme=“ink”] .stat-n { font-family: Georgia, serif; font-style: italic; }
 </style>
+
 </head>
 <body data-theme="dawn">
 
@@ -334,32 +344,40 @@ body[data-theme="ink"] .stat-n { font-family: Georgia, serif; font-style: italic
       </div>
     </div>
 
-    <!-- THEME SWITCHER -->
-    <div class="themes">
-      <button class="th-btn active" data-t="dawn"   onclick="setTheme('dawn',this)">🌅 فجر</button>
-      <button class="th-btn"        data-t="cosmos" onclick="setTheme('cosmos',this)">🌌 كون</button>
-      <button class="th-btn"        data-t="neon"   onclick="setTheme('neon',this)">⚡ نيون</button>
-      <button class="th-btn"        data-t="ink"    onclick="setTheme('ink',this)">🖋 حبر</button>
-      <button class="th-btn"        data-t="forest" onclick="setTheme('forest',this)">🌿 غابة</button>
-    </div>
+```
+<!-- LANG + THEME ROW -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+  <button class="lang-btn" id="lang-btn" onclick="toggleLang()">EN</button>
+  <span style="font-size:11px;opacity:.6" data-ar="الثيم" data-en="Theme">الثيم</span>
+</div>
+<!-- THEME SWITCHER -->
+<div class="themes">
+  <button class="th-btn active" data-t="dawn"   onclick="setTheme('dawn',this)">🌅 فجر</button>
+  <button class="th-btn"        data-t="cosmos" onclick="setTheme('cosmos',this)">🌌 كون</button>
+  <button class="th-btn"        data-t="neon"   onclick="setTheme('neon',this)">⚡ نيون</button>
+  <button class="th-btn"        data-t="ink"    onclick="setTheme('ink',this)">🖋 حبر</button>
+  <button class="th-btn"        data-t="forest" onclick="setTheme('forest',this)">🌿 غابة</button>
+</div>
 
-    <div class="habits" id="habits"></div>
+<div class="habits" id="habits"></div>
 
-    <div class="stats">
-      <div class="stat"><div class="stat-n" id="s-tot">0</div><div class="stat-l">مهام الأسبوع</div></div>
-      <div class="stat"><div class="stat-n" id="s-don">0</div><div class="stat-l">مكتملة</div></div>
-      <div class="stat"><div class="stat-n" id="s-pct">0%</div><div class="stat-l">تقدم</div></div>
-    </div>
-    <div class="pw"><div class="pf" id="wprog" style="width:0%"></div></div>
+<div class="stats">
+  <div class="stat"><div class="stat-n" id="s-tot">0</div><div class="stat-l">مهام الأسبوع</div></div>
+  <div class="stat"><div class="stat-n" id="s-don">0</div><div class="stat-l">مكتملة</div></div>
+  <div class="stat"><div class="stat-n" id="s-pct">0%</div><div class="stat-l">تقدم</div></div>
+</div>
+<div class="pw"><div class="pf" id="wprog" style="width:0%"></div></div>
 
-    <button class="reset-btn" onclick="showReset()">↺ إعادة تعيين الأسبوع</button>
-    <div class="confirm-box" id="cbox">
-      <div class="confirm-msg">بدك تمسح كل الأسبوع وتبدأ من أول؟</div>
-      <div class="confirm-btns">
-        <button class="btn-no" onclick="hideReset()">لا، إلغاء</button>
-        <button class="btn-yes" onclick="doReset()">نعم، امسح</button>
-      </div>
-    </div>
+<button class="reset-btn" onclick="showReset()">↺ إعادة تعيين الأسبوع</button>
+<div class="confirm-box" id="cbox">
+  <div class="confirm-msg">بدك تمسح كل الأسبوع وتبدأ من أول؟</div>
+  <div class="confirm-btns">
+    <button class="btn-no" onclick="hideReset()">لا، إلغاء</button>
+    <button class="btn-yes" onclick="doReset()">نعم، امسح</button>
+  </div>
+</div>
+```
+
   </div>
 </div>
 
@@ -376,24 +394,99 @@ body[data-theme="ink"] .stat-n { font-family: Georgia, serif; font-style: italic
 
 <script>
 /* ====================================================
-   DATA
+   i18n
    ==================================================== */
-const MOTTOS = [
-  "ابن نفسك كل يوم 💪","الفرق بتعمله التفاصيل الصغيرة ✨",
-  "يوم ما بيرجع — استغله 🔥","المنتج الحقيقي بيلاقي الوقت 🎯",
-  "خطوة صغيرة كل يوم = سنة مختلفة 🚀",
-  "نظّم يومك، بتنظّم حياتك 📅","الإنتاج عادة، مش حظ 💡",
-];
-const CATS=[
-  {name:'محاضرات',dot:'#3B82F6'},{name:'دراسة',dot:'#10B981'},
-  {name:'ماتريكس',dot:'#F59E0B'},{name:'محتوى شخصي',dot:'#8B5CF6'},
-  {name:'تداول وتحليل',dot:'#EF4444'},{name:'وقت حر',dot:'#9CA3AF'},
-];
-const DAYS  =['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-const MONTHS=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-const DTYPE =['light','heavy','light','heavy','free','free','light'];
-const DLBL  =['خفيف','ثقيل','خفيف','ثقيل','حر','حر','خفيف'];
-const HABITS=[{id:'w',icon:'💧',lbl:'ماء'},{id:'s',icon:'🏃',lbl:'رياضة'},{id:'r',icon:'📖',lbl:'قراءة'},{id:'n',icon:'😴',lbl:'نوم'}];
+let lang = 'ar';
+
+const i18n = {
+  ar: {
+    greeting: 'مرحبا، رومل 👋',
+    mottos: ["ابن نفسك كل يوم 💪","الفرق بتعمله التفاصيل الصغيرة ✨","يوم ما بيرجع — استغله 🔥","المنتج الحقيقي بيلاقي الوقت 🎯","خطوة صغيرة كل يوم = سنة مختلفة 🚀","نظّم يومك، بتنظّم حياتك 📅","الإنتاج عادة، مش حظ 💡"],
+    cats: [{name:'محاضرات',dot:'#3B82F6'},{name:'دراسة',dot:'#10B981'},{name:'ماتريكس',dot:'#F59E0B'},{name:'محتوى شخصي',dot:'#8B5CF6'},{name:'تداول وتحليل',dot:'#EF4444'},{name:'وقت حر',dot:'#9CA3AF'}],
+    days: ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
+    months: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+    dlbl: ['خفيف','ثقيل','خفيف','ثقيل','حر','حر','خفيف'],
+    habits: [{id:'w',icon:'💧',lbl:'ماء'},{id:'s',icon:'🏃',lbl:'رياضة'},{id:'r',icon:'📖',lbl:'قراءة'},{id:'n',icon:'😴',lbl:'نوم'}],
+    today: '· اليوم',
+    weekTasks: 'مهام الأسبوع', done: 'مكتملة', progress: 'تقدم',
+    reset: '↺ إعادة تعيين الأسبوع',
+    resetQ: 'بدك تمسح كل الأسبوع وتبدأ من أول؟',
+    yes: 'نعم، امسح', no: 'لا، إلغاء',
+    all: 'الكل', light: 'خفيف', heavy: 'ثقيل', free: 'حر',
+    addTask: '+ مهمة', freeSlot: '⬜ حر',
+    add: 'إضافة', cancel: 'إلغاء',
+    taskPlaceholder: 'اكتب المهمة...',
+    anPlaceholder: 'تحليلك هون... ترند، مستويات، فرص...',
+    freePlaceholder: 'شو بدك تعمل؟',
+    freeLabel: '⬜ وقت حر',
+    save: 'حفظ ✓',
+    thuTxt: 'يوم الواجبات — خلص الكل اليوم وارتاح باقي الأسبوع 💪',
+    hw: 'واجب',
+    themeLbl: 'الثيم',
+    themes: [{t:'dawn',l:'🌅 فجر'},{t:'cosmos',l:'🌌 كون'},{t:'neon',l:'⚡ نيون'},{t:'ink',l:'🖋 حبر'},{t:'forest',l:'🌿 غابة'}],
+    filterCats: ['الكل','محاضرات','دراسة','ماتريكس','محتوى','تداول'],
+    tasks: {
+      'u-s1':'نظرية المنظمة','u-s2':'مبادئ التسويق','rs0':'استراحة + وجبة','tr-s':'تحليل السوق','ds1':'مراجعة المحاضرات','cs1':'تصوير فيديو شخصي','ms1':'ماتريكس — 15 دقيقة','rv-s':'مراجعة المساء (5 د)',
+      'u-m1':'إدارة المستشفيات','u-m2':'إدارة سلسلة التوريد','u-m3':'إدارة العمليات والإنتاج','rm0':'استراحة + وجبة','tr-m':'تحليل السوق','sp-m':'رياضة 30 دقيقة','dm1':'مراجعة المحاضرات','mm1':'ماتريكس — 15 دقيقة','rv-m':'مراجعة المساء (5 د)',
+      'u-t1':'نظرية المنظمة','u-t2':'مبادئ التسويق','rt0':'استراحة + وجبة','tr-t':'تحليل السوق','dt1':'دراسة + تحضير مواد غد','ct1':'تصوير فيديو شخصي','mt1':'ماتريكس — 15 دقيقة','rv-t':'مراجعة المساء (5 د)',
+      'u-w1':'إدارة المستشفيات','u-w2':'إدارة سلسلة التوريد','u-w3':'إدارة العمليات والإنتاج','rw0':'استراحة + وجبة','tr-w':'تحليل السوق','sp-w':'رياضة 30 دقيقة','dw1':'مراجعة سريعة','mw1':'ماتريكس — 15 دقيقة','rv-w':'مراجعة المساء (5 د)',
+      'tr-th':'تحليل السوق','sp-th':'رياضة 30 دقيقة','hw1':'واجب: إدارة العمليات والإنتاج','hw2':'واجب: نظرية المنظمة','hw3':'واجب: إدارة سلسلة التوريد','hw4':'واجب: إدارة المستشفيات','hw5':'واجب: مبادئ التسويق','cth':'تصوير batch — 2 فيديوهات','mth':'ماتريكس — 15 دقيقة','rv-th':'مراجعة المساء (5 د)',
+      'tr-f':'تحليل السوق','cf1':'تصوير batch — 2 فيديوهات','cf2':'مونتاج + تحرير','df1':'مراجعة شاملة للأسبوع','df2':'تخطيط الأسبوع القادم','mf1':'ماتريكس — 15 دقيقة','rv-f':'مراجعة المساء + امتنان',
+      'tr-sa':'تحليل السوق','dsa1':'مراجعة غير متزامن','csa1':'مونتاج وأرشفة','msa1':'ماتريكس — 15 دقيقة','rv-sa':'مراجعة المساء (5 د)',
+    }
+  },
+  en: {
+    greeting: "Hey, Rommel 👋",
+    mottos: ["Build yourself every day 💪","The difference is in the small details ✨","This day won't come back — use it 🔥","A productive person finds the time 🎯","One small step daily = a different year 🚀","Organize your day, organize your life 📅","Productivity is a habit, not luck 💡"],
+    cats: [{name:'Lectures',dot:'#3B82F6'},{name:'Study',dot:'#10B981'},{name:'Matrix',dot:'#F59E0B'},{name:'Personal Content',dot:'#8B5CF6'},{name:'Trading & Analysis',dot:'#EF4444'},{name:'Free Time',dot:'#9CA3AF'}],
+    days: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+    months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    dlbl: ['Easy','Busy','Easy','Busy','Free','Free','Easy'],
+    habits: [{id:'w',icon:'💧',lbl:'Water'},{id:'s',icon:'🏃',lbl:'Sport'},{id:'r',icon:'📖',lbl:'Read'},{id:'n',icon:'😴',lbl:'Sleep'}],
+    today: '· Today',
+    weekTasks: 'Week Tasks', done: 'Done', progress: 'Progress',
+    reset: '↺ Reset Week',
+    resetQ: 'Reset the entire week and start over?',
+    yes: 'Yes, reset', no: 'No, cancel',
+    all: 'All', light: 'Easy', heavy: 'Busy', free: 'Free',
+    addTask: '+ Task', freeSlot: '⬜ Free',
+    add: 'Add', cancel: 'Cancel',
+    taskPlaceholder: 'Write the task...',
+    anPlaceholder: 'Your analysis... trend, key levels, opportunities...',
+    freePlaceholder: 'What do you want to do?',
+    freeLabel: '⬜ Free Time',
+    save: 'Save ✓',
+    thuTxt: 'Assignments Day — finish everything today and relax the rest of the week 💪',
+    hw: 'HW',
+    themeLbl: 'Theme',
+    themes: [{t:'dawn',l:'🌅 Dawn'},{t:'cosmos',l:'🌌 Cosmos'},{t:'neon',l:'⚡ Neon'},{t:'ink',l:'🖋 Ink'},{t:'forest',l:'🌿 Forest'}],
+    filterCats: ['All','Lectures','Study','Matrix','Content','Trading'],
+    tasks: {
+      'u-s1':'Organizational Theory','u-s2':'Marketing Principles','rs0':'Rest + Meal','tr-s':'Market Analysis','ds1':'Lecture Review','cs1':'Shoot Personal Video','ms1':'Matrix — 15 min','rv-s':'Evening Review (5 min)',
+      'u-m1':'Hospital Management','u-m2':'Supply Chain Management','u-m3':'Operations Management','rm0':'Rest + Meal','tr-m':'Market Analysis','sp-m':'30 min Workout','dm1':'Lecture Review','mm1':'Matrix — 15 min','rv-m':'Evening Review (5 min)',
+      'u-t1':'Organizational Theory','u-t2':'Marketing Principles','rt0':'Rest + Meal','tr-t':'Market Analysis','dt1':'Study + Prep for Tomorrow','ct1':'Shoot Personal Video','mt1':'Matrix — 15 min','rv-t':'Evening Review (5 min)',
+      'u-w1':'Hospital Management','u-w2':'Supply Chain Management','u-w3':'Operations Management','rw0':'Rest + Meal','tr-w':'Market Analysis','sp-w':'30 min Workout','dw1':'Quick Review','mw1':'Matrix — 15 min','rv-w':'Evening Review (5 min)',
+      'tr-th':'Market Analysis','sp-th':'30 min Workout','hw1':'HW: Operations Management','hw2':'HW: Organizational Theory','hw3':'HW: Supply Chain Management','hw4':'HW: Hospital Management','hw5':'HW: Marketing Principles','cth':'Batch Shoot — 2 Videos','mth':'Matrix — 15 min','rv-th':'Evening Review (5 min)',
+      'tr-f':'Market Analysis','cf1':'Batch Shoot — 2 Videos','cf2':'Edit + Montage','df1':'Full Week Review','df2':'Plan Next Week','mf1':'Matrix — 15 min','rv-f':'Evening Review + Gratitude',
+      'tr-sa':'Market Analysis','dsa1':'Async Course Review','csa1':'Montage + Archive','msa1':'Matrix — 15 min','rv-sa':'Evening Review (5 min)',
+    }
+  }
+};
+
+function t(key){ return i18n[lang][key]; }
+function tTask(id, fallback){ return i18n[lang].tasks[id] || fallback; }
+
+function toggleLang(){
+  lang = lang==='ar' ? 'en' : 'ar';
+  try{ localStorage.setItem('rp9_lang', lang); }catch(e){}
+  const html = document.documentElement;
+  html.lang = lang;
+  html.dir  = lang==='ar' ? 'rtl' : 'ltr';
+  document.getElementById('lang-btn').textContent = lang==='ar' ? 'EN' : 'ع';
+  rAll();
+}
+
+
 
 function T(id,txt,cat,time,hw){return{id,txt,cat,time:time||'',hw:!!hw};}
 const TPL={
@@ -425,6 +518,7 @@ function load(){
   try{const r=JSON.parse(localStorage.getItem(wKey())||'{}');D=r.d||{};C=r.c||{};DEL=r.del||{};AN=r.an||{};FB=r.fb||{};if(r.exp)expDays=new Set(r.exp);else expDays=new Set([todayIdx]);}catch(e){expDays=new Set([todayIdx]);}
   try{HB=JSON.parse(localStorage.getItem(hKey())||'{}');}catch(e){}
   try{currentTheme=localStorage.getItem('rp9_theme')||'dawn';}catch(e){}
+  try{lang=localStorage.getItem('rp9_lang')||'ar';}catch(e){}
 }
 function save(){
   try{localStorage.setItem(wKey(),JSON.stringify({d:D,c:C,del:DEL,an:AN,fb:FB,exp:[...expDays]}));}catch(e){}
@@ -527,22 +621,48 @@ function setTheme(t,el){
    RENDER HEADER
    ==================================================== */
 function rHdr(){
-  document.getElementById('hdr-day').textContent=DAYS[today.getDay()];
-  document.getElementById('hdr-date').textContent=`${today.getDate()} ${MONTHS[today.getMonth()]}`;
-  document.getElementById('motto').textContent=MOTTOS[today.getDay()%MOTTOS.length];
-  document.getElementById('habits').innerHTML=HABITS.map(h=>`<div class="hab${HB[h.id]?' done':''}" onclick="tHab('${h.id}')">${h.icon} ${h.lbl}${HB[h.id]?' ✓':''}</div>`).join('');
+  const L = i18n[lang];
+  document.getElementById('hdr-day').textContent  = L.days[today.getDay()];
+  document.getElementById('hdr-date').textContent = `${today.getDate()} ${L.months[today.getMonth()]}`;
+  document.getElementById('motto').textContent    = L.mottos[today.getDay() % L.mottos.length];
+  document.querySelector('.greeting').textContent = L.greeting;
+
+  // theme buttons
+  document.querySelector('.themes').innerHTML = L.themes.map(th=>
+    `<button class="th-btn${currentTheme===th.t?' active':''}" data-t="${th.t}" onclick="setTheme('${th.t}',this)">${th.l}</button>`
+  ).join('');
+
+  // filter bar
+  const fbar = document.querySelector('.fbar');
+  const filters = ['all','0','1','2','3','4'];
+  fbar.innerHTML = filters.map((f,i)=>
+    `<button class="flt${fil===f?' on':''}" onclick="setF('${f}',this)">${L.filterCats[i]}</button>`
+  ).join('');
+
+  document.getElementById('habits').innerHTML = L.habits.map(h=>
+    `<div class="hab${HB[h.id]?' done':''}" onclick="tHab('${h.id}')">${h.icon} ${h.lbl}${HB[h.id]?' ✓':''}</div>`
+  ).join('');
+
   const all=Array.from({length:7},(_,i)=>gt(i)).flat();
   const tot=all.length,don=all.filter(t=>t.done).length,pct=tot?Math.round(don/tot*100):0;
-  document.getElementById('s-tot').textContent=tot;
-  document.getElementById('s-don').textContent=don;
-  document.getElementById('s-pct').textContent=pct+'%';
-  document.getElementById('wprog').style.width=pct+'%';
+  document.getElementById('s-tot').textContent = tot;
+  document.getElementById('s-don').textContent = don;
+  document.getElementById('s-pct').textContent = pct+'%';
+  document.getElementById('wprog').style.width = pct+'%';
+  document.querySelectorAll('.stat-l')[0].textContent = L.weekTasks;
+  document.querySelectorAll('.stat-l')[1].textContent = L.done;
+  document.querySelectorAll('.stat-l')[2].textContent = L.progress;
+  document.querySelector('.reset-btn').textContent = L.reset;
+  document.querySelector('.confirm-msg').textContent = L.resetQ;
+  document.querySelector('.btn-yes').textContent = L.yes;
+  document.querySelector('.btn-no').textContent  = L.no;
 }
 
 /* ====================================================
    RENDER SINGLE DAY
    ==================================================== */
 function rDay(i){
+  const L = i18n[lang];
   const old=document.querySelector(`[data-day="${i}"]`);
   const d=gd(i),isT=d.toDateString()===today.toDateString(),isExp=expDays.has(i);
   let tasks=gt(i);
@@ -556,8 +676,8 @@ function rDay(i){
   const dh=document.createElement('div');dh.className='dh';dh.onclick=()=>togExp(i);
   dh.innerHTML=`
     <div class="dr">
-      <span class="dn">${DAYS[d.getDay()]}${isT?' · اليوم':''}</span>
-      <span class="dtype">${DLBL[i]}</span>
+      <span class="dn">${L.days[d.getDay()]}${isT?' '+L.today:''}</span>
+      <span class="dtype">${L.dlbl[i]}</span>
     </div>
     <div class="dl">
       ${tasks.length?`<span class="ddone">${donC}/${tasks.length}</span>`:''}
@@ -571,63 +691,60 @@ function rDay(i){
   card.appendChild(dp);
 
   const tw=document.createElement('div');tw.className='tw';
-  if(i===4)tw.innerHTML=`<div class="thu"><span style="font-size:20px">📋</span><div class="thu-t">يوم الواجبات — خلص الكل اليوم وارتاح باقي الأسبوع 💪</div></div>`;
+  if(i===4)tw.innerHTML=`<div class="thu"><span style="font-size:20px">📋</span><div class="thu-t">${L.thuTxt}</div></div>`;
 
-  tasks.forEach(t=>{
-    const isAn=t.cat===4;
-    const el=document.createElement('div');el.className=`task${t.done?' done':''}`;
+  tasks.forEach(tk=>{
+    const isAn=tk.cat===4;
+    const taskTxt = tTask(tk.id, tk.txt);
+    const el=document.createElement('div');el.className=`task${tk.done?' done':''}`;
     el.innerHTML=`
-      <button class="chk" onclick="tDone('${t.id}',${i})">${t.done?'✓':''}</button>
-      <span class="cdot" style="background:${CATS[t.cat].dot}"></span>
-      <span class="ttxt">${t.hw?'<span class="hw-tag">واجب</span>':''}${t.txt}</span>
-      <span class="ttime">${t.time}</span>
-      ${isAn?`<button class="an-btn" onclick="tAN('${t.id}',${i})">📝</button>`:''}
-      <button class="tdel" onclick="tDel('${t.id}',${i},${t.isBase})">✕</button>`;
+      <button class="chk" onclick="tDone('${tk.id}',${i})">${tk.done?'✓':''}</button>
+      <span class="cdot" style="background:${L.cats[tk.cat].dot}"></span>
+      <span class="ttxt">${tk.hw?`<span class="hw-tag">${L.hw}</span>`:''}${taskTxt}</span>
+      <span class="ttime">${tk.time}</span>
+      ${isAn?`<button class="an-btn" onclick="tAN('${tk.id}',${i})">📝</button>`:''}
+      <button class="tdel" onclick="tDel('${tk.id}',${i},${tk.isBase})">✕</button>`;
     tw.appendChild(el);
-    if(isAn&&openAN===t.id){
+    if(isAn&&openAN===tk.id){
       const ab=document.createElement('div');ab.className='an-box';
-      ab.innerHTML=`<textarea id="an-${t.id}" placeholder="تحليلك هون... ترند، مستويات، فرص..." rows="3">${AN[t.id]||''}</textarea><button class="an-save" onclick="saveAN('${t.id}',${i})">حفظ ✓</button>`;
-      tw.appendChild(ab);
-      setTimeout(()=>{const a=document.getElementById(`an-${t.id}`);if(a)a.focus();},50);
-    }
-  });
+      ab.innerHTML=`<textarea id="an-${tk.id}" placeholder="${L.anPlaceholder}" rows="3">${AN[tk.id]||''}</textarea><button class="an-save" onclick="saveAN('${tk.id}',${i})">${L.save}</button>`;
 
-  if(freeDay===i){
-    const fb=document.createElement('div');fb.className='fb-box';
-    fb.innerHTML=`<div class="fb-lbl">⬜ وقت حر</div><textarea id="fb-${i}" placeholder="شو بدك تعمل؟" rows="3">${FB[i]||''}</textarea><button class="fb-save" onclick="saveFB(${i})">حفظ ✓</button>`;
-    tw.appendChild(fb);
-    setTimeout(()=>{const f=document.getElementById(`fb-${i}`);if(f)f.focus();},50);
-  }
+```
+  tw.appendChild(ab);
+  setTimeout(()=>{const a=document.getElementById(`an-${tk.id}`);if(a)a.focus();},50);
+}
+```
 
-  const acts=document.createElement('div');
-  if(formDay===i){
-    acts.className='af';
-    acts.innerHTML=`
-      <input type="text" id="inp-${i}" placeholder="اكتب المهمة..." style="direction:rtl">
-      <div class="af-row">
-        <select id="cat-${i}" style="flex:1;direction:rtl">${CATS.map((c,x)=>`<option value="${x}">${c.name}</option>`).join('')}</select>
-        <input type="time" id="tim-${i}" style="width:110px">
-      </div>
-      <div class="af-btns">
-        <button class="af-cancel" onclick="cForm(${i})">إلغاء</button>
-        <button class="af-ok" onclick="addT(${i})">إضافة</button>
-      </div>`;
-    setTimeout(()=>{const inp=document.getElementById(`inp-${i}`);if(inp){inp.focus();inp.onkeydown=e=>{if(e.key==='Enter')addT(i);if(e.key==='Escape')cForm(i);};}},50);
-  }else{
-    acts.className='arow';
-    acts.innerHTML=`<button class="add-btn" onclick="oForm(${i},event)">+ مهمة</button><button class="free-btn" onclick="oFree(${i},event)">⬜ حر</button>`;
-  }
-  tw.appendChild(acts);
-  card.appendChild(tw);
-  if(old)old.replaceWith(card);
-  else document.getElementById('plan').appendChild(card);
+});
+
+if(freeDay===i){
+const fb=document.createElement(‘div’);fb.className=‘fb-box’;
+fb.innerHTML=`<div class="fb-lbl">${L.freeLabel}</div><textarea id="fb-${i}" placeholder="${L.freePlaceholder}" rows="3">${FB[i]||''}</textarea><button class="fb-save" onclick="saveFB(${i})">${L.save}</button>`;
+tw.appendChild(fb);
+setTimeout(()=>{const f=document.getElementById(`fb-${i}`);if(f)f.focus();},50);
+}
+
+const acts=document.createElement(‘div’);
+if(formDay===i){
+const dir = lang===‘ar’ ? ‘rtl’ : ‘ltr’;
+acts.className=‘af’;
+acts.innerHTML=` <input type="text" id="inp-${i}" placeholder="${L.taskPlaceholder}" style="direction:${dir}"> <div class="af-row"> <select id="cat-${i}" style="flex:1;direction:${dir}">${L.cats.map((c,x)=>`<option value="${x}">${c.name}</option>`).join('')}</select> <input type="time" id="tim-${i}" style="width:110px"> </div> <div class="af-btns"> <button class="af-cancel" onclick="cForm(${i})">${L.cancel}</button> <button class="af-ok" onclick="addT(${i})">${L.add}</button> </div>`;
+setTimeout(()=>{const inp=document.getElementById(`inp-${i}`);if(inp){inp.focus();inp.onkeydown=e=>{if(e.key===‘Enter’)addT(i);if(e.key===‘Escape’)cForm(i);};}},50);
+}else{
+acts.className=‘arow’;
+acts.innerHTML=`<button class="add-btn" onclick="oForm(${i},event)">${L.addTask}</button><button class="free-btn" onclick="oFree(${i},event)">${L.freeSlot}</button>`;
+}
+tw.appendChild(acts);
+card.appendChild(tw);
+if(old)old.replaceWith(card);
+else document.getElementById(‘plan’).appendChild(card);
 }
 
 function rAll(){rHdr();for(let i=0;i<7;i++)rDay(i);}
 
 /* ====================================================
-   ACTIONS
-   ==================================================== */
+ACTIONS
+==================================================== */
 function togExp(i){if(expDays.has(i))expDays.delete(i);else expDays.add(i);save();rDay(i);}
 function tHab(id){HB[id]=!HB[id];save();rHdr();}
 function tDone(id,i){D[id]=!D[id];save();rHdr();rDay(i);}
@@ -638,21 +755,25 @@ function oFree(i,e){e.stopPropagation();freeDay=freeDay===i?null:i;if(!expDays.h
 function saveFB(i){const el=document.getElementById(`fb-${i}`);if(el)FB[i]=el.value;freeDay=null;save();rDay(i);}
 function oForm(i,e){e.stopPropagation();formDay=i;if(!expDays.has(i))expDays.add(i);save();rDay(i);}
 function cForm(i){formDay=null;rDay(i);}
-function setF(f,btn){fil=f;document.querySelectorAll('.flt').forEach(b=>b.classList.remove('on'));btn.classList.add('on');rAll();}
-function addT(i){const txt=document.getElementById(`inp-${i}`)?.value?.trim();if(!txt)return;const cat=+(document.getElementById(`cat-${i}`)?.value||0),time=document.getElementById(`tim-${i}`)?.value||'';if(!C[i])C[i]=[];C[i].push({id:'c'+Date.now(),txt,cat,time});formDay=null;save();rHdr();rDay(i);}
-function showReset(){document.getElementById('cbox').classList.add('show');}
-function hideReset(){document.getElementById('cbox').classList.remove('show');}
+function setF(f,btn){fil=f;document.querySelectorAll(’.flt’).forEach(b=>b.classList.remove(‘on’));btn.classList.add(‘on’);rAll();}
+function addT(i){const txt=document.getElementById(`inp-${i}`)?.value?.trim();if(!txt)return;const cat=+(document.getElementById(`cat-${i}`)?.value||0),time=document.getElementById(`tim-${i}`)?.value||’’;if(!C[i])C[i]=[];C[i].push({id:‘c’+Date.now(),txt,cat,time});formDay=null;save();rHdr();rDay(i);}
+function showReset(){document.getElementById(‘cbox’).classList.add(‘show’);}
+function hideReset(){document.getElementById(‘cbox’).classList.remove(‘show’);}
 function doReset(){D={};C={};DEL={};AN={};FB={};HB={};expDays=new Set([todayIdx]);formDay=null;openAN=null;freeDay=null;save();hideReset();rAll();}
 
 /* ====================================================
-   INIT
-   ==================================================== */
+INIT
+==================================================== */
 load();
-document.body.setAttribute('data-theme', currentTheme);
-document.querySelectorAll('.th-btn').forEach(b=>b.classList.toggle('active',b.dataset.t===currentTheme));
+document.body.setAttribute(‘data-theme’, currentTheme);
+document.documentElement.lang = lang;
+document.documentElement.dir  = lang===‘ar’ ? ‘rtl’ : ‘ltr’;
+document.getElementById(‘lang-btn’).textContent = lang===‘ar’ ? ‘EN’ : ‘ع’;
+document.querySelectorAll(’.th-btn’).forEach(b=>b.classList.toggle(‘active’,b.dataset.t===currentTheme));
 rAll();
 applyThemeAnim(currentTheme);
-setTimeout(()=>{const c=document.querySelector('.dc.today');if(c)c.scrollIntoView({behavior:'smooth',block:'start'});},150);
+setTimeout(()=>{const c=document.querySelector(’.dc.today’);if(c)c.scrollIntoView({behavior:‘smooth’,block:‘start’});},150);
 </script>
+
 </body>
 </html>
