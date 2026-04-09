@@ -1,779 +1,1939 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="جدول رومل">
-<title>جدول رومل</title>
+<title>Rommel OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
 <style>
-/* ================================================
-   THEME VARIABLES
-   ================================================ */
-body { --r:14px; transition: background .4s, color .4s; }
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --bg:       #080810;
+  --bg2:      #0E0E1A;
+  --card:     #12121E;
+  --card2:    #16162A;
+  --border:   rgba(255,255,255,.07);
+  --border2:  rgba(255,255,255,.12);
 
-/* 🌅 الفجر - Sunrise */
-body[data-theme=“dawn”] {
-–h1:#C2410C; –h2:#F97316; –h3:#FBBF24;
-–acc:#F97316; –acc2:#C2410C;
-–bg:#FFF8F0; –card:#fff; –border:#FDE8CC;
-–txt:#1C1917; –txt2:#78716C; –txt3:#A8A29E;
-–task-bg:#FFF8F0; –header-txt:#fff;
-}
-/* 🌌 الكون - Cosmos */
-body[data-theme=“cosmos”] {
-–h1:#020617; –h2:#0F172A; –h3:#1E1B4B;
-–acc:#818CF8; –acc2:#4F46E5;
-–bg:#060616; –card:#0F0F2A; –border:#1E1B4B;
-–txt:#E2E8FF; –txt2:#818CF8; –txt3:#3730A3;
-–task-bg:#0a0a20; –header-txt:#E2E8FF;
-}
-/* ⚡ النيون - Synthwave */
-body[data-theme=“neon”] {
-–h1:#1a0030; –h2:#2d0060; –h3:#0d0020;
-–acc:#D946EF; –acc2:#A21CAF;
-–bg:#0D0015; –card:#160025; –border:#3B0060;
-–txt:#F5D0FE; –txt2:#C084FC; –txt3:#7E22CE;
-–task-bg:#110020; –header-txt:#F5D0FE;
-}
-/* 🖋 الحبر - Ink */
-body[data-theme=“ink”] {
-–h1:#111; –h2:#222; –h3:#000;
-–acc:#111; –acc2:#333;
-–bg:#F5F0E8; –card:#FDFAF5; –border:#E5DDD0;
-–txt:#111; –txt2:#555; –txt3:#999;
-–task-bg:#F5F0E8; –header-txt:#fff;
-}
-/* 🌿 الغابة - Forest */
-body[data-theme=“forest”] {
-–h1:#052E16; –h2:#14532D; –h3:#166534;
-–acc:#22C55E; –acc2:#16A34A;
-–bg:#F0FDF4; –card:#fff; –border:#BBF7D0;
-–txt:#052E16; –txt2:#166534; –txt3:#4ADE80;
-–task-bg:#F0FDF4; –header-txt:#fff;
+  --gold:     #D4A843;
+  --gold-dim: rgba(212,168,67,.15);
+  --gold-glow:rgba(212,168,67,.35);
+
+  --blue:     #4A9EFF;
+  --blue-dim: rgba(74,158,255,.12);
+  --purple:   #A78BFA;
+  --pink:     #F472B6;
+  --emerald:  #34D399;
+  --amber:    #FBBF24;
+  --orange:   #FB923C;
+  --red:      #F87171;
+  --slate:    #64748B;
+
+  --txt:      #E8E8F0;
+  --txt2:     #8888AA;
+  --txt3:     #444460;
+
+  /* activity colours */
+  --c-uni:    #4A9EFF;
+  --c-study:  #34D399;
+  --c-trade:  #FBBF24;
+  --c-matrix: #A78BFA;
+  --c-content:#F472B6;
+  --c-gym:    #FB923C;
+  --c-food:   #6EE7B7;
+  --c-rest:   #64748B;
+  --c-routine:#818CF8;
+
+  --r: 16px;
+  --r-sm: 10px;
+  --shadow: 0 8px 32px rgba(0,0,0,.6);
 }
 
-/* ================================================
-BASE STYLES
-================================================ */
+* { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: 'Cairo', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-bottom: 90px;
+}
+body.ltr { direction: ltr; }
+body.rtl { direction: rtl; }
+button { font-family:'Cairo',sans-serif; border:none; cursor:pointer; outline:none; }
+input, select, textarea { font-family:'Cairo',sans-serif; outline:none; }
+.mono { font-family:'DM Mono',monospace; }
 
-- { box-sizing: border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
-  body { background:var(–bg); color:var(–txt); font-family:‘Segoe UI’,Tahoma,Arial,sans-serif; padding-bottom:40px; }
-  button,input,select,textarea { font-family:inherit; }
+/* ═══════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════ */
+::-webkit-scrollbar { width:4px; height:4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius:2px; }
 
-/* ================================================
-HEADER
-================================================ */
+/* ═══════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════ */
 .hdr {
-background: linear-gradient(160deg, var(–h1), var(–h2) 50%, var(–h3));
-padding: 22px 16px 16px;
-color: var(–header-txt);
-position: relative;
-overflow: hidden;
+  position: relative;
+  padding: 20px 18px 16px;
+  background: linear-gradient(180deg, #0D0D1F 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
 }
-/* Animation layer — sits behind content */
-.hdr-anim { position:absolute; inset:0; pointer-events:none; z-index:0; }
-.hdr-content { position:relative; z-index:1; }
+.hdr::before {
+  content:'';
+  position: absolute;
+  top: -60px; left: 50%; transform: translateX(-50%);
+  width: 300px; height: 120px;
+  background: radial-gradient(ellipse, rgba(212,168,67,.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hdr-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-icon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--gold), #8B5A0A);
+  border-radius: 10px;
+  display: flex; align-items:center; justify-content:center;
+  font-size: 20px;
+  box-shadow: 0 0 20px var(--gold-glow);
+}
+.logo-text { font-size: 20px; font-weight: 900; letter-spacing: -.5px; }
+.logo-sub  { font-size: 11px; color: var(--txt2); margin-top: 1px; font-family:'DM Mono',monospace; }
 
-/* Dawn shimmer */
-body[data-theme=“dawn”] .hdr::after {
-content:’’; position:absolute; inset:0;
-background: radial-gradient(ellipse at 30% 50%, rgba(255,200,100,.25) 0%, transparent 70%);
-animation: dawn-pulse 4s ease-in-out infinite;
+.hdr-right { display:flex; gap:8px; align-items:center; }
+.date-chip {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 8px 12px;
+  text-align: center;
 }
-@keyframes dawn-pulse { 0%,100%{opacity:.6} 50%{opacity:1} }
+.date-chip-day { font-size:13px; font-weight:700; color:var(--gold); }
+.date-chip-date{ font-size:10px; color:var(--txt2); font-family:'DM Mono',monospace; margin-top:2px; }
 
-/* Cosmos stars drawn by JS canvas */
-.star-canvas { position:absolute; inset:0; width:100%; height:100%; }
+.lang-toggle {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  padding: 7px 14px;
+  font-size: 12px;
+  color: var(--txt2);
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: .2s;
+}
+.lang-toggle:active { background: var(--card2); color: var(--gold); }
 
-/* Neon grid */
-.neon-grid {
-position:absolute; bottom:0; left:0; right:0; height:90px;
-background:
-repeating-linear-gradient(90deg, rgba(217,70,239,.35) 0, rgba(217,70,239,.35) 1px, transparent 1px, transparent 40px),
-repeating-linear-gradient(0deg,  rgba(217,70,239,.25) 0, rgba(217,70,239,.25) 1px, transparent 1px, transparent 20px);
-transform: perspective(200px) rotateX(50deg);
-transform-origin: bottom;
-animation: grid-scroll 2s linear infinite;
-background-size: 40px 20px;
+/* Habit row */
+.habits-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  overflow-x: auto;
+  padding-bottom: 2px;
 }
-@keyframes grid-scroll { from{background-position:0 0} to{background-position:0 -20px} }
-.neon-glow {
-position:absolute; top:10px; left:50%; transform:translateX(-50%);
-width:200px; height:80px;
-background: radial-gradient(ellipse, rgba(217,70,239,.4) 0%, transparent 70%);
-animation: neon-pulse 2s ease-in-out infinite;
+.habits-row::-webkit-scrollbar { display:none; }
+.hab {
+  display: flex; align-items:center; gap:5px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size:12px;
+  color: var(--txt2);
+  white-space: nowrap;
+  transition: .2s;
+  user-select:none;
 }
-@keyframes neon-pulse { 0%,100%{opacity:.5;transform:translateX(-50%) scaleX(.9)} 50%{opacity:1;transform:translateX(-50%) scaleX(1.1)} }
-
-/* Ink scan line */
-body[data-theme=“ink”] .hdr::before {
-content:’’; position:absolute; inset:0;
-background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(255,255,255,.03) 3px, rgba(255,255,255,.03) 4px);
-}
-
-/* Forest particles */
-.forest-particle {
-position:absolute; border-radius:50%;
-width:5px; height:5px;
-background:rgba(134,239,172,.6);
-animation: float-up var(–dur,6s) var(–delay,0s) ease-in infinite;
-}
-@keyframes float-up {
-0%   { transform:translateY(0) translateX(0) scale(1);  opacity:.8; }
-50%  { transform:translateY(-60px) translateX(10px) scale(.8); opacity:.5; }
-100% { transform:translateY(-120px) translateX(-5px) scale(.4); opacity:0; }
-}
-
-/* ================================================
-HEADER CONTENT
-================================================ */
-.hdr-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
-.greeting { font-size:22px; font-weight:700; }
-.motto { font-size:12px; opacity:.8; margin-top:4px; }
-.date-pill { background:rgba(255,255,255,.18); border-radius:12px; padding:8px 13px; text-align:center; min-width:72px; backdrop-filter:blur(4px); }
-.date-pill-day { font-size:13px; font-weight:700; }
-.date-pill-full { font-size:10px; opacity:.8; margin-top:2px; }
-
-/* ================================================
-THEME SWITCHER
-================================================ */
-.themes { display:flex; gap:7px; margin-bottom:14px; overflow-x:auto; padding-bottom:2px; }
-.themes::-webkit-scrollbar { display:none; }
-.th-btn {
-display:flex; align-items:center; gap:5px;
-background:rgba(255,255,255,.12);
-border:1.5px solid rgba(255,255,255,.2);
-border-radius:20px; padding:6px 12px;
-font-size:11px; color:rgba(255,255,255,.8);
-white-space:nowrap; transition:.25s;
-}
-.th-btn:active { transform:scale(.96); }
-.th-btn.active {
-background:rgba(255,255,255,.28);
-border-color:rgba(255,255,255,.6);
-color:#fff; font-weight:700;
-box-shadow: 0 0 12px rgba(255,255,255,.2);
+.hab.done {
+  background: rgba(212,168,67,.1);
+  border-color: var(--gold);
+  color: var(--gold);
 }
 
-/* lang toggle */
-.lang-btn {
-background: rgba(255,255,255,.2);
-border: 1.5px solid rgba(255,255,255,.4);
-border-radius: 20px; padding: 5px 14px;
-color: #fff; font-size: 12px; font-weight: 700;
-letter-spacing: 1px; transition: .2s;
+/* Week progress */
+.wk-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.lang-btn:active { background: rgba(255,255,255,.35); transform: scale(.96); }
-
-.habits { display:flex; gap:7px; margin-bottom:14px; flex-wrap:wrap; }
-.hab { display:flex; align-items:center; gap:5px; background:rgba(255,255,255,.14); border:1.5px solid transparent; border-radius:20px; padding:7px 12px; font-size:12px; user-select:none; transition:.2s; min-height:36px; }
-.hab.done { background:rgba(255,255,255,.3); border-color:rgba(255,255,255,.55); }
-
-/* ================================================
-STATS
-================================================ */
-.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:12px; }
-.stat { background:rgba(255,255,255,.14); border-radius:12px; padding:10px 6px; text-align:center; backdrop-filter:blur(4px); }
-.stat-n { font-size:22px; font-weight:700; }
-.stat-l { font-size:11px; opacity:.8; margin-top:2px; }
-.pw { background:rgba(255,255,255,.2); border-radius:10px; height:7px; overflow:hidden; }
-.pf { height:100%; background:#fff; border-radius:10px; transition:width .5s cubic-bezier(.4,0,.2,1); }
-
-/* ================================================
-RESET
-================================================ */
-.reset-btn { display:block; width:100%; margin-top:12px; padding:10px; background:rgba(255,255,255,.12); border:1.5px solid rgba(255,255,255,.3); border-radius:10px; color:rgba(255,255,255,.9); font-size:13px; font-weight:600; }
-.confirm-box { display:none; background:var(–card); border-radius:14px; margin-top:10px; padding:14px; border:1px solid var(–border); }
-.confirm-box.show { display:block; }
-.confirm-msg { font-size:14px; color:var(–txt); margin-bottom:10px; font-weight:600; }
-.confirm-btns { display:flex; gap:8px; }
-.btn-yes { flex:1; padding:11px; background:#EF4444; color:#fff; border:none; border-radius:10px; font-size:14px; font-weight:700; }
-.btn-no  { padding:11px 20px; background:var(–bg); border:1px solid var(–border); border-radius:10px; font-size:14px; color:var(–txt2); }
-
-/* ================================================
-FILTER
-================================================ */
-.fbar { display:flex; gap:7px; padding:12px 14px 6px; overflow-x:auto; }
-.fbar::-webkit-scrollbar { display:none; }
-.flt { white-space:nowrap; padding:8px 16px; border-radius:20px; font-size:13px; border:1px solid var(–border); background:var(–card); color:var(–txt2); font-weight:500; min-height:38px; }
-.flt.on { background:var(–acc); color:#fff; border-color:var(–acc); }
-
-/* ================================================
-DAY CARDS
-================================================ */
-.days { padding:10px 14px 0; }
-.dc { background:var(–card); border:1px solid var(–border); border-radius:var(–r); margin-bottom:10px; overflow:hidden; transition:border-color .3s, box-shadow .3s; }
-.dc.today { border-color:var(–acc); box-shadow:0 0 0 2px color-mix(in srgb,var(–acc) 20%,transparent); }
-.dc.heavy { border-right:4px solid #FCA5A5; }
-.dc.light { border-right:4px solid #6EE7B7; }
-.dc.free  { border-right:4px solid #C4B5FD; }
-
-/* dark theme card adjustments */
-body[data-theme=“cosmos”] .dc.heavy { border-right-color:#7F1D1D; }
-body[data-theme=“cosmos”] .dc.light { border-right-color:#065F46; }
-body[data-theme=“cosmos”] .dc.free  { border-right-color:#4C1D95; }
-body[data-theme=“neon”]   .dc.heavy { border-right-color:#BE123C; }
-body[data-theme=“neon”]   .dc.light { border-right-color:#166534; }
-body[data-theme=“neon”]   .dc.free  { border-right-color:#7E22CE; }
-
-.dh { display:flex; align-items:center; justify-content:space-between; padding:14px 14px 12px; user-select:none; min-height:56px; }
-.dh:active { background:var(–task-bg); }
-.dr { display:flex; align-items:center; gap:8px; }
-.dl { display:flex; align-items:center; gap:8px; }
-.dn { font-size:15px; font-weight:600; color:var(–txt); }
-.today .dn { color:var(–acc); }
-.dtype { font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; }
-.heavy .dtype { background:#FEF2F2; color:#B91C1C; }
-.light .dtype { background:#ECFDF5; color:#065F46; }
-.free  .dtype { background:#F5F3FF; color:#5B21B6; }
-body[data-theme=“cosmos”] .dtype,
-body[data-theme=“neon”]   .dtype { background:rgba(255,255,255,.08); color:var(–txt2); }
-.ddate { font-size:12px; color:var(–txt2); }
-.ddone { font-size:12px; color:var(–txt3); }
-.chev { font-size:12px; color:var(–txt3); transition:transform .25s; flex-shrink:0; }
-.dc.expanded .chev { transform:rotate(180deg); }
-
-.dprog { height:3px; background:var(–border); margin:0 14px 12px; border-radius:2px; overflow:hidden; }
-.dprogf { height:100%; background:var(–acc); border-radius:2px; transition:width .4s; }
-.dc:not(.expanded) .dprog { display:none; }
-
-.tw { padding:0 10px 12px; display:none; }
-.dc.expanded .tw { display:block; }
-
-/* ================================================
-TASKS
-================================================ */
-.task { display:flex; align-items:center; gap:9px; padding:10px; border-radius:12px; margin-bottom:6px; background:var(–task-bg); min-height:52px; transition:opacity .2s; }
-.task.done .ttxt { text-decoration:line-through; color:var(–txt3); }
-.cdot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
-.ttxt { flex:1; font-size:14px; color:var(–txt); line-height:1.4; }
-.ttime { font-size:12px; color:var(–txt3); flex-shrink:0; }
-
-/* check button — animated */
-.chk {
-background:none; border:2px solid var(–txt3); border-radius:50%;
-width:28px; height:28px; min-width:28px;
-display:flex; align-items:center; justify-content:center;
-font-size:14px; color:transparent; flex-shrink:0; transition:.2s;
+.wk-bar-wrap {
+  flex:1;
+  background: rgba(255,255,255,.06);
+  border-radius: 4px;
+  height: 5px;
+  overflow: hidden;
 }
-.task.done .chk {
-background:var(–acc); border-color:var(–acc); color:#fff;
-animation: check-pop .3s cubic-bezier(.34,1.56,.64,1);
+.wk-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), #FBBF24);
+  border-radius:4px;
+  transition: width .6s cubic-bezier(.4,0,.2,1);
 }
-@keyframes check-pop { 0%{transform:scale(.6)} 100%{transform:scale(1)} }
+.wk-pct { font-size:12px; color:var(--gold); font-family:'DM Mono',monospace; font-weight:500; min-width:32px; }
+.wk-stats { display:flex; gap:14px; margin-top:8px; }
+.wk-stat { font-size:11px; color:var(--txt2); }
+.wk-stat span { color:var(--txt); font-weight:700; font-family:'DM Mono',monospace; }
 
-.hw-tag { font-size:11px; background:#FEF9C3; color:#854D0E; border-radius:5px; padding:2px 7px; margin-left:5px; font-weight:600; white-space:nowrap; }
-body[data-theme=“cosmos”] .hw-tag,
-body[data-theme=“neon”]   .hw-tag { background:#2D2000; color:#FDE68A; }
+/* ═══════════════════════════════════════════
+   BOTTOM NAV
+═══════════════════════════════════════════ */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left:0; right:0;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  display: flex;
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom);
+  backdrop-filter: blur(20px);
+}
+.nav-btn {
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding: 10px 4px;
+  gap:4px;
+  background: none;
+  color: var(--txt3);
+  font-size: 10px;
+  font-weight: 600;
+  transition: .2s;
+}
+.nav-btn.active { color: var(--gold); }
+.nav-btn .nav-icon { font-size: 20px; }
+.nav-btn.active .nav-icon { filter: drop-shadow(0 0 6px var(--gold-glow)); }
 
-.an-btn { background:none; border:none; font-size:18px; color:var(–txt3); min-width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.tdel   { background:none; border:none; font-size:18px; color:var(–txt3); min-width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:.15s; }
-.tdel:active { color:#EF4444; transform:scale(1.2); }
+/* ═══════════════════════════════════════════
+   PAGES
+═══════════════════════════════════════════ */
+.page { display:none; padding: 12px 14px 0; }
+.page.active { display:block; }
 
-/* ================================================
-ANALYSIS + FREE BLOCK
-================================================ */
-.an-box { margin:3px 0 7px; padding:12px; background:color-mix(in srgb,var(–acc) 8%,var(–card)); border:1px solid color-mix(in srgb,var(–acc) 30%,transparent); border-radius:12px; }
-.an-box textarea { width:100%; background:transparent; border:none; outline:none; font-size:13px; color:var(–txt); resize:none; min-height:75px; direction:rtl; line-height:1.6; }
-.an-save { font-size:12px; color:var(–acc); background:none; border:none; font-weight:700; padding:4px 0 0; }
+/* ═══════════════════════════════════════════
+   SECTION LABEL
+═══════════════════════════════════════════ */
+.section-lbl {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--txt3);
+  margin: 18px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-lbl::after {
+  content:'';
+  flex:1;
+  height:1px;
+  background: var(--border);
+}
 
-.fb-box { background:rgba(124,58,237,.1); border:1px solid rgba(124,58,237,.25); border-radius:12px; padding:12px; margin-bottom:6px; }
-.fb-lbl { font-size:12px; color:#7C3AED; font-weight:700; margin-bottom:7px; }
-.fb-box textarea { width:100%; background:transparent; border:none; outline:none; font-size:13px; color:var(–txt); resize:none; min-height:55px; direction:rtl; line-height:1.5; }
-.fb-save { font-size:12px; color:#7C3AED; background:none; border:none; font-weight:700; padding:4px 0 0; }
+/* ═══════════════════════════════════════════
+   WEEK VIEW - DAY CARDS
+═══════════════════════════════════════════ */
+.day-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: border-color .3s;
+}
+.day-card.is-today { border-color: rgba(212,168,67,.4); }
+.day-card.is-today .dc-head { background: linear-gradient(90deg, rgba(212,168,67,.08), transparent); }
 
-/* ================================================
-ACTIONS + FORM
-================================================ */
-.arow { display:flex; gap:8px; margin-top:6px; }
-.add-btn  { flex:1; min-height:48px; background:none; border:1.5px dashed var(–border); border-radius:12px; font-size:14px; color:var(–txt3); transition:.2s; }
-.add-btn:active { border-color:var(–acc); color:var(–acc); }
-.free-btn { min-height:48px; padding:0 18px; background:rgba(124,58,237,.08); border:1.5px dashed rgba(124,58,237,.35); border-radius:12px; font-size:14px; color:#7C3AED; font-weight:600; }
+.dc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 14px;
+  cursor: pointer;
+  min-height: 58px;
+}
+.dc-head:active { background: rgba(255,255,255,.03); }
+.dc-left { display:flex; align-items:center; gap:10px; }
+.dc-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.heavy-dot  { background: var(--red);    box-shadow: 0 0 8px rgba(248,113,113,.4); }
+.light-dot  { background: var(--emerald);box-shadow: 0 0 8px rgba(52,211,153,.4); }
+.free-dot   { background: var(--purple); box-shadow: 0 0 8px rgba(167,139,250,.4); }
 
-.af { margin-top:10px; display:flex; flex-direction:column; gap:9px; border-top:1px solid var(–border); padding-top:12px; }
-.af input,.af select { width:100%; padding:13px 14px; border-radius:12px; background:var(–card); border:1.5px solid var(–border); color:var(–txt); font-size:15px; direction:rtl; outline:none; min-height:50px; }
-.af input:focus,.af select:focus { border-color:var(–acc); }
-.af-row   { display:flex; gap:8px; }
-.af-btns  { display:flex; gap:8px; }
-.af-ok     { flex:1; min-height:50px; background:var(–acc); color:#fff; border:none; border-radius:12px; font-size:15px; font-weight:700; transition:.15s; }
-.af-ok:active { background:var(–acc2); transform:scale(.98); }
-.af-cancel { min-height:50px; padding:0 20px; background:var(–bg); border:1.5px solid var(–border); border-radius:12px; font-size:15px; color:var(–txt2); }
+.dc-name  { font-size:15px; font-weight:700; }
+.today-badge {
+  font-size:9px; font-weight:700; letter-spacing:1px;
+  background: var(--gold-dim);
+  color: var(--gold);
+  border-radius:5px;
+  padding:2px 7px;
+  border: 1px solid rgba(212,168,67,.3);
+}
+.dc-type-badge {
+  font-size:10px; font-weight:700;
+  padding:3px 9px; border-radius:10px;
+  letter-spacing:.5px;
+}
+.heavy .dc-type-badge  { background:rgba(248,113,113,.1); color:var(--red); }
+.light .dc-type-badge  { background:rgba(52,211,153,.1); color:var(--emerald); }
+.free-day .dc-type-badge { background:rgba(167,139,250,.1); color:var(--purple); }
 
-/* ================================================
-THU BANNER
-================================================ */
-.thu { margin-bottom:10px; background:linear-gradient(135deg,#FEF9C3,#FEF3C7); border:1px solid #FDE68A; border-radius:12px; padding:11px 13px; display:flex; align-items:center; gap:10px; }
-.thu-t { font-size:13px; color:#92400E; font-weight:600; line-height:1.4; }
-body[data-theme=“cosmos”] .thu,
-body[data-theme=“neon”]   .thu { background:rgba(251,191,36,.1); border-color:rgba(251,191,36,.3); }
-body[data-theme=“cosmos”] .thu-t,
-body[data-theme=“neon”]   .thu-t { color:#FDE68A; }
+.dc-right { display:flex; align-items:center; gap:8px; }
+.dc-progress-txt { font-size:11px; color:var(--txt2); font-family:'DM Mono',monospace; }
+.dc-chev { font-size:12px; color:var(--txt3); transition:transform .25s; }
+.day-card.open .dc-chev { transform:rotate(180deg); }
 
-/* ================================================
-NEON GLOW EFFECTS
-================================================ */
-body[data-theme=“neon”] .dc.today { box-shadow:0 0 0 2px rgba(217,70,239,.4), 0 0 20px rgba(217,70,239,.15); }
-body[data-theme=“neon”] .task.done .chk { box-shadow:0 0 8px rgba(217,70,239,.6); }
-body[data-theme=“cosmos”] .task.done .chk { box-shadow:0 0 8px rgba(129,140,248,.6); }
+/* mini progress */
+.dc-bar {
+  height:2px;
+  background: var(--border);
+  margin: 0 14px;
+}
+.dc-bar-fill {
+  height:100%;
+  background: linear-gradient(90deg, var(--gold), #FBBF24);
+  transition: width .5s;
+  border-radius:2px;
+}
 
-/* ================================================
-INK THEME TYPOGRAPHY
-================================================ */
-body[data-theme=“ink”] .greeting { font-family: Georgia, serif; letter-spacing:1px; }
-body[data-theme=“ink”] .dn { font-family: Georgia, serif; }
-body[data-theme=“ink”] .stat-n { font-family: Georgia, serif; font-style: italic; }
+/* Day body (tasks) */
+.dc-body { display:none; padding:4px 10px 12px; }
+.day-card.open .dc-body { display:block; }
+
+/* Activity pills (summary) */
+.act-pills { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:8px; }
+.act-pill {
+  font-size:10px;
+  padding:3px 8px;
+  border-radius:8px;
+  font-weight:600;
+  opacity:.8;
+}
+
+/* Task row */
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 8px;
+  border-radius: 10px;
+  margin-bottom: 4px;
+  background: rgba(255,255,255,.02);
+  transition: background .15s;
+  min-height: 46px;
+}
+.task-row:active { background: rgba(255,255,255,.04); }
+.task-row.done { opacity:.5; }
+.task-row.done .task-name { text-decoration: line-through; color: var(--txt3); }
+
+.task-check {
+  width:26px; height:26px; min-width:26px;
+  border-radius:50%;
+  border: 2px solid var(--border2);
+  background:none;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px;
+  color:transparent;
+  transition:.2s;
+  flex-shrink:0;
+}
+.task-row.done .task-check {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: #000;
+  animation: pop .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes pop { from{transform:scale(.5)} to{transform:scale(1)} }
+
+.task-cat-dot {
+  width:7px; height:7px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+.task-name { flex:1; font-size:13px; line-height:1.4; }
+.task-time { font-size:11px; color:var(--txt3); font-family:'DM Mono',monospace; flex-shrink:0; }
+
+.hw-badge {
+  font-size:9px; font-weight:700;
+  background: rgba(251,191,36,.15);
+  color: var(--amber);
+  border-radius:4px;
+  padding:2px 5px;
+  border:1px solid rgba(251,191,36,.25);
+}
+.task-del {
+  background:none;
+  font-size:14px;
+  color:var(--txt3);
+  width:32px; height:32px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:8px;
+  flex-shrink:0;
+  transition:.15s;
+}
+.task-del:active { color:var(--red); }
+
+/* Special note blocks */
+.note-block {
+  background: rgba(212,168,67,.06);
+  border: 1px solid rgba(212,168,67,.15);
+  border-radius:10px;
+  padding:10px 12px;
+  margin-bottom:8px;
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+}
+.note-block-icon { font-size:16px; flex-shrink:0; }
+.note-block-txt  { font-size:12px; color: rgba(212,168,67,.8); line-height:1.5; }
+
+/* meal block */
+.meal-block {
+  background: rgba(110,231,183,.05);
+  border: 1px solid rgba(110,231,183,.15);
+  border-radius:10px;
+  padding:10px 12px;
+  margin-bottom:6px;
+  font-size:12px;
+  color: var(--food, #6EE7B7);
+}
+
+/* add form */
+.add-row { display:flex; gap:8px; margin-top:8px; }
+.add-task-btn {
+  flex:1;
+  min-height:44px;
+  background:none;
+  border:1.5px dashed var(--border2);
+  border-radius:10px;
+  font-size:13px;
+  color:var(--txt3);
+  transition:.2s;
+}
+.add-task-btn:active { border-color:var(--gold); color:var(--gold); }
+
+.add-form {
+  display:none;
+  margin-top:8px;
+  padding-top:12px;
+  border-top:1px solid var(--border);
+}
+.add-form.show { display:flex; flex-direction:column; gap:8px; }
+.add-form input, .add-form select {
+  width:100%;
+  padding:12px 14px;
+  background: var(--bg2);
+  border: 1.5px solid var(--border2);
+  border-radius:10px;
+  color:var(--txt);
+  font-size:14px;
+}
+.add-form input:focus, .add-form select:focus { border-color:var(--gold); }
+.add-form-row { display:flex; gap:8px; }
+.add-form-btns { display:flex; gap:8px; }
+.btn-add-ok {
+  flex:1; min-height:46px;
+  background: var(--gold);
+  color: #000;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:700;
+  transition:.15s;
+}
+.btn-add-ok:active { opacity:.85; transform:scale(.98); }
+.btn-add-cancel {
+  min-height:46px; padding:0 18px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius:10px;
+  font-size:14px;
+  color:var(--txt2);
+}
+
+/* ═══════════════════════════════════════════
+   TODAY PAGE - TIMELINE
+═══════════════════════════════════════════ */
+.timeline { padding-top:4px; }
+.timeline-block {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+.tl-time-col {
+  width: 42px;
+  flex-shrink:0;
+  padding-top:14px;
+  font-size:10px;
+  color:var(--txt3);
+  font-family:'DM Mono',monospace;
+  text-align:center;
+}
+.tl-line-col {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  flex-shrink:0;
+  width:16px;
+}
+.tl-dot {
+  width:10px; height:10px;
+  border-radius:50%;
+  border:2px solid var(--border2);
+  background: var(--bg);
+  flex-shrink:0;
+  margin-top:16px;
+  transition:.3s;
+}
+.tl-dot.active-dot {
+  border-color: var(--gold);
+  background: var(--gold);
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+.tl-dot.done-dot {
+  border-color: var(--emerald);
+  background: var(--emerald);
+}
+.tl-line {
+  width:1px;
+  flex:1;
+  background: var(--border);
+  min-height:20px;
+}
+.tl-card {
+  flex:1;
+  background: var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px 14px;
+  border-left:3px solid transparent;
+  transition:.2s;
+  cursor:pointer;
+}
+.tl-card:active { background:var(--card2); }
+.tl-card.done-card { opacity:.55; }
+.tl-card .tl-tag {
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.5px;
+  margin-bottom:4px;
+  text-transform:uppercase;
+}
+.tl-card .tl-name {
+  font-size:14px;
+  font-weight:600;
+  line-height:1.35;
+}
+.tl-card .tl-detail {
+  font-size:11px;
+  color:var(--txt2);
+  margin-top:4px;
+  line-height:1.5;
+}
+.tl-card .tl-dur {
+  font-size:10px;
+  font-family:'DM Mono',monospace;
+  color:var(--txt3);
+  margin-top:6px;
+}
+.current-marker {
+  background: rgba(212,168,67,.08);
+  border-color: rgba(212,168,67,.3) !important;
+}
+.current-marker .tl-card { border-left-color: var(--gold) !important; }
+
+/* Energy bar */
+.energy-strip {
+  display:flex; gap:3px; margin:12px 0 4px;
+}
+.en-seg {
+  flex:1; height:4px; border-radius:2px;
+}
+
+/* ═══════════════════════════════════════════
+   POMODORO PAGE
+═══════════════════════════════════════════ */
+.pomo-wrap {
+  display:flex; flex-direction:column;
+  align-items:center;
+  padding-top:10px;
+}
+.pomo-subject-select {
+  width:100%;
+  padding:13px 16px;
+  background:var(--card);
+  border:1px solid var(--border2);
+  border-radius:12px;
+  color:var(--txt);
+  font-size:14px;
+  margin-bottom:20px;
+}
+.pomo-ring-wrap {
+  position:relative;
+  width:230px; height:230px;
+  margin:0 auto 24px;
+}
+.pomo-ring {
+  width:100%; height:100%;
+  transform:rotate(-90deg);
+}
+.pomo-ring-bg  { fill:none; stroke:rgba(255,255,255,.06); stroke-width:10; }
+.pomo-ring-fg  { fill:none; stroke:var(--gold); stroke-width:10; stroke-linecap:round;
+  transition: stroke-dashoffset .5s linear, stroke .3s; }
+.pomo-ring-wrap .pomo-inner {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+}
+.pomo-time {
+  font-family:'DM Mono',monospace;
+  font-size:52px;
+  font-weight:500;
+  letter-spacing:-2px;
+  color:var(--txt);
+  line-height:1;
+}
+.pomo-mode-lbl {
+  font-size:12px;
+  color:var(--txt2);
+  margin-top:6px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+.pomo-session-count {
+  display:flex; gap:6px;
+  margin-bottom:20px;
+}
+.pomo-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:rgba(255,255,255,.1);
+  transition:.3s;
+}
+.pomo-dot.filled { background:var(--gold); box-shadow:0 0 8px var(--gold-glow); }
+.pomo-controls { display:flex; gap:12px; align-items:center; margin-bottom:28px; }
+.pomo-btn-main {
+  width:72px; height:72px;
+  border-radius:50%;
+  background: var(--gold);
+  color:#000;
+  font-size:28px;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 24px var(--gold-glow);
+  transition:.2s;
+}
+.pomo-btn-main:active { transform:scale(.94); }
+.pomo-btn-secondary {
+  width:48px; height:48px;
+  border-radius:50%;
+  background:var(--card);
+  border:1px solid var(--border2);
+  color:var(--txt2);
+  font-size:20px;
+  display:flex; align-items:center; justify-content:center;
+  transition:.2s;
+}
+.pomo-btn-secondary:active { background:var(--card2); }
+.pomo-settings { display:flex; gap:8px; }
+.pomo-mode-btn {
+  flex:1; padding:10px;
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  font-size:12px;
+  color:var(--txt2);
+  transition:.2s;
+}
+.pomo-mode-btn.active {
+  border-color:var(--gold);
+  color:var(--gold);
+  background:var(--gold-dim);
+}
+
+/* Pomo log */
+.pomo-log { width:100%; margin-top:20px; }
+.pomo-log-item {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:8px 12px;
+  background:var(--card);
+  border-radius:8px;
+  margin-bottom:5px;
+  font-size:12px;
+}
+.pomo-log-subject { color:var(--txt); font-weight:600; }
+.pomo-log-time    { color:var(--txt2); font-family:'DM Mono',monospace; }
+
+/* ═══════════════════════════════════════════
+   EXAMS PAGE
+═══════════════════════════════════════════ */
+.exam-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:16px;
+  margin-bottom:10px;
+  position:relative;
+  overflow:hidden;
+}
+.exam-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; bottom:0;
+  width:4px;
+}
+.exam-card .ec-header {
+  display:flex; justify-content:space-between; align-items:flex-start;
+  margin-bottom:12px;
+}
+.ec-name  { font-size:15px; font-weight:700; }
+.ec-days  {
+  font-family:'DM Mono',monospace;
+  font-size:22px;
+  font-weight:500;
+}
+.ec-days-lbl { font-size:10px; color:var(--txt2); margin-top:1px; }
+.ec-progress { margin-bottom:10px; }
+.ec-bar-wrap {
+  background:rgba(255,255,255,.06);
+  border-radius:4px; height:6px; overflow:hidden;
+  margin-top:5px;
+}
+.ec-bar { height:100%; border-radius:4px; transition:width .5s; }
+.ec-pct { font-size:11px; color:var(--txt2); margin-top:4px; font-family:'DM Mono',monospace; }
+.ec-sessions {
+  font-size:11px; color:var(--txt2);
+  display:flex; gap:12px;
+}
+.ec-sessions span { color:var(--txt); font-weight:600; }
+.ec-date-row {
+  display:flex; align-items:center; gap:8px; margin-top:12px;
+}
+.ec-date-input {
+  flex:1; padding:9px 12px;
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:8px;
+  color:var(--txt);
+  font-size:13px;
+  font-family:'DM Mono',monospace;
+}
+.ec-date-input:focus { border-color:var(--gold); }
+.ec-save {
+  padding:9px 16px;
+  background:var(--gold);
+  color:#000;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:700;
+}
+
+/* study allocation sliders */
+.ec-study-row { margin-top:10px; }
+.ec-study-lbl { font-size:11px; color:var(--txt2); margin-bottom:5px; }
+.ec-chapters {
+  display:flex; gap:6px; flex-wrap:wrap;
+}
+.ec-ch {
+  padding:5px 10px;
+  border-radius:8px;
+  border:1.5px solid var(--border2);
+  font-size:11px;
+  color:var(--txt2);
+  cursor:pointer;
+  transition:.2s;
+  user-select:none;
+}
+.ec-ch.done { background:rgba(52,211,153,.1); border-color:var(--emerald); color:var(--emerald); }
+
+/* ═══════════════════════════════════════════
+   RESET MODAL
+═══════════════════════════════════════════ */
+.modal-overlay {
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.7);
+  z-index:200;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  backdrop-filter:blur(4px);
+}
+.modal-overlay.show { display:flex; }
+.modal-box {
+  background:var(--card);
+  border:1px solid var(--border2);
+  border-radius:20px;
+  padding:24px;
+  width:100%;
+  max-width:340px;
+  box-shadow:var(--shadow);
+}
+.modal-title { font-size:16px; font-weight:700; margin-bottom:8px; }
+.modal-sub   { font-size:13px; color:var(--txt2); margin-bottom:20px; line-height:1.5; }
+.modal-btns  { display:flex; gap:10px; }
+.modal-btn-danger {
+  flex:1; padding:14px;
+  background:var(--red);
+  color:#fff;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:700;
+}
+.modal-btn-cancel {
+  padding:14px 20px;
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:12px;
+  font-size:14px;
+  color:var(--txt2);
+}
+
+/* ═══════════════════════════════════════════
+   FLOATING TIMER BADGE
+═══════════════════════════════════════════ */
+.float-timer {
+  position:fixed;
+  top:16px;
+  left:50%;
+  transform:translateX(-50%);
+  background:var(--card);
+  border:1px solid var(--gold);
+  border-radius:24px;
+  padding:6px 16px;
+  display:none;
+  align-items:center;
+  gap:8px;
+  z-index:150;
+  box-shadow:0 4px 20px rgba(0,0,0,.5);
+  font-family:'DM Mono',monospace;
+  font-size:14px;
+  cursor:pointer;
+}
+.float-timer.show { display:flex; }
+.float-dot { width:8px; height:8px; border-radius:50%; background:var(--gold); animation:blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ═══════════════════════════════════════════
+   NUTRITION BLOCKS (Today page)
+═══════════════════════════════════════════ */
+.nutr-row {
+  display:flex; gap:8px;
+  margin-bottom:6px;
+}
+.nutr-card {
+  flex:1;
+  background:var(--card);
+  border:1px solid rgba(110,231,183,.15);
+  border-radius:12px;
+  padding:10px 12px;
+}
+.nutr-time  { font-size:10px; color:var(--txt3); font-family:'DM Mono',monospace; }
+.nutr-meal  { font-size:12px; font-weight:600; color:#6EE7B7; margin-top:2px; }
+.nutr-desc  { font-size:11px; color:var(--txt2); margin-top:3px; line-height:1.4; }
+.water-track {
+  background:var(--card);
+  border:1px solid rgba(74,158,255,.2);
+  border-radius:12px;
+  padding:12px 14px;
+  margin-bottom:12px;
+}
+.water-track-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.water-title { font-size:12px; font-weight:700; color:var(--blue); }
+.water-count { font-size:20px; font-family:'DM Mono',monospace; color:var(--blue); font-weight:500; }
+.water-cups { display:flex; gap:6px; }
+.water-cup {
+  font-size:20px;
+  cursor:pointer;
+  transition:.2s;
+  filter:grayscale(1) opacity(.3);
+  user-select:none;
+}
+.water-cup.filled { filter:none; }
+
+/* ═══════════════════════════════════════════
+   COLOUR HELPERS
+═══════════════════════════════════════════ */
+.c-uni     { color:var(--c-uni); }
+.c-study   { color:var(--c-study); }
+.c-trade   { color:var(--c-trade); }
+.c-matrix  { color:var(--c-matrix); }
+.c-content { color:var(--c-content); }
+.c-gym     { color:var(--c-gym); }
+.c-food    { color:var(--c-food); }
+.c-rest    { color:var(--c-rest); }
+.c-routine { color:var(--c-routine); }
+.bg-c-uni     { background:rgba(74,158,255,.12); }
+.bg-c-study   { background:rgba(52,211,153,.12); }
+.bg-c-trade   { background:rgba(251,191,36,.12); }
+.bg-c-matrix  { background:rgba(167,139,250,.12); }
+.bg-c-content { background:rgba(244,114,182,.12); }
+.bg-c-gym     { background:rgba(251,146,60,.12); }
+
+/* ═══════════════════════════════════════════
+   MISC UI
+═══════════════════════════════════════════ */
+.pill-row { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:10px; }
+.pill {
+  padding:7px 14px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:600;
+  border:1.5px solid var(--border2);
+  background:var(--card);
+  color:var(--txt2);
+  transition:.2s;
+}
+.pill.active { border-color:var(--gold); color:var(--gold); background:var(--gold-dim); }
+.gym-card {
+  background:var(--card);
+  border:1px solid rgba(251,146,60,.2);
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:8px;
+}
+.gym-card-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+.gym-day-lbl  { font-size:13px; font-weight:700; color:var(--orange); }
+.gym-type     { font-size:11px; color:var(--txt2); }
+.gym-exercises{ display:flex; flex-direction:column; gap:4px; }
+.gym-ex { font-size:12px; color:var(--txt2); display:flex; justify-content:space-between; }
+.gym-ex span  { color:var(--txt); font-family:'DM Mono',monospace; }
+
+/* Spaced repetition schedule */
+.srs-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:8px;
+}
+.srs-top { display:flex; justify-content:space-between; margin-bottom:8px; }
+.srs-subj { font-size:13px; font-weight:700; }
+.srs-next { font-size:11px; color:var(--txt2); font-family:'DM Mono',monospace; }
+.srs-slots { display:flex; gap:4px; }
+.srs-slot {
+  height:20px;
+  border-radius:4px;
+  background:rgba(255,255,255,.05);
+  font-size:9px;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--txt3);
+  transition:.3s;
+}
+.srs-slot.rev { background:rgba(52,211,153,.2); color:var(--emerald); }
+.srs-slot.due { background:rgba(251,191,36,.2); color:var(--amber); }
+
+/* reset btn */
+.reset-strip {
+  display:flex; justify-content:center;
+  padding:10px 14px 0;
+}
+.reset-btn {
+  background:none;
+  border:1px solid rgba(248,113,113,.2);
+  color:rgba(248,113,113,.6);
+  border-radius:10px;
+  padding:9px 20px;
+  font-size:12px;
+  font-weight:600;
+}
+.reset-btn:active { background:rgba(248,113,113,.05); }
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════ */
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+.page.active { animation:fadeIn .25s ease; }
 </style>
-
 </head>
-<body data-theme="dawn">
+<body class="rtl">
 
+<!-- ══════════════ FLOAT TIMER ══════════════ -->
+<div class="float-timer" id="floatTimer" onclick="goToTimer()">
+  <div class="float-dot"></div>
+  <span id="floatTimerTxt">25:00</span>
+  <span style="font-size:11px;color:var(--txt2)" id="floatSubj"></span>
+</div>
+
+<!-- ══════════════ HEADER ══════════════ -->
 <div class="hdr">
-  <div class="hdr-anim" id="hdr-anim"></div>
-  <div class="hdr-content">
-    <div class="hdr-top">
+  <div class="hdr-top">
+    <div class="logo">
+      <div class="logo-icon">🧠</div>
       <div>
-        <div class="greeting">مرحبا، رومل 👋</div>
-        <div class="motto" id="motto"></div>
-      </div>
-      <div class="date-pill">
-        <div class="date-pill-day" id="hdr-day"></div>
-        <div class="date-pill-full" id="hdr-date"></div>
+        <div class="logo-text">Rommel OS</div>
+        <div class="logo-sub" id="mottoTxt"></div>
       </div>
     </div>
+    <div class="hdr-right">
+      <div class="date-chip">
+        <div class="date-chip-day" id="hdrDay"></div>
+        <div class="date-chip-date mono" id="hdrDate"></div>
+      </div>
+      <button class="lang-toggle" onclick="toggleLang()" id="langBtn">EN</button>
+    </div>
+  </div>
 
-```
-<!-- LANG + THEME ROW -->
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-  <button class="lang-btn" id="lang-btn" onclick="toggleLang()">EN</button>
-  <span style="font-size:11px;opacity:.6" data-ar="الثيم" data-en="Theme">الثيم</span>
+  <div class="habits-row" id="habitsRow"></div>
+
+  <div class="wk-progress">
+    <div class="wk-bar-wrap"><div class="wk-bar" id="wkBar" style="width:0%"></div></div>
+    <div class="wk-pct mono" id="wkPct">0%</div>
+  </div>
+  <div class="wk-stats" id="wkStats"></div>
 </div>
-<!-- THEME SWITCHER -->
-<div class="themes">
-  <button class="th-btn active" data-t="dawn"   onclick="setTheme('dawn',this)">🌅 فجر</button>
-  <button class="th-btn"        data-t="cosmos" onclick="setTheme('cosmos',this)">🌌 كون</button>
-  <button class="th-btn"        data-t="neon"   onclick="setTheme('neon',this)">⚡ نيون</button>
-  <button class="th-btn"        data-t="ink"    onclick="setTheme('ink',this)">🖋 حبر</button>
-  <button class="th-btn"        data-t="forest" onclick="setTheme('forest',this)">🌿 غابة</button>
+
+<!-- ══════════════ PAGES ══════════════ -->
+<div id="pageWeek"  class="page active"></div>
+<div id="pageToday" class="page"></div>
+<div id="pagePomo"  class="page"></div>
+<div id="pageExams" class="page"></div>
+
+<!-- ══════════════ BOTTOM NAV ══════════════ -->
+<div class="bottom-nav">
+  <button class="nav-btn active" onclick="setPage('week',this)">
+    <span class="nav-icon">📅</span><span data-ar="أسبوع" data-en="Week">أسبوع</span>
+  </button>
+  <button class="nav-btn" onclick="setPage('today',this)">
+    <span class="nav-icon">⚡</span><span data-ar="اليوم" data-en="Today">اليوم</span>
+  </button>
+  <button class="nav-btn" onclick="setPage('pomo',this)">
+    <span class="nav-icon">🍅</span><span data-ar="بومودورو" data-en="Focus">بومودورو</span>
+  </button>
+  <button class="nav-btn" onclick="setPage('exams',this)">
+    <span class="nav-icon">🎯</span><span data-ar="امتحانات" data-en="Exams">امتحانات</span>
+  </button>
 </div>
 
-<div class="habits" id="habits"></div>
-
-<div class="stats">
-  <div class="stat"><div class="stat-n" id="s-tot">0</div><div class="stat-l">مهام الأسبوع</div></div>
-  <div class="stat"><div class="stat-n" id="s-don">0</div><div class="stat-l">مكتملة</div></div>
-  <div class="stat"><div class="stat-n" id="s-pct">0%</div><div class="stat-l">تقدم</div></div>
-</div>
-<div class="pw"><div class="pf" id="wprog" style="width:0%"></div></div>
-
-<button class="reset-btn" onclick="showReset()">↺ إعادة تعيين الأسبوع</button>
-<div class="confirm-box" id="cbox">
-  <div class="confirm-msg">بدك تمسح كل الأسبوع وتبدأ من أول؟</div>
-  <div class="confirm-btns">
-    <button class="btn-no" onclick="hideReset()">لا، إلغاء</button>
-    <button class="btn-yes" onclick="doReset()">نعم، امسح</button>
+<!-- ══════════════ RESET MODAL ══════════════ -->
+<div class="modal-overlay" id="resetModal">
+  <div class="modal-box">
+    <div class="modal-title" data-ar="إعادة تعيين الأسبوع؟" data-en="Reset the week?">إعادة تعيين الأسبوع؟</div>
+    <div class="modal-sub" data-ar="كل الإنجازات، الملاحظات، والمهام الإضافية رح تنمسح." data-en="All completions, notes, and added tasks will be cleared.">كل الإنجازات، الملاحظات، والمهام الإضافية رح تنمسح.</div>
+    <div class="modal-btns">
+      <button class="modal-btn-cancel" onclick="closeModal()">
+        <span data-ar="إلغاء" data-en="Cancel">إلغاء</span>
+      </button>
+      <button class="modal-btn-danger" onclick="doReset()">
+        <span data-ar="نعم، امسح" data-en="Yes, reset">نعم، امسح</span>
+      </button>
+    </div>
   </div>
 </div>
-```
-
-  </div>
-</div>
-
-<div class="fbar">
-  <button class="flt on" onclick="setF('all',this)">الكل</button>
-  <button class="flt" onclick="setF('0',this)">محاضرات</button>
-  <button class="flt" onclick="setF('1',this)">دراسة</button>
-  <button class="flt" onclick="setF('2',this)">ماتريكس</button>
-  <button class="flt" onclick="setF('3',this)">محتوى</button>
-  <button class="flt" onclick="setF('4',this)">تداول</button>
-</div>
-
-<div class="days" id="plan"></div>
 
 <script>
-/* ====================================================
-   i18n
-   ==================================================== */
-let lang = 'ar';
-
-const i18n = {
-  ar: {
-    greeting: 'مرحبا، رومل 👋',
-    mottos: ["ابن نفسك كل يوم 💪","الفرق بتعمله التفاصيل الصغيرة ✨","يوم ما بيرجع — استغله 🔥","المنتج الحقيقي بيلاقي الوقت 🎯","خطوة صغيرة كل يوم = سنة مختلفة 🚀","نظّم يومك، بتنظّم حياتك 📅","الإنتاج عادة، مش حظ 💡"],
-    cats: [{name:'محاضرات',dot:'#3B82F6'},{name:'دراسة',dot:'#10B981'},{name:'ماتريكس',dot:'#F59E0B'},{name:'محتوى شخصي',dot:'#8B5CF6'},{name:'تداول وتحليل',dot:'#EF4444'},{name:'وقت حر',dot:'#9CA3AF'}],
-    days: ['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
-    months: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
-    dlbl: ['خفيف','ثقيل','خفيف','ثقيل','حر','حر','خفيف'],
-    habits: [{id:'w',icon:'💧',lbl:'ماء'},{id:'s',icon:'🏃',lbl:'رياضة'},{id:'r',icon:'📖',lbl:'قراءة'},{id:'n',icon:'😴',lbl:'نوم'}],
-    today: '· اليوم',
-    weekTasks: 'مهام الأسبوع', done: 'مكتملة', progress: 'تقدم',
-    reset: '↺ إعادة تعيين الأسبوع',
-    resetQ: 'بدك تمسح كل الأسبوع وتبدأ من أول؟',
-    yes: 'نعم، امسح', no: 'لا، إلغاء',
-    all: 'الكل', light: 'خفيف', heavy: 'ثقيل', free: 'حر',
-    addTask: '+ مهمة', freeSlot: '⬜ حر',
-    add: 'إضافة', cancel: 'إلغاء',
-    taskPlaceholder: 'اكتب المهمة...',
-    anPlaceholder: 'تحليلك هون... ترند، مستويات، فرص...',
-    freePlaceholder: 'شو بدك تعمل؟',
-    freeLabel: '⬜ وقت حر',
-    save: 'حفظ ✓',
-    thuTxt: 'يوم الواجبات — خلص الكل اليوم وارتاح باقي الأسبوع 💪',
-    hw: 'واجب',
-    themeLbl: 'الثيم',
-    themes: [{t:'dawn',l:'🌅 فجر'},{t:'cosmos',l:'🌌 كون'},{t:'neon',l:'⚡ نيون'},{t:'ink',l:'🖋 حبر'},{t:'forest',l:'🌿 غابة'}],
-    filterCats: ['الكل','محاضرات','دراسة','ماتريكس','محتوى','تداول'],
-    tasks: {
-      'u-s1':'نظرية المنظمة','u-s2':'مبادئ التسويق','rs0':'استراحة + وجبة','tr-s':'تحليل السوق','ds1':'مراجعة المحاضرات','cs1':'تصوير فيديو شخصي','ms1':'ماتريكس — 15 دقيقة','rv-s':'مراجعة المساء (5 د)',
-      'u-m1':'إدارة المستشفيات','u-m2':'إدارة سلسلة التوريد','u-m3':'إدارة العمليات والإنتاج','rm0':'استراحة + وجبة','tr-m':'تحليل السوق','sp-m':'رياضة 30 دقيقة','dm1':'مراجعة المحاضرات','mm1':'ماتريكس — 15 دقيقة','rv-m':'مراجعة المساء (5 د)',
-      'u-t1':'نظرية المنظمة','u-t2':'مبادئ التسويق','rt0':'استراحة + وجبة','tr-t':'تحليل السوق','dt1':'دراسة + تحضير مواد غد','ct1':'تصوير فيديو شخصي','mt1':'ماتريكس — 15 دقيقة','rv-t':'مراجعة المساء (5 د)',
-      'u-w1':'إدارة المستشفيات','u-w2':'إدارة سلسلة التوريد','u-w3':'إدارة العمليات والإنتاج','rw0':'استراحة + وجبة','tr-w':'تحليل السوق','sp-w':'رياضة 30 دقيقة','dw1':'مراجعة سريعة','mw1':'ماتريكس — 15 دقيقة','rv-w':'مراجعة المساء (5 د)',
-      'tr-th':'تحليل السوق','sp-th':'رياضة 30 دقيقة','hw1':'واجب: إدارة العمليات والإنتاج','hw2':'واجب: نظرية المنظمة','hw3':'واجب: إدارة سلسلة التوريد','hw4':'واجب: إدارة المستشفيات','hw5':'واجب: مبادئ التسويق','cth':'تصوير batch — 2 فيديوهات','mth':'ماتريكس — 15 دقيقة','rv-th':'مراجعة المساء (5 د)',
-      'tr-f':'تحليل السوق','cf1':'تصوير batch — 2 فيديوهات','cf2':'مونتاج + تحرير','df1':'مراجعة شاملة للأسبوع','df2':'تخطيط الأسبوع القادم','mf1':'ماتريكس — 15 دقيقة','rv-f':'مراجعة المساء + امتنان',
-      'tr-sa':'تحليل السوق','dsa1':'مراجعة غير متزامن','csa1':'مونتاج وأرشفة','msa1':'ماتريكس — 15 دقيقة','rv-sa':'مراجعة المساء (5 د)',
-    }
-  },
-  en: {
-    greeting: "Hey, Rommel 👋",
-    mottos: ["Build yourself every day 💪","The difference is in the small details ✨","This day won't come back — use it 🔥","A productive person finds the time 🎯","One small step daily = a different year 🚀","Organize your day, organize your life 📅","Productivity is a habit, not luck 💡"],
-    cats: [{name:'Lectures',dot:'#3B82F6'},{name:'Study',dot:'#10B981'},{name:'Matrix',dot:'#F59E0B'},{name:'Personal Content',dot:'#8B5CF6'},{name:'Trading & Analysis',dot:'#EF4444'},{name:'Free Time',dot:'#9CA3AF'}],
-    days: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
-    months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-    dlbl: ['Easy','Busy','Easy','Busy','Free','Free','Easy'],
-    habits: [{id:'w',icon:'💧',lbl:'Water'},{id:'s',icon:'🏃',lbl:'Sport'},{id:'r',icon:'📖',lbl:'Read'},{id:'n',icon:'😴',lbl:'Sleep'}],
-    today: '· Today',
-    weekTasks: 'Week Tasks', done: 'Done', progress: 'Progress',
-    reset: '↺ Reset Week',
-    resetQ: 'Reset the entire week and start over?',
-    yes: 'Yes, reset', no: 'No, cancel',
-    all: 'All', light: 'Easy', heavy: 'Busy', free: 'Free',
-    addTask: '+ Task', freeSlot: '⬜ Free',
-    add: 'Add', cancel: 'Cancel',
-    taskPlaceholder: 'Write the task...',
-    anPlaceholder: 'Your analysis... trend, key levels, opportunities...',
-    freePlaceholder: 'What do you want to do?',
-    freeLabel: '⬜ Free Time',
-    save: 'Save ✓',
-    thuTxt: 'Assignments Day — finish everything today and relax the rest of the week 💪',
-    hw: 'HW',
-    themeLbl: 'Theme',
-    themes: [{t:'dawn',l:'🌅 Dawn'},{t:'cosmos',l:'🌌 Cosmos'},{t:'neon',l:'⚡ Neon'},{t:'ink',l:'🖋 Ink'},{t:'forest',l:'🌿 Forest'}],
-    filterCats: ['All','Lectures','Study','Matrix','Content','Trading'],
-    tasks: {
-      'u-s1':'Organizational Theory','u-s2':'Marketing Principles','rs0':'Rest + Meal','tr-s':'Market Analysis','ds1':'Lecture Review','cs1':'Shoot Personal Video','ms1':'Matrix — 15 min','rv-s':'Evening Review (5 min)',
-      'u-m1':'Hospital Management','u-m2':'Supply Chain Management','u-m3':'Operations Management','rm0':'Rest + Meal','tr-m':'Market Analysis','sp-m':'30 min Workout','dm1':'Lecture Review','mm1':'Matrix — 15 min','rv-m':'Evening Review (5 min)',
-      'u-t1':'Organizational Theory','u-t2':'Marketing Principles','rt0':'Rest + Meal','tr-t':'Market Analysis','dt1':'Study + Prep for Tomorrow','ct1':'Shoot Personal Video','mt1':'Matrix — 15 min','rv-t':'Evening Review (5 min)',
-      'u-w1':'Hospital Management','u-w2':'Supply Chain Management','u-w3':'Operations Management','rw0':'Rest + Meal','tr-w':'Market Analysis','sp-w':'30 min Workout','dw1':'Quick Review','mw1':'Matrix — 15 min','rv-w':'Evening Review (5 min)',
-      'tr-th':'Market Analysis','sp-th':'30 min Workout','hw1':'HW: Operations Management','hw2':'HW: Organizational Theory','hw3':'HW: Supply Chain Management','hw4':'HW: Hospital Management','hw5':'HW: Marketing Principles','cth':'Batch Shoot — 2 Videos','mth':'Matrix — 15 min','rv-th':'Evening Review (5 min)',
-      'tr-f':'Market Analysis','cf1':'Batch Shoot — 2 Videos','cf2':'Edit + Montage','df1':'Full Week Review','df2':'Plan Next Week','mf1':'Matrix — 15 min','rv-f':'Evening Review + Gratitude',
-      'tr-sa':'Market Analysis','dsa1':'Async Course Review','csa1':'Montage + Archive','msa1':'Matrix — 15 min','rv-sa':'Evening Review (5 min)',
-    }
-  }
+/* ═══════════════════════════════════════════════════
+   CONSTANTS & i18n
+═══════════════════════════════════════════════════ */
+const CAT = {
+  UNI:    {key:'UNI',   icon:'🎓', color:'#4A9EFF',  ar:'محاضرات',  en:'Lectures'},
+  STUDY:  {key:'STUDY', icon:'📚', color:'#34D399',  ar:'دراسة',    en:'Study'},
+  TRADE:  {key:'TRADE', icon:'📈', color:'#FBBF24',  ar:'تداول',    en:'Trading'},
+  MATRIX: {key:'MATRIX',icon:'🔮', color:'#A78BFA',  ar:'ماتريكس',  en:'Matrix'},
+  CONTENT:{key:'CONTENT',icon:'🎬',color:'#F472B6',  ar:'محتوى',   en:'Content'},
+  GYM:    {key:'GYM',   icon:'💪', color:'#FB923C',  ar:'جيم',      en:'Gym'},
+  FOOD:   {key:'FOOD',  icon:'🍽', color:'#6EE7B7',  ar:'تغذية',   en:'Nutrition'},
+  REST:   {key:'REST',  icon:'😴', color:'#64748B',  ar:'راحة',     en:'Rest'},
+  ROUTINE:{key:'ROUTINE',icon:'☀', color:'#818CF8',  ar:'روتين',   en:'Routine'},
 };
 
-function t(key){ return i18n[lang][key]; }
-function tTask(id, fallback){ return i18n[lang].tasks[id] || fallback; }
+const SUBJECTS = [
+  {id:'ops',  ar:'إدارة العمليات والإنتاج', en:'Operations Management',    color:'#4A9EFF', chapters:8},
+  {id:'org',  ar:'نظرية المنظمة',            en:'Organizational Theory',    color:'#A78BFA', chapters:7},
+  {id:'sup',  ar:'إدارة سلسلة التوريد',      en:'Supply Chain Management',  color:'#34D399', chapters:6},
+  {id:'hosp', ar:'إدارة المستشفيات',         en:'Hospital Management',      color:'#F472B6', chapters:5},
+  {id:'mkt',  ar:'مبادئ التسويق',           en:'Marketing Principles',     color:'#FBBF24', chapters:7},
+];
 
-function toggleLang(){
-  lang = lang==='ar' ? 'en' : 'ar';
-  try{ localStorage.setItem('rp9_lang', lang); }catch(e){}
-  const html = document.documentElement;
-  html.lang = lang;
-  html.dir  = lang==='ar' ? 'rtl' : 'ltr';
-  document.getElementById('lang-btn').textContent = lang==='ar' ? 'EN' : 'ع';
-  rAll();
+const HABITS_DEF = [
+  {id:'water', icon:'💧', ar:'ماء', en:'Water'},
+  {id:'gym',   icon:'💪', ar:'جيم', en:'Gym'},
+  {id:'read',  icon:'📖', ar:'قراءة', en:'Read'},
+  {id:'sleep', icon:'😴', ar:'نوم',  en:'Sleep'},
+  {id:'bible', icon:'✝️', ar:'تأمل', en:'Devotion'},
+];
+
+// DAY TYPES
+const DAY_TYPE = ['light','heavy','light','heavy','free','free','light']; // Sun-Sat
+
+const GYM_PLAN = [
+  // Sun
+  {type_ar:'صدر + أكتاف + ترايسبس', type_en:'Push — Chest/Shoulders/Tri',
+   ex:[
+    {ar:'بنش برس',  en:'Bench Press',     sets:'4×8'},
+    {ar:'دمبل شولدر',en:'Shoulder Press',  sets:'3×10'},
+    {ar:'فلايز',    en:'Dumbbell Flyes',  sets:'3×12'},
+    {ar:'لاترال رايز',en:'Lateral Raise', sets:'3×15'},
+    {ar:'ترايسبس',  en:'Tricep Pushdown', sets:'3×12'},
+   ]},
+  // Mon
+  {type_ar:'ظهر + بايسبس', type_en:'Pull — Back/Biceps',
+   ex:[
+    {ar:'بول داون',  en:'Lat Pulldown',   sets:'4×10'},
+    {ar:'روينج',     en:'Cable Row',      sets:'3×10'},
+    {ar:'فيس بول',   en:'Face Pulls',     sets:'3×15'},
+    {ar:'بايسبس كيرل',en:'Bicep Curls',   sets:'3×12'},
+   ]},
+  // Tue
+  {type_ar:'أرجل', type_en:'Legs',
+   ex:[
+    {ar:'سكوات',     en:'Squats',         sets:'4×8'},
+    {ar:'ليج برس',   en:'Leg Press',      sets:'3×12'},
+    {ar:'ليج كيرل',  en:'Leg Curl',       sets:'3×12'},
+    {ar:'كالف رايز', en:'Calf Raises',    sets:'4×15'},
+   ]},
+  // Wed — REST
+  {type_ar:'راحة', type_en:'Rest Day', ex:[]},
+  // Thu
+  {type_ar:'كارديو + كور', type_en:'Cardio + Core',
+   ex:[
+    {ar:'جري 20 دقيقة',en:'20min Run',    sets:'—'},
+    {ar:'بلانك',      en:'Plank',          sets:'3×1min'},
+    {ar:'كرانش',      en:'Crunches',       sets:'3×20'},
+   ]},
+  // Fri
+  {type_ar:'صدر + ظهر (اختياري)', type_en:'Push-Pull (optional)',
+   ex:[
+    {ar:'بنش + روينج',en:'Bench + Row',   sets:'3×10'},
+    {ar:'كارديو خفيف', en:'Light Cardio', sets:'20min'},
+   ]},
+  // Sat
+  {type_ar:'راحة نشطة / كارديو', type_en:'Active Recovery',
+   ex:[
+    {ar:'مشي أو سباحة',en:'Walk / Swim',  sets:'30min'},
+   ]},
+];
+
+// NUTRITION PLANS
+const NUTRITION = {
+  '06:15': {ar:'فطور — بروتين + كارب معقد',   en:'Breakfast — Protein + Complex Carbs',  desc_ar:'بيض + شوفان + ماء',      desc_en:'Eggs + Oats + Water'},
+  '10:00': {ar:'سناك جامعي',                  en:'Uni Snack',                              desc_ar:'موزة + مكسرات',          desc_en:'Banana + Nuts'},
+  '13:00': {ar:'غداء — بروتين + أرز + خضار', en:'Lunch — Protein + Rice + Veggies',      desc_ar:'دجاج / لحم + أرز + سلطة', desc_en:'Chicken/Meat + Rice + Salad'},
+  '17:30': {ar:'وجبة ما بعد الجامعة',         en:'Post-Uni Meal',                          desc_ar:'تمر + لبن أو شاي',       desc_en:'Dates + Yogurt or Tea'},
+  '19:30': {ar:'وجبة قبل الجيم',              en:'Pre-Gym Meal',                           desc_ar:'موزة + شوفان (خفيف)',    desc_en:'Banana + Oats (light)'},
+  '21:30': {ar:'وجبة بعد الجيم',              en:'Post-Gym Meal',                          desc_ar:'بروتين + كارب — دجاج + بطاطس', desc_en:'Protein + Carbs — Chicken + Potato'},
+  '22:30': {ar:'سناك مسائي (اختياري)',        en:'Evening Snack (optional)',               desc_ar:'زبادي يوناني',           desc_en:'Greek Yogurt'},
+};
+
+// WEEKLY TEMPLATE TASKS
+// Each task: {id, ar, en, cat, time, dur, hw?, detail_ar?, detail_en?}
+function T(id,ar,en,cat,time,dur,hw,dar,den){
+  return {id,ar,en,cat,time:time||'',dur:dur||'',hw:!!hw,detail_ar:dar||'',detail_en:den||''};
 }
 
-
-
-function T(id,txt,cat,time,hw){return{id,txt,cat,time:time||'',hw:!!hw};}
-const TPL={
-  0:[T('u-s1','نظرية المنظمة',0,'10:00'),T('u-s2','مبادئ التسويق',0,'12:00'),T('rs0','استراحة + وجبة',5,'17:30'),T('tr-s','تحليل السوق',4,'18:00'),T('ds1','مراجعة المحاضرات',1,'19:00'),T('cs1','تصوير فيديو شخصي',3,'20:00'),T('ms1','ماتريكس — 15 دقيقة',2,'21:00'),T('rv-s','مراجعة المساء (5 د)',1,'22:00')],
-  1:[T('u-m1','إدارة المستشفيات',0,'09:30'),T('u-m2','إدارة سلسلة التوريد',0,'11:00'),T('u-m3','إدارة العمليات والإنتاج',0,'12:30'),T('rm0','استراحة + وجبة',5,'17:30'),T('tr-m','تحليل السوق',4,'18:15'),T('sp-m','رياضة 30 دقيقة',5,'19:00'),T('dm1','مراجعة المحاضرات',1,'19:45'),T('mm1','ماتريكس — 15 دقيقة',2,'21:00'),T('rv-m','مراجعة المساء (5 د)',1,'22:00')],
-  2:[T('u-t1','نظرية المنظمة',0,'10:00'),T('u-t2','مبادئ التسويق',0,'12:00'),T('rt0','استراحة + وجبة',5,'17:30'),T('tr-t','تحليل السوق',4,'18:00'),T('dt1','دراسة + تحضير مواد غد',1,'19:00'),T('ct1','تصوير فيديو شخصي',3,'20:00'),T('mt1','ماتريكس — 15 دقيقة',2,'21:00'),T('rv-t','مراجعة المساء (5 د)',1,'22:00')],
-  3:[T('u-w1','إدارة المستشفيات',0,'09:30'),T('u-w2','إدارة سلسلة التوريد',0,'11:00'),T('u-w3','إدارة العمليات والإنتاج',0,'12:30'),T('rw0','استراحة + وجبة',5,'17:30'),T('tr-w','تحليل السوق',4,'18:15'),T('sp-w','رياضة 30 دقيقة',5,'19:00'),T('dw1','مراجعة سريعة',1,'19:45'),T('mw1','ماتريكس — 15 دقيقة',2,'21:00'),T('rv-w','مراجعة المساء (5 د)',1,'22:00')],
-  4:[T('tr-th','تحليل السوق',4,'09:00'),T('sp-th','رياضة 30 دقيقة',5,'10:00'),T('hw1','واجب: إدارة العمليات والإنتاج',1,'11:00',true),T('hw2','واجب: نظرية المنظمة',1,'12:30',true),T('hw3','واجب: إدارة سلسلة التوريد',1,'14:00',true),T('hw4','واجب: إدارة المستشفيات',1,'15:30',true),T('hw5','واجب: مبادئ التسويق',1,'17:00',true),T('cth','تصوير batch — 2 فيديوهات',3,'18:30'),T('mth','ماتريكس — 15 دقيقة',2,'21:00'),T('rv-th','مراجعة المساء (5 د)',1,'22:00')],
-  5:[T('tr-f','تحليل السوق',4,'09:00'),T('cf1','تصوير batch — 2 فيديوهات',3,'10:30'),T('cf2','مونتاج + تحرير',3,'14:00'),T('df1','مراجعة شاملة للأسبوع',1,'17:00'),T('df2','تخطيط الأسبوع القادم',1,'18:30'),T('mf1','ماتريكس — 15 دقيقة',2,'20:30'),T('rv-f','مراجعة المساء + امتنان',1,'22:00')],
-  6:[T('tr-sa','تحليل السوق',4,'09:30'),T('dsa1','مراجعة غير متزامن',1,'11:00'),T('csa1','مونتاج وأرشفة',3,'14:00'),T('msa1','ماتريكس — 15 دقيقة',2,'17:00'),T('rv-sa','مراجعة المساء (5 د)',1,'22:00')],
+const WEEK_TPL = {
+  0:[ // Sunday — Light (Org Theory + Marketing)
+    T('s-r1','روتين الصباح','Morning Routine','ROUTINE','06:00','15min',false,'ماء + إطالة + نية اليوم','Water + stretch + set intentions'),
+    T('s-f1','فطور','Breakfast','FOOD','06:20','20min',false,'بيض + شوفان — وقود التركيز','Eggs + Oats — focus fuel'),
+    T('s-u1','نظرية المنظمة','Organizational Theory','UNI','10:00','90min',false,'محاضرة — دوّن ملاحظاتك بنشاط','Lecture — take active notes'),
+    T('s-u2','مبادئ التسويق','Marketing Principles','UNI','12:00','90min',false,'محاضرة — ابحث عن أمثلة من السوق','Lecture — find real market examples'),
+    T('s-r2','راحة + غداء','Rest + Lunch','FOOD','17:30','30min'),
+    T('s-tr','تحليل السوق','Market Analysis','TRADE','18:15','45min',false,'مراجعة الترندات + رسم المستويات','Review trends + mark key levels'),
+    T('s-m1','ماتريكس — متابعة','Matrix — Server Check','MATRIX','19:00','20min',false,'رد على الأسئلة + إعلان لو عندك','Answer questions + announce if needed'),
+    T('s-d1','مراجعة المحاضرات','Lecture Review','STUDY','19:30','50min',false,'بومودورو واحد — راجع محاضرتين اليوم','1 Pomodoro — review today\'s 2 lectures'),
+    T('s-g1','جيم — صدر + أكتاف','Gym — Push Day','GYM','20:30','60min',false,'صدر + أكتاف + ترايسبس — 5 تمارين','Chest + Shoulders + Triceps — 5 exercises'),
+    T('s-c1','تصوير فيديو','Shoot Video','CONTENT','21:45','30min',false,'فيديو واحد — بعد الجيم أنت أكثر واقعية','1 video — post-gym energy is authentic'),
+    T('s-rv','مراجعة المساء','Evening Review','ROUTINE','22:30','10min',false,'شو أنجزت؟ شو تحسّن؟','What did you accomplish? What improved?'),
+  ],
+  1:[ // Monday — Heavy (3 lectures)
+    T('m-r1','روتين الصباح','Morning Routine','ROUTINE','06:00','15min'),
+    T('m-f1','فطور','Breakfast','FOOD','06:20','20min',false,'بيض + خبز توست — طاقة للمحاضرات','Eggs + Toast — energy for lectures'),
+    T('m-u1','إدارة المستشفيات','Hospital Management','UNI','09:30','90min',false,'محاضرة ثقيلة — ركّز على الأمثلة والأرقام','Heavy lecture — focus on examples & numbers'),
+    T('m-u2','إدارة سلسلة التوريد','Supply Chain Mgmt','UNI','11:00','90min',false,'محاضرة — ارسم خريطة لكل عملية','Lecture — draw a process map'),
+    T('m-u3','إدارة العمليات','Operations Mgmt','UNI','12:30','90min',false,'محاضرة — 3 محاضرات اليوم، ترّكز 100%','Lecture — 3 today, stay 100% focused'),
+    T('m-f2','وجبة العودة','Homecoming Meal','FOOD','17:30','30min',false,'وجبة جيدة — خلّيها بروتين عالي','Good protein meal before study'),
+    T('m-tr','تحليل السوق','Market Analysis','TRADE','18:15','30min',false,'مراجعة سريعة — يوم ثقيل فخلّيها مختصرة','Quick scan — heavy day so keep it short'),
+    T('m-m1','ماتريكس','Matrix Check','MATRIX','18:50','15min'),
+    T('m-d1','مراجعة المحاضرات','Lecture Review','STUDY','19:15','50min',false,'بومودورو — ركّز على مادة واحدة من الثلاث','1 Pomodoro — pick 1 of 3 lectures to review'),
+    T('m-g1','جيم — ظهر + بايسبس','Gym — Pull Day','GYM','20:15','60min',false,'ظهر + بايسبس — الجيم بعد الدراسة لا قبلها','Back + Biceps — gym after study, never before'),
+    T('m-rv','مراجعة المساء','Evening Review','ROUTINE','21:30','10min'),
+  ],
+  2:[ // Tuesday — Light (like Sunday)
+    T('t-r1','روتين الصباح','Morning Routine','ROUTINE','06:00','15min'),
+    T('t-f1','فطور','Breakfast','FOOD','06:20','20min',false,'شوفان + موز + قهوة','Oats + Banana + Coffee'),
+    T('t-u1','نظرية المنظمة','Organizational Theory','UNI','10:00','90min',false,'محاضرة — قارن مع اللي درسته الأحد','Lecture — compare with Sunday\'s content'),
+    T('t-u2','مبادئ التسويق','Marketing Principles','UNI','12:00','90min',false,'محاضرة — ابحث عن case study حقيقي','Lecture — find a real case study'),
+    T('t-f2','وجبة العودة + راحة','Return Meal + Rest','FOOD','17:30','30min'),
+    T('t-tr','تحليل السوق','Market Analysis','TRADE','18:15','45min'),
+    T('t-m1','ماتريكس','Matrix Check','MATRIX','19:00','20min'),
+    T('t-d1','دراسة + تحضير غد','Study + Prep for Tomorrow','STUDY','19:30','60min',false,'بومودورين — راجع + حضّر محاضرات الأربعاء','2 Pomodoros — review + prep Wednesday lectures'),
+    T('t-c1','تصوير batch','Batch Filming','CONTENT','20:45','45min',false,'2 فيديوهات قصيرة — كثّف لأن الخميس كمان','2 short videos — batch while you can'),
+    T('t-g1','جيم — أرجل','Gym — Leg Day','GYM','21:45','50min',false,'سكوات + ليج برس + كالف — الأرجل مهمة','Squat + Leg Press + Calf — never skip legs'),
+    T('t-rv','مراجعة المساء','Evening Review','ROUTINE','22:45','10min'),
+  ],
+  3:[ // Wednesday — Heavy (3 lectures)
+    T('w-r1','روتين الصباح','Morning Routine','ROUTINE','06:00','15min'),
+    T('w-f1','فطور','Breakfast','FOOD','06:20','20min',false,'فطور قوي — 3 محاضرات اليوم','Big breakfast — 3 lectures today'),
+    T('w-u1','إدارة المستشفيات','Hospital Management','UNI','09:30','90min',false,'محاضرة — ركّز على الإدارة والتنظيم','Lecture — focus on management models'),
+    T('w-u2','إدارة سلسلة التوريد','Supply Chain Mgmt','UNI','11:00','90min'),
+    T('w-u3','إدارة العمليات','Operations Mgmt','UNI','12:30','90min',false,'محاضرة — الثالثة اليوم، لا تنتهي الجيم!','3rd lecture — no gym today, just rest'),
+    T('w-f2','وجبة + راحة كاملة','Meal + Full Rest','FOOD','17:30','45min',false,'يوم ثقيل — خذ راحتك وكل وجبة كاملة','Heavy day — eat well and rest properly'),
+    T('w-tr','تحليل مختصر','Quick Market Scan','TRADE','18:30','20min',false,'فقط الأخبار الرئيسية — وفّر طاقتك','Main news only — conserve energy'),
+    T('w-m1','ماتريكس','Matrix Check','MATRIX','18:55','15min'),
+    T('w-d1','مراجعة سريعة','Quick Review','STUDY','19:15','25min',false,'فقط ربع ساعة — يوم ثقيل، لا تكسر نفسك','Just 25min — heavy day, don\'t burn out'),
+    T('w-rv','نوم مبكر','Early Sleep','ROUTINE','21:30','—',false,'النوم الجيد = أداء أفضل بكر','Good sleep = better performance tomorrow'),
+  ],
+  4:[ // Thursday — Free / HW Day
+    T('th-r1','روتين + إفطار','Morning Routine + Breakfast','ROUTINE','06:30','30min',false,'نوّم أكثر بنص ساعة — استحقيت','30min extra sleep — you earned it'),
+    T('th-tr','تحليل السوق','Market Analysis','TRADE','08:00','45min',false,'تحليل مفصّل — ما عندك محاضرات، استغل','Deep analysis — no lectures today'),
+    T('th-g1','جيم — كارديو + كور','Gym — Cardio + Core','GYM','09:00','50min',false,'كارديو + كور في الصباح — طاقة طول اليوم','Morning cardio — energy all day'),
+    T('th-hw1','واجب: إدارة العمليات','HW: Operations Mgmt','STUDY','10:30','90min',true,'خلّصه أولاً — الأصعب يجي أولاً','Do it first — hardest first'),
+    T('th-hw2','واجب: نظرية المنظمة','HW: Organizational Theory','STUDY','12:15','75min',true),
+    T('th-f1','غداء — وجبة كاملة','Lunch — Full Meal','FOOD','13:30','35min'),
+    T('th-hw3','واجب: سلسلة التوريد','HW: Supply Chain','STUDY','14:15','75min',true),
+    T('th-hw4','واجب: إدارة المستشفيات','HW: Hospital Mgmt','STUDY','15:45','75min',true),
+    T('th-hw5','واجب: التسويق','HW: Marketing','STUDY','17:15','60min',true),
+    T('th-c1','تصوير batch — 2 فيديوهات','Batch Filming — 2 Videos','CONTENT','18:30','90min',false,'يوم حر = وقت التصوير الأفضل','Free day = best filming time'),
+    T('th-m1','ماتريكس — إعلان','Matrix — Announcement','MATRIX','20:15','25min',false,'نشر تحليل السوق على السيرفر','Post market analysis to server'),
+    T('th-rv','مراجعة المساء','Evening Review','ROUTINE','21:00','15min',false,'شو خلّصت من الواجبات؟','How many HWs did you finish?'),
+  ],
+  5:[ // Friday — Weekend / Content Day
+    T('f-r1','صحيان ميح — سلوموشن','Slow Morning','ROUTINE','07:30','30min',false,'بدون منبه إلا لو ما نمت كفاية','No alarm unless you need to'),
+    T('f-f1','فطور كامل','Full Breakfast','FOOD','08:00','30min',false,'أكل صح ليوم محتوى','Eat right for a content day'),
+    T('f-tr','تحليل + تداول','Analysis + Trading','TRADE','09:00','60min',false,'تحليل أسبوعي + صفقات محتملة','Weekly analysis + potential trades'),
+    T('f-c1','تصوير batch — 2 فيديوهات','Batch Filming — 2 Videos','CONTENT','10:30','120min',false,'أحسن أيام التصوير — طاقة + وقت + راحة','Best filming day — energy + time + rest'),
+    T('f-f2','غداء','Lunch','FOOD','13:00','45min'),
+    T('f-c2','مونتاج + تحرير','Edit + Montage','CONTENT','14:00','150min',false,'مونتج الفيديوهات + صور اصبهام + كابشن','Edit + thumbnails + captions'),
+    T('f-d1','مراجعة الأسبوع','Weekly Review','STUDY','17:00','30min',false,'شو تعلمت؟ شو ناقص؟ شو تحسّن؟','What learned? What\'s missing? What improved?'),
+    T('f-d2','تخطيط الأسبوع الجاي','Plan Next Week','ROUTINE','17:45','25min',false,'ضع الأهداف وتوقعات واقعية','Set goals and realistic expectations'),
+    T('f-m1','ماتريكس — نشاط','Matrix — Engage','MATRIX','18:30','30min',false,'تفاعل مع الأعضاء — سواء تحليل أو نقاش','Engage with members — analysis or discussion'),
+    T('f-g1','جيم — Push+Pull','Gym — Push+Pull (optional)','GYM','19:30','60min',false,'اختياري — استمع لجسمك','Optional — listen to your body'),
+    T('f-rv','مراجعة + امتنان','Evening Review + Gratitude','ROUTINE','21:30','10min',false,'اكتب 3 أشياء اشكر عليها','Write 3 things you\'re grateful for'),
+  ],
+  6:[ // Saturday — Light recovery
+    T('sa-r1','صحيان ميح','Slow Wake','ROUTINE','08:00','—',false,'جسمك محتاج الراحة — احترم ذلك','Your body needs rest — respect it'),
+    T('sa-f1','فطور','Breakfast','FOOD','08:30','25min'),
+    T('sa-tr','تحليل السوق','Market Analysis','TRADE','09:30','40min',false,'مراجعة أسبوع التداول + درس تعلمته','Review trading week + lessons learned'),
+    T('sa-d1','مراجعة غير متزامنة','Async Study Review','STUDY','11:00','60min',false,'راجع أصعب مواضيع الأسبوع بدون ضغط','Review hardest topics without pressure'),
+    T('sa-f2','غداء','Lunch','FOOD','13:00','45min'),
+    T('sa-c1','مونتاج + أرشفة','Montage + Archive','CONTENT','14:00','90min',false,'خلّص اللي ما انمونتج + رتّب المجلدات','Finish pending edits + organize folders'),
+    T('sa-m1','ماتريكس','Matrix Check','MATRIX','16:30','20min'),
+    T('sa-g1','كارديو / راحة نشطة','Cardio / Active Recovery','GYM','17:30','35min',false,'مشي أو سباحة — لا جيم ثقيل','Walk or swim — no heavy lifting'),
+    T('sa-rv','مراجعة المساء','Evening Review','ROUTINE','22:00','10min',false,'استعد للأسبوع الجديد — ضع المنبه','Prep for new week — set your alarm'),
+  ],
 };
 
-/* ====================================================
+/* ═══════════════════════════════════════════════════
    STATE
-   ==================================================== */
-const today=new Date(), todayIdx=today.getDay();
-const sun=new Date(today); sun.setDate(today.getDate()-todayIdx);
+═══════════════════════════════════════════════════ */
+const now = new Date();
+const todayIdx = now.getDay();
 
-function wKey(){const y=today.getFullYear(),s=new Date(y,0,1);return`rp9_${y}W${Math.ceil(((today-s)/864e5+s.getDay()+1)/7)}`;}
-function hKey(){return`rp9h_${today.toDateString().replace(/\s/g,'')}`;}
-
-let expDays=new Set([todayIdx]);
-let D={},C={},DEL={},AN={},FB={},HB={};
-let formDay=null,openAN=null,freeDay=null,fil='all';
-let currentTheme='dawn';
-let starAnim=null;
-
-function load(){
-  try{const r=JSON.parse(localStorage.getItem(wKey())||'{}');D=r.d||{};C=r.c||{};DEL=r.del||{};AN=r.an||{};FB=r.fb||{};if(r.exp)expDays=new Set(r.exp);else expDays=new Set([todayIdx]);}catch(e){expDays=new Set([todayIdx]);}
-  try{HB=JSON.parse(localStorage.getItem(hKey())||'{}');}catch(e){}
-  try{currentTheme=localStorage.getItem('rp9_theme')||'dawn';}catch(e){}
-  try{lang=localStorage.getItem('rp9_lang')||'ar';}catch(e){}
+function weekKey(){
+  const y=now.getFullYear(),s=new Date(y,0,1);
+  return `ros_${y}W${Math.ceil(((now-s)/864e5+s.getDay()+1)/7)}`;
 }
-function save(){
-  try{localStorage.setItem(wKey(),JSON.stringify({d:D,c:C,del:DEL,an:AN,fb:FB,exp:[...expDays]}));}catch(e){}
-  try{localStorage.setItem(hKey(),JSON.stringify(HB));}catch(e){}
+function todayKey(){ return `ros_h_${now.toDateString().replace(/\s/g,'_')}`; }
+
+let lang = 'ar';
+let STATE = {
+  done:{}, added:{}, deleted:{}, expanded:new Set([todayIdx]),
+  water:0, habits:{},
+  pomo:{ sessions:[], subject:'ops', mode:'25', running:false },
+  exams:{}, chapters:{},
+  formDay:null,
+};
+
+function loadState(){
+  try{
+    const r=JSON.parse(localStorage.getItem(weekKey())||'{}');
+    STATE.done    = r.done    || {};
+    STATE.added   = r.added   || {};
+    STATE.deleted = r.deleted || {};
+    STATE.expanded= new Set(r.expanded || [todayIdx]);
+    STATE.exams   = r.exams   || {};
+    STATE.chapters= r.chapters|| {};
+    STATE.pomo    = r.pomo    || {sessions:[],subject:'ops',mode:'25',running:false};
+  }catch(e){}
+  try{
+    const h=JSON.parse(localStorage.getItem(todayKey())||'{}');
+    STATE.water  = h.water  || 0;
+    STATE.habits = h.habits || {};
+  }catch(e){}
+  try{ lang=localStorage.getItem('ros_lang')||'ar'; }catch(e){}
 }
-function gd(i){const d=new Date(sun);d.setDate(sun.getDate()+i);return d;}
-function gt(i){
-  const base=(TPL[i]||[]).filter(t=>!DEL[t.id]).map(t=>({...t,done:!!D[t.id],isBase:true}));
-  const extra=(C[i]||[]).map(t=>({...t,done:!!D[t.id],isBase:false}));
-  return[...base,...extra];
-}
-
-/* ====================================================
-   THEME ANIMATIONS
-   ==================================================== */
-function clearAnim(){
-  if(starAnim){cancelAnimationFrame(starAnim);starAnim=null;}
-  document.getElementById('hdr-anim').innerHTML='';
-}
-
-function initCosmosAnim(){
-  const anim=document.getElementById('hdr-anim');
-  const canvas=document.createElement('canvas');
-  canvas.className='star-canvas';
-  anim.appendChild(canvas);
-  const hdr=document.querySelector('.hdr');
-
-  function resize(){
-    canvas.width=hdr.offsetWidth;
-    canvas.height=hdr.offsetHeight;
-  }
-  resize();
-
-  const ctx=canvas.getContext('2d');
-  // generate stars
-  const stars=Array.from({length:80},()=>({
-    x:Math.random()*canvas.width,
-    y:Math.random()*canvas.height,
-    r:Math.random()*1.5+.3,
-    phase:Math.random()*Math.PI*2,
-    speed:Math.random()*.02+.01,
-  }));
-
-  function draw(t){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    stars.forEach(s=>{
-      const alpha=.4+.6*Math.sin(s.phase+t*s.speed);
-      ctx.beginPath();
-      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(200,210,255,${alpha})`;
-      ctx.fill();
-      // tiny cross sparkle on brighter stars
-      if(s.r>1.2&&alpha>.8){
-        ctx.strokeStyle=`rgba(200,210,255,${alpha*.5})`;
-        ctx.lineWidth=.5;
-        ctx.beginPath();ctx.moveTo(s.x-4,s.y);ctx.lineTo(s.x+4,s.y);ctx.stroke();
-        ctx.beginPath();ctx.moveTo(s.x,s.y-4);ctx.lineTo(s.x,s.y+4);ctx.stroke();
-      }
-    });
-    starAnim=requestAnimationFrame(draw);
-  }
-  starAnim=requestAnimationFrame(draw);
+function saveState(){
+  try{
+    localStorage.setItem(weekKey(), JSON.stringify({
+      done:STATE.done, added:STATE.added, deleted:STATE.deleted,
+      expanded:[...STATE.expanded], exams:STATE.exams,
+      chapters:STATE.chapters, pomo:STATE.pomo,
+    }));
+  }catch(e){}
+  try{
+    localStorage.setItem(todayKey(), JSON.stringify({
+      water:STATE.water, habits:STATE.habits,
+    }));
+  }catch(e){}
 }
 
-function initNeonAnim(){
-  const anim=document.getElementById('hdr-anim');
-  anim.innerHTML=`<div class="neon-glow"></div><div class="neon-grid"></div>`;
+/* ═══════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════ */
+function L(obj){ return lang==='ar' ? (obj.ar||obj.en) : (obj.en||obj.ar); }
+function dayTasks(i){
+  const base=(WEEK_TPL[i]||[]).filter(t=>!STATE.deleted[t.id]).map(t=>({...t,isBase:true}));
+  const extra=(STATE.added[i]||[]).map(t=>({...t,isBase:false}));
+  return [...base,...extra];
 }
-
-function initForestAnim(){
-  const anim=document.getElementById('hdr-anim');
-  const hdr=document.querySelector('.hdr');
-  const w=hdr.offsetWidth, h=hdr.offsetHeight;
-  const particles=Array.from({length:18},(_,i)=>{
-    const x=Math.random()*100;
-    const dur=(4+Math.random()*5).toFixed(1);
-    const delay=(Math.random()*6).toFixed(1);
-    const size=3+Math.floor(Math.random()*4);
-    return `<div class="forest-particle" style="left:${x}%;bottom:${Math.random()*40}%;--dur:${dur}s;--delay:${delay}s;width:${size}px;height:${size}px;"></div>`;
-  });
-  anim.innerHTML=particles.join('');
+function getSunday(){
+  const s=new Date(now);
+  s.setDate(now.getDate()-todayIdx);
+  s.setHours(0,0,0,0);
+  return s;
 }
+function getDay(i){ const d=new Date(getSunday());d.setDate(d.getDate()+i);return d; }
 
-function applyThemeAnim(t){
-  clearAnim();
-  if(t==='cosmos') initCosmosAnim();
-  else if(t==='neon') initNeonAnim();
-  else if(t==='forest') initForestAnim();
-}
+const DAYS_AR=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const DAYS_EN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS_AR=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+const MONTHS_EN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DLBL_AR =['خفيف','ثقيل','خفيف','ثقيل','حر','حر','خفيف'];
+const DLBL_EN =['Easy','Busy','Easy','Busy','Free','Free','Easy'];
+const MOTTOS = {
+  ar:['ابن نفسك كل يوم 💪','الفرق بتعمله التفاصيل الصغيرة ✨','يوم ما بيرجع — استغله 🔥','المنتج الحقيقي بيلاقي الوقت 🎯','خطوة صغيرة كل يوم = سنة مختلفة 🚀'],
+  en:['Build yourself every day 💪','Differences live in the small details ✨','This day won\'t return — use it 🔥','Productive people find the time 🎯','One small step daily = a different year 🚀'],
+};
 
-function setTheme(t,el){
-  currentTheme=t;
-  document.body.setAttribute('data-theme',t);
-  try{localStorage.setItem('rp9_theme',t);}catch(e){}
-  document.querySelectorAll('.th-btn').forEach(b=>b.classList.toggle('active',b.dataset.t===t));
-  applyThemeAnim(t);
-}
-
-/* ====================================================
+/* ═══════════════════════════════════════════════════
    RENDER HEADER
-   ==================================================== */
-function rHdr(){
-  const L = i18n[lang];
-  document.getElementById('hdr-day').textContent  = L.days[today.getDay()];
-  document.getElementById('hdr-date').textContent = `${today.getDate()} ${L.months[today.getMonth()]}`;
-  document.getElementById('motto').textContent    = L.mottos[today.getDay() % L.mottos.length];
-  document.querySelector('.greeting').textContent = L.greeting;
+═══════════════════════════════════════════════════ */
+function renderHeader(){
+  const days = lang==='ar'?DAYS_AR:DAYS_EN;
+  const months= lang==='ar'?MONTHS_AR:MONTHS_EN;
+  document.getElementById('hdrDay').textContent  = days[todayIdx];
+  document.getElementById('hdrDate').textContent = `${now.getDate()} ${months[now.getMonth()]}`;
+  document.getElementById('mottoTxt').textContent= MOTTOS[lang][todayIdx%5];
+  document.getElementById('langBtn').textContent = lang==='ar'?'EN':'ع';
 
-  // theme buttons
-  document.querySelector('.themes').innerHTML = L.themes.map(th=>
-    `<button class="th-btn${currentTheme===th.t?' active':''}" data-t="${th.t}" onclick="setTheme('${th.t}',this)">${th.l}</button>`
-  ).join('');
+  // habits
+  const habHtml = HABITS_DEF.map(h=>`
+    <div class="hab${STATE.habits[h.id]?' done':''}" onclick="toggleHabit('${h.id}')">
+      ${h.icon} ${lang==='ar'?h.ar:h.en}${STATE.habits[h.id]?' ✓':''}
+    </div>`).join('');
+  document.getElementById('habitsRow').innerHTML=habHtml;
 
-  // filter bar
-  const fbar = document.querySelector('.fbar');
-  const filters = ['all','0','1','2','3','4'];
-  fbar.innerHTML = filters.map((f,i)=>
-    `<button class="flt${fil===f?' on':''}" onclick="setF('${f}',this)">${L.filterCats[i]}</button>`
-  ).join('');
+  // week progress
+  const allTasks=Object.values(WEEK_TPL).flatMap((ts,i)=>
+    ts.filter(t=>!STATE.deleted[t.id]).concat(STATE.added[i]||[])
+  );
+  const tot=allTasks.length, don=allTasks.filter(t=>STATE.done[t.id]).length;
+  const pct=tot?Math.round(don/tot*100):0;
+  document.getElementById('wkBar').style.width=pct+'%';
+  document.getElementById('wkPct').textContent=pct+'%';
+  const sl=lang==='ar';
+  document.getElementById('wkStats').innerHTML=`
+    <div class="wk-stat">${sl?'إجمالي المهام':'Total Tasks'}: <span>${tot}</span></div>
+    <div class="wk-stat">${sl?'مكتملة':'Done'}: <span>${don}</span></div>
+    <div class="wk-stat">${sl?'الجلسات اليوم':'Sessions Today'}: <span>${(STATE.pomo.sessions||[]).length}</span></div>
+  `;
 
-  document.getElementById('habits').innerHTML = L.habits.map(h=>
-    `<div class="hab${HB[h.id]?' done':''}" onclick="tHab('${h.id}')">${h.icon} ${h.lbl}${HB[h.id]?' ✓':''}</div>`
-  ).join('');
-
-  const all=Array.from({length:7},(_,i)=>gt(i)).flat();
-  const tot=all.length,don=all.filter(t=>t.done).length,pct=tot?Math.round(don/tot*100):0;
-  document.getElementById('s-tot').textContent = tot;
-  document.getElementById('s-don').textContent = don;
-  document.getElementById('s-pct').textContent = pct+'%';
-  document.getElementById('wprog').style.width = pct+'%';
-  document.querySelectorAll('.stat-l')[0].textContent = L.weekTasks;
-  document.querySelectorAll('.stat-l')[1].textContent = L.done;
-  document.querySelectorAll('.stat-l')[2].textContent = L.progress;
-  document.querySelector('.reset-btn').textContent = L.reset;
-  document.querySelector('.confirm-msg').textContent = L.resetQ;
-  document.querySelector('.btn-yes').textContent = L.yes;
-  document.querySelector('.btn-no').textContent  = L.no;
+  // i18n nav labels
+  document.querySelectorAll('[data-ar]').forEach(el=>{
+    el.textContent=lang==='ar'?el.dataset.ar:el.dataset.en;
+  });
 }
 
-/* ====================================================
-   RENDER SINGLE DAY
-   ==================================================== */
-function rDay(i){
-  const L = i18n[lang];
-  const old=document.querySelector(`[data-day="${i}"]`);
-  const d=gd(i),isT=d.toDateString()===today.toDateString(),isExp=expDays.has(i);
-  let tasks=gt(i);
-  if(fil!=='all')tasks=tasks.filter(t=>t.cat===+fil);
-  const donC=tasks.filter(t=>t.done).length,pct=tasks.length?Math.round(donC/tasks.length*100):0;
+/* ═══════════════════════════════════════════════════
+   RENDER WEEK PAGE
+═══════════════════════════════════════════════════ */
+function renderWeek(){
+  const container=document.getElementById('pageWeek');
+  let html='';
+  const sl=lang==='ar';
 
-  const card=document.createElement('div');
-  card.className=`dc ${DTYPE[i]}${isT?' today':''}${isExp?' expanded':''}`;
-  card.dataset.day=i;
+  html+=`<div class="reset-strip"><button class="reset-btn" onclick="document.getElementById('resetModal').classList.add('show')">
+    ${sl?'↺ إعادة تعيين الأسبوع':'↺ Reset Week'}
+  </button></div>`;
 
-  const dh=document.createElement('div');dh.className='dh';dh.onclick=()=>togExp(i);
-  dh.innerHTML=`
-    <div class="dr">
-      <span class="dn">${L.days[d.getDay()]}${isT?' '+L.today:''}</span>
-      <span class="dtype">${L.dlbl[i]}</span>
+  for(let i=0;i<7;i++){
+    const d=getDay(i);
+    const isT=d.toDateString()===now.toDateString();
+    const isOpen=STATE.expanded.has(i);
+    const tasks=dayTasks(i);
+    const donC=tasks.filter(t=>STATE.done[t.id]).length;
+    const pct=tasks.length?Math.round(donC/tasks.length*100):0;
+    const dtype=DAY_TYPE[i];
+    const days=lang==='ar'?DAYS_AR:DAYS_EN;
+    const months=lang==='ar'?MONTHS_AR:MONTHS_EN;
+    const dlbl=lang==='ar'?DLBL_AR:DLBL_EN;
+
+    let dotClass=''; if(dtype==='heavy')dotClass='heavy-dot';else if(dtype==='light')dotClass='light-dot';else dotClass='free-dot';
+
+    html+=`<div class="day-card ${dtype}${isT?' is-today':''}${isOpen?' open':''}" id="dc-${i}">
+      <div class="dc-head" onclick="togExpand(${i})">
+        <div class="dc-left">
+          <div class="dc-dot ${dotClass}"></div>
+          <div>
+            <span class="dc-name">${days[d.getDay()]}</span>
+            ${isT?`<span class="today-badge" style="margin-${lang==='ar'?'right':'left'}:6px">${sl?'• اليوم':'• Today'}</span>`:''}
+          </div>
+          <span class="dc-type-badge">${dlbl[i]}</span>
+        </div>
+        <div class="dc-right">
+          ${tasks.length?`<span class="dc-progress-txt">${donC}/${tasks.length}</span>`:''}
+          <span class="dc-progress-txt" style="color:var(--txt3)">${d.getDate()}/${d.getMonth()+1}</span>
+          <span class="dc-chev">▾</span>
+        </div>
+      </div>
+      <div class="dc-bar"><div class="dc-bar-fill" style="width:${pct}%"></div></div>
+      <div class="dc-body">`;
+
+    // Thu special note
+    if(i===4){
+      html+=`<div class="note-block">
+        <span class="note-block-icon">📋</span>
+        <span class="note-block-txt">${sl?'يوم الواجبات — خلّص كل الواجبات اليوم وارتاح باقي الأسبوع 💪':'HW Day — finish all assignments today and relax the rest of the week 💪'}</span>
+      </div>`;
+    }
+    if(i===5||i===6){
+      html+=`<div class="note-block">
+        <span class="note-block-icon">🎬</span>
+        <span class="note-block-txt">${sl?'أيام التصوير الذهبية — batch filming للمحتوى':'Golden filming days — batch your content creation'}</span>
+      </div>`;
+    }
+
+    // Task rows
+    tasks.forEach(tk=>{
+      const isDone=!!STATE.done[tk.id];
+      const cat=CAT[tk.cat]||CAT.REST;
+      const name=lang==='ar'?tk.ar:tk.en;
+      html+=`<div class="task-row${isDone?' done':''}" id="tr-${tk.id}">
+        <button class="task-check" onclick="toggleDone('${tk.id}',${i})">${isDone?'✓':''}</button>
+        <div class="task-cat-dot" style="background:${cat.color}"></div>
+        <span class="task-name">${tk.hw?`<span class="hw-badge">${sl?'واجب':'HW'}</span> `:''}${name}</span>
+        ${tk.time?`<span class="task-time">${tk.time}</span>`:''}
+        <button class="task-del" onclick="delTask('${tk.id}',${i},${tk.isBase})">✕</button>
+      </div>`;
+    });
+
+    // Add form
+    if(STATE.formDay===i){
+      const cats=Object.values(CAT).map(c=>`<option value="${c.key}">${c.icon} ${lang==='ar'?c.ar:c.en}</option>`).join('');
+      html+=`<div class="add-form show" id="af-${i}">
+        <input type="text" id="inp-${i}" placeholder="${sl?'اكتب المهمة...':'Write the task...'}" style="direction:${lang==='ar'?'rtl':'ltr'}">
+        <div class="add-form-row">
+          <select id="cat-${i}" style="flex:1">${cats}</select>
+          <input type="time" id="tim-${i}" style="width:110px">
+        </div>
+        <div class="add-form-btns">
+          <button class="btn-add-cancel" onclick="closeForm(${i})">${sl?'إلغاء':'Cancel'}</button>
+          <button class="btn-add-ok" onclick="addTask(${i})">${sl?'إضافة':'Add'}</button>
+        </div>
+      </div>`;
+    } else {
+      html+=`<div class="add-row">
+        <button class="add-task-btn" onclick="openForm(${i},event)">+ ${sl?'مهمة':'Task'}</button>
+      </div>`;
+    }
+
+    html+=`</div></div>`; // close dc-body + day-card
+  }
+
+  container.innerHTML=html;
+
+  // Focus input if form open
+  if(STATE.formDay!==null){
+    const inp=document.getElementById(`inp-${STATE.formDay}`);
+    if(inp){inp.focus();inp.onkeydown=e=>{if(e.key==='Enter')addTask(STATE.formDay);if(e.key==='Escape')closeForm(STATE.formDay);};}
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   RENDER TODAY PAGE
+═══════════════════════════════════════════════════ */
+function renderToday(){
+  const container=document.getElementById('pageToday');
+  const sl=lang==='ar';
+  const tasks=dayTasks(todayIdx);
+  const now_h=now.getHours(), now_m=now.getMinutes();
+  let html='';
+
+  // Water tracker
+  html+=`<div class="section-lbl">${sl?'💧 الماء':'💧 Hydration'}</div>
+  <div class="water-track">
+    <div class="water-track-top">
+      <span class="water-title">${sl?'هدف: 8 أكواب يومياً':'Goal: 8 cups per day'}</span>
+      <span class="water-count mono">${STATE.water}/8</span>
     </div>
-    <div class="dl">
-      ${tasks.length?`<span class="ddone">${donC}/${tasks.length}</span>`:''}
-      <span class="ddate">${d.getDate()}/${d.getMonth()+1}</span>
-      <span class="chev">▾</span>
+    <div class="water-cups">
+      ${Array.from({length:8},(_,i)=>`<div class="water-cup${i<STATE.water?' filled':''}" onclick="addWater(${i})">${i<STATE.water?'💧':'🫙'}</div>`).join('')}
+    </div>
+  </div>`;
+
+  // Energy strip
+  const energyColors=['#818CF8','#34D399','#4A9EFF','#FBBF24','#FB923C','#F472B6','#64748B','#34D399','#FBBF24','#818CF8','#64748B','#94A3B8'];
+  const energyLbls_ar=['صاحي','نشيط','ذروة','ذروة','انخفاض','انخفاض','وقت الغداء','استعادة','طاقة','تركيز','ريلاكس','استعداد للنوم'];
+  const energyLbls_en=['Wake','Alert','Peak','Peak','Dip','Dip','Lunch','Recovery','Energy','Focus','Unwind','Wind-down'];
+  html+=`<div class="section-lbl">${sl?'⚡ مستوى الطاقة (6ص-6م)':'⚡ Energy Curve (6am-6pm)'}</div>
+  <div style="display:flex;gap:3px;margin-bottom:4px">
+    ${energyColors.map((c,i)=>`<div style="flex:1;height:6px;border-radius:3px;background:${c}40;border-top:2px solid ${c}" title="${lang==='ar'?energyLbls_ar[i]:energyLbls_en[i]}"></div>`).join('')}
+  </div>
+  <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--txt3);margin-bottom:12px;font-family:'DM Mono',monospace">
+    <span>6:00</span><span>${sl?'ذروة':'Peak'} 9-11</span><span>12:00</span><span>${sl?'استعادة':'Recovery'}</span><span>18:00</span>
+  </div>`;
+
+  // Nutrition
+  html+=`<div class="section-lbl">${sl?'🍽 التغذية':'🍽 Nutrition'}</div>`;
+  const nutritionEntries=Object.entries(NUTRITION);
+  // 2 per row
+  for(let i=0;i<nutritionEntries.length;i+=2){
+    html+='<div class="nutr-row">';
+    for(let j=i;j<Math.min(i+2,nutritionEntries.length);j++){
+      const [t,n]=nutritionEntries[j];
+      html+=`<div class="nutr-card">
+        <div class="nutr-time">${t}</div>
+        <div class="nutr-meal">${sl?n.ar:n.en}</div>
+        <div class="nutr-desc">${sl?n.desc_ar:n.desc_en}</div>
+      </div>`;
+    }
+    html+='</div>';
+  }
+
+  // Timeline
+  html+=`<div class="section-lbl">${sl?'⏱ جدول اليوم':'⏱ Today\'s Schedule'}</div>
+  <div class="timeline">`;
+
+  tasks.forEach((tk,idx)=>{
+    const cat=CAT[tk.cat]||CAT.REST;
+    const isDone=!!STATE.done[tk.id];
+    let isNow=false;
+    if(tk.time){
+      const [h,m]=(tk.time||'00:00').split(':').map(Number);
+      const nextTk=tasks[idx+1];
+      let nh=23,nm=59;
+      if(nextTk&&nextTk.time){[nh,nm]=nextTk.time.split(':').map(Number);}
+      isNow=(now_h*60+now_m)>=(h*60+m)&&(now_h*60+now_m)<(nh*60+nm);
+    }
+    const name=lang==='ar'?tk.ar:tk.en;
+    const detail=lang==='ar'?tk.detail_ar:tk.detail_en;
+    html+=`<div class="timeline-block${isNow?' current-marker':''}">
+      <div class="tl-time-col">${tk.time||''}</div>
+      <div class="tl-line-col">
+        <div class="tl-dot${isDone?' done-dot':isNow?' active-dot':''}"></div>
+        ${idx<tasks.length-1?'<div class="tl-line"></div>':''}
+      </div>
+      <div class="tl-card${isDone?' done-card':''}" style="border-left-color:${cat.color}" onclick="toggleDone('${tk.id}',${todayIdx})">
+        <div class="tl-tag" style="color:${cat.color}">${cat.icon} ${lang==='ar'?cat.ar:cat.en}</div>
+        <div class="tl-name">${tk.hw?`<span class="hw-badge" style="margin-${lang==='ar'?'left':'right'}:4px">${sl?'واجب':'HW'}</span>`:''}${name}</div>
+        ${detail?`<div class="tl-detail">${detail}</div>`:''}
+        ${tk.dur?`<div class="tl-dur mono">${tk.dur}</div>`:''}
+      </div>
     </div>`;
-  card.appendChild(dh);
+  });
 
-  const dp=document.createElement('div');dp.className='dprog';
-  dp.innerHTML=`<div class="dprogf" style="width:${pct}%"></div>`;
-  card.appendChild(dp);
+  html+=`</div>`; // close timeline
 
-  const tw=document.createElement('div');tw.className='tw';
-  if(i===4)tw.innerHTML=`<div class="thu"><span style="font-size:20px">📋</span><div class="thu-t">${L.thuTxt}</div></div>`;
+  // Gym plan
+  const gp=GYM_PLAN[todayIdx];
+  if(gp.ex.length>0){
+    html+=`<div class="section-lbl">${sl?'💪 تمارين اليوم':'💪 Today\'s Workout'}</div>
+    <div class="gym-card">
+      <div class="gym-card-top">
+        <span class="gym-day-lbl">${lang==='ar'?gp.type_ar:gp.type_en}</span>
+        <span class="gym-type">${sl?'الوقت المناسب: 20:30':'Best time: 20:30'}</span>
+      </div>
+      <div class="gym-exercises">
+        ${gp.ex.map(e=>`<div class="gym-ex">${lang==='ar'?e.ar:e.en}<span>${e.sets}</span></div>`).join('')}
+      </div>
+    </div>`;
+  }
 
-  tasks.forEach(tk=>{
-    const isAn=tk.cat===4;
-    const taskTxt = tTask(tk.id, tk.txt);
-    const el=document.createElement('div');el.className=`task${tk.done?' done':''}`;
-    el.innerHTML=`
-      <button class="chk" onclick="tDone('${tk.id}',${i})">${tk.done?'✓':''}</button>
-      <span class="cdot" style="background:${L.cats[tk.cat].dot}"></span>
-      <span class="ttxt">${tk.hw?`<span class="hw-tag">${L.hw}</span>`:''}${taskTxt}</span>
-      <span class="ttime">${tk.time}</span>
-      ${isAn?`<button class="an-btn" onclick="tAN('${tk.id}',${i})">📝</button>`:''}
-      <button class="tdel" onclick="tDel('${tk.id}',${i},${tk.isBase})">✕</button>`;
-    tw.appendChild(el);
-    if(isAn&&openAN===tk.id){
-      const ab=document.createElement('div');ab.className='an-box';
-      ab.innerHTML=`<textarea id="an-${tk.id}" placeholder="${L.anPlaceholder}" rows="3">${AN[tk.id]||''}</textarea><button class="an-save" onclick="saveAN('${tk.id}',${i})">${L.save}</button>`;
-
-```
-  tw.appendChild(ab);
-  setTimeout(()=>{const a=document.getElementById(`an-${tk.id}`);if(a)a.focus();},50);
-}
-```
-
-});
-
-if(freeDay===i){
-const fb=document.createElement(‘div’);fb.className=‘fb-box’;
-fb.innerHTML=`<div class="fb-lbl">${L.freeLabel}</div><textarea id="fb-${i}" placeholder="${L.freePlaceholder}" rows="3">${FB[i]||''}</textarea><button class="fb-save" onclick="saveFB(${i})">${L.save}</button>`;
-tw.appendChild(fb);
-setTimeout(()=>{const f=document.getElementById(`fb-${i}`);if(f)f.focus();},50);
+  container.innerHTML=html;
 }
 
-const acts=document.createElement(‘div’);
-if(formDay===i){
-const dir = lang===‘ar’ ? ‘rtl’ : ‘ltr’;
-acts.className=‘af’;
-acts.innerHTML=` <input type="text" id="inp-${i}" placeholder="${L.taskPlaceholder}" style="direction:${dir}"> <div class="af-row"> <select id="cat-${i}" style="flex:1;direction:${dir}">${L.cats.map((c,x)=>`<option value="${x}">${c.name}</option>`).join('')}</select> <input type="time" id="tim-${i}" style="width:110px"> </div> <div class="af-btns"> <button class="af-cancel" onclick="cForm(${i})">${L.cancel}</button> <button class="af-ok" onclick="addT(${i})">${L.add}</button> </div>`;
-setTimeout(()=>{const inp=document.getElementById(`inp-${i}`);if(inp){inp.focus();inp.onkeydown=e=>{if(e.key===‘Enter’)addT(i);if(e.key===‘Escape’)cForm(i);};}},50);
-}else{
-acts.className=‘arow’;
-acts.innerHTML=`<button class="add-btn" onclick="oForm(${i},event)">${L.addTask}</button><button class="free-btn" onclick="oFree(${i},event)">${L.freeSlot}</button>`;
+/* ═══════════════════════════════════════════════════
+   RENDER POMODORO PAGE
+═══════════════════════════════════════════════════ */
+let timerInterval=null;
+let timerRemaining=25*60;
+let timerRunning=false;
+let timerMode='25'; // '25','50','break5','break10'
+let timerDone=0; // sessions done
+
+function renderPomo(){
+  const sl=lang==='ar';
+  const subjOptions=SUBJECTS.map(s=>`<option value="${s.id}"${STATE.pomo.subject===s.id?' selected':''}>${lang==='ar'?s.ar:s.en}</option>`).join('');
+  const modes=[
+    {id:'25',label:'25/5 Pomodoro'},
+    {id:'50',label:'50/10 Deep Work'},
+  ];
+  const sessions=STATE.pomo.sessions||[];
+  const todaySessions=sessions.filter(s=>s.date===now.toDateString());
+  const totalMin=todaySessions.reduce((a,s)=>a+(s.min||0),0);
+  const circumference=2*Math.PI*100;
+  const progress=timerRunning?(1-timerRemaining/(getCurrentModeDuration()*60)):0;
+  const dash=circumference*(1-progress);
+
+  const logHtml=todaySessions.slice(-5).reverse().map(s=>
+    `<div class="pomo-log-item">
+      <span class="pomo-log-subject">${s.subject||''}</span>
+      <span class="pomo-log-time">${s.min}min · ${s.at}</span>
+    </div>`
+  ).join('');
+
+  document.getElementById('pagePomo').innerHTML=`
+  <div class="pomo-wrap">
+    <div class="section-lbl">${sl?'📚 اختر المادة':'📚 Select Subject'}</div>
+    <select class="pomo-subject-select" onchange="STATE.pomo.subject=this.value;saveState()">${subjOptions}</select>
+
+    <div class="pomo-session-count">
+      ${Array.from({length:4},(_,i)=>`<div class="pomo-dot${i<(timerDone%4)?' filled':''}"></div>`).join('')}
+    </div>
+
+    <div class="pomo-ring-wrap">
+      <svg class="pomo-ring" viewBox="0 0 220 220">
+        <circle class="pomo-ring-bg" cx="110" cy="110" r="100"/>
+        <circle class="pomo-ring-fg" cx="110" cy="110" r="100"
+          stroke-dasharray="${circumference}"
+          stroke-dashoffset="${dash}"
+          stroke="${timerMode==='break5'||timerMode==='break10'?'#34D399':'#D4A843'}"
+        />
+      </svg>
+      <div class="pomo-inner">
+        <div class="pomo-time mono" id="pomoDisplay">${fmtTime(timerRemaining)}</div>
+        <div class="pomo-mode-lbl">${sl?(timerMode.startsWith('break')?'استراحة':'تركيز'):(timerMode.startsWith('break')?'Break':'Focus')}</div>
+      </div>
+    </div>
+
+    <div class="pomo-controls">
+      <button class="pomo-btn-secondary" onclick="resetTimer()">↩</button>
+      <button class="pomo-btn-main" id="pomoPlayBtn" onclick="toggleTimer()">
+        ${timerRunning?'⏸':'▶'}
+      </button>
+      <button class="pomo-btn-secondary" onclick="skipMode()">⏭</button>
+    </div>
+
+    <div class="pomo-settings">
+      ${modes.map(m=>`<button class="pomo-mode-btn${timerMode===m.id?' active':''}" onclick="setMode('${m.id}')">${m.label}</button>`).join('')}
+    </div>
+
+    <div style="display:flex;justify-content:space-between;margin:14px 0 8px;font-size:12px;color:var(--txt2)">
+      <span>${sl?'جلسات اليوم':'Today\'s sessions'}: <strong style="color:var(--txt)">${todaySessions.length}</strong></span>
+      <span>${sl?'إجمالي التركيز':'Total focus'}: <strong style="color:var(--gold)">${totalMin}${sl?'د':'min'}</strong></span>
+    </div>
+
+    ${logHtml?`<div class="section-lbl">${sl?'سجل اليوم':'Today\'s Log'}</div><div class="pomo-log">${logHtml}</div>`:''}
+  </div>`;
 }
-tw.appendChild(acts);
-card.appendChild(tw);
-if(old)old.replaceWith(card);
-else document.getElementById(‘plan’).appendChild(card);
+
+function getCurrentModeDuration(){
+  if(timerMode==='25')return 25;
+  if(timerMode==='50')return 50;
+  if(timerMode==='break5')return 5;
+  if(timerMode==='break10')return 10;
+  return 25;
+}
+function fmtTime(sec){ return `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`; }
+
+function toggleTimer(){
+  if(timerRunning){
+    timerRunning=false;
+    clearInterval(timerInterval);
+  } else {
+    timerRunning=true;
+    timerInterval=setInterval(()=>{
+      if(timerRemaining<=0){
+        clearInterval(timerInterval);
+        timerRunning=false;
+        onTimerComplete();
+      } else {
+        timerRemaining--;
+        updateTimerDisplay();
+      }
+    },1000);
+  }
+  renderPomo();
+  updateFloatTimer();
+}
+function resetTimer(){
+  clearInterval(timerInterval);
+  timerRunning=false;
+  timerRemaining=getCurrentModeDuration()*60;
+  updateTimerDisplay();
+  renderPomo();
+  updateFloatTimer();
+}
+function skipMode(){
+  clearInterval(timerInterval);
+  timerRunning=false;
+  if(timerMode==='25'){timerMode='break5';}
+  else if(timerMode==='50'){timerMode='break10';}
+  else{timerDone++;timerMode=STATE.pomo.mode==='50'?'50':'25';}
+  timerRemaining=getCurrentModeDuration()*60;
+  renderPomo();
+  updateFloatTimer();
+}
+function setMode(m){
+  timerMode=m; STATE.pomo.mode=m;
+  resetTimer();
+}
+function onTimerComplete(){
+  const dur=getCurrentModeDuration();
+  if(!timerMode.startsWith('break')){
+    const subj=SUBJECTS.find(s=>s.id===STATE.pomo.subject);
+    const subjName=subj?(lang==='ar'?subj.ar:subj.en):'';
+    if(!STATE.pomo.sessions)STATE.pomo.sessions=[];
+    STATE.pomo.sessions.push({
+      subject:subjName, min:dur,
+      at:`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`,
+      date:now.toDateString(),
+    });
+    saveState();
+    try{if(Notification.permission==='granted')new Notification('Session done! 🍅',{body:`${dur}min ${subjName} complete`});}catch(e){}
+    // Auto-switch to break
+    timerMode=dur===50?'break10':'break5';
+  } else {
+    timerDone++;
+    timerMode=STATE.pomo.mode==='50'?'50':'25';
+  }
+  timerRemaining=getCurrentModeDuration()*60;
+  renderPomo();
+  updateFloatTimer();
+}
+function updateTimerDisplay(){
+  const d=document.getElementById('pomoDisplay');
+  if(d)d.textContent=fmtTime(timerRemaining);
+  updateFloatTimer();
+}
+function updateFloatTimer(){
+  const ft=document.getElementById('floatTimer');
+  const sl=lang==='ar';
+  if(timerRunning){
+    ft.classList.add('show');
+    document.getElementById('floatTimerTxt').textContent=fmtTime(timerRemaining);
+    const subj=SUBJECTS.find(s=>s.id===STATE.pomo.subject);
+    document.getElementById('floatSubj').textContent=subj?(lang==='ar'?subj.ar:subj.en):'';
+  } else {
+    ft.classList.remove('show');
+  }
+}
+function goToTimer(){
+  setPage('pomo', document.querySelectorAll('.nav-btn')[2]);
 }
 
-function rAll(){rHdr();for(let i=0;i<7;i++)rDay(i);}
+/* ═══════════════════════════════════════════════════
+   RENDER EXAMS PAGE
+═══════════════════════════════════════════════════ */
+function renderExams(){
+  const sl=lang==='ar';
+  let html=`<div class="section-lbl">${sl?'📅 مواعيد الامتحانات':'📅 Exam Schedule'}</div>`;
 
-/* ====================================================
-ACTIONS
-==================================================== */
-function togExp(i){if(expDays.has(i))expDays.delete(i);else expDays.add(i);save();rDay(i);}
-function tHab(id){HB[id]=!HB[id];save();rHdr();}
-function tDone(id,i){D[id]=!D[id];save();rHdr();rDay(i);}
-function tDel(id,i,isBase){if(isBase)DEL[id]=true;else if(C[i])C[i]=C[i].filter(t=>t.id!==id);delete D[id];save();rHdr();rDay(i);}
-function tAN(id,i){openAN=openAN===id?null:id;rDay(i);}
-function saveAN(id,i){const el=document.getElementById(`an-${id}`);if(el)AN[id]=el.value;openAN=null;save();rDay(i);}
-function oFree(i,e){e.stopPropagation();freeDay=freeDay===i?null:i;if(!expDays.has(i))expDays.add(i);save();rDay(i);}
-function saveFB(i){const el=document.getElementById(`fb-${i}`);if(el)FB[i]=el.value;freeDay=null;save();rDay(i);}
-function oForm(i,e){e.stopPropagation();formDay=i;if(!expDays.has(i))expDays.add(i);save();rDay(i);}
-function cForm(i){formDay=null;rDay(i);}
-function setF(f,btn){fil=f;document.querySelectorAll(’.flt’).forEach(b=>b.classList.remove(‘on’));btn.classList.add(‘on’);rAll();}
-function addT(i){const txt=document.getElementById(`inp-${i}`)?.value?.trim();if(!txt)return;const cat=+(document.getElementById(`cat-${i}`)?.value||0),time=document.getElementById(`tim-${i}`)?.value||’’;if(!C[i])C[i]=[];C[i].push({id:‘c’+Date.now(),txt,cat,time});formDay=null;save();rHdr();rDay(i);}
-function showReset(){document.getElementById(‘cbox’).classList.add(‘show’);}
-function hideReset(){document.getElementById(‘cbox’).classList.remove(‘show’);}
-function doReset(){D={};C={};DEL={};AN={};FB={};HB={};expDays=new Set([todayIdx]);formDay=null;openAN=null;freeDay=null;save();hideReset();rAll();}
+  SUBJECTS.forEach(subj=>{
+    const examDate=STATE.exams[subj.id];
+    const chapDone=(STATE.chapters[subj.id]||[]).length;
+    const chapPct=Math.round(chapDone/subj.chapters*100);
+    let daysLeft='?',urgentColor='var(--txt2)';
 
-/* ====================================================
-INIT
-==================================================== */
-load();
-document.body.setAttribute(‘data-theme’, currentTheme);
-document.documentElement.lang = lang;
-document.documentElement.dir  = lang===‘ar’ ? ‘rtl’ : ‘ltr’;
-document.getElementById(‘lang-btn’).textContent = lang===‘ar’ ? ‘EN’ : ‘ع’;
-document.querySelectorAll(’.th-btn’).forEach(b=>b.classList.toggle(‘active’,b.dataset.t===currentTheme));
-rAll();
-applyThemeAnim(currentTheme);
-setTimeout(()=>{const c=document.querySelector(’.dc.today’);if(c)c.scrollIntoView({behavior:‘smooth’,block:‘start’});},150);
+    if(examDate){
+      const ed=new Date(examDate);
+      const diff=Math.ceil((ed-now)/(1000*60*60*24));
+      daysLeft=diff>0?diff:0;
+      if(diff<=3)urgentColor='var(--red)';
+      else if(diff<=7)urgentColor='var(--amber)';
+      else urgentColor='var(--emerald)';
+    }
+
+    // Generate chapters for this subject
+    const chaps=Array.from({length:subj.chapters},(_,i)=>i+1);
+    const chapHtml=chaps.map(n=>{
+      const done=(STATE.chapters[subj.id]||[]).includes(n);
+      return `<div class="ec-ch${done?' done':''}" onclick="toggleChapter('${subj.id}',${n})">${sl?'فصل':'Ch'} ${n}</div>`;
+    }).join('');
+
+    html+=`<div class="exam-card" style="border-left:4px solid ${subj.color};border-right:none">
+      <div class="ec-header">
+        <div>
+          <div class="ec-name">${lang==='ar'?subj.ar:subj.en}</div>
+          <div style="font-size:11px;color:var(--txt2);margin-top:3px">${sl?'فصول':'Chapters'}: ${subj.chapters} · ${sl?'مراجع':'Reviewed'}: ${chapDone}</div>
+        </div>
+        <div style="text-align:center">
+          <div class="ec-days" style="color:${urgentColor}">${daysLeft}</div>
+          <div class="ec-days-lbl">${sl?'يوم':'days'}</div>
+        </div>
+      </div>
+      <div class="ec-progress">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--txt2)">
+          <span>${sl?'التقدم الدراسي':'Study Progress'}</span>
+          <span class="mono">${chapPct}%</span>
+        </div>
+        <div class="ec-bar-wrap"><div class="ec-bar" style="width:${chapPct}%;background:${subj.color}"></div></div>
+      </div>
+      <div class="ec-chapters">${chapHtml}</div>
+      <div class="ec-date-row">
+        <input type="date" class="ec-date-input" id="edate-${subj.id}" value="${examDate||''}" onchange="saveExamDate('${subj.id}')">
+        <button class="ec-save" onclick="saveExamDate('${subj.id}')">${sl?'حفظ':'Save'}</button>
+      </div>
+    </div>`;
+  });
+
+  // SRS reminder
+  html+=`<div class="section-lbl">${sl?'🧠 Spaced Repetition':'🧠 Spaced Repetition'}</div>
+  <div class="srs-card">
+    <div class="srs-top">
+      <span class="srs-subj">${sl?'جدول المراجعة الذكي':'Smart Review Schedule'}</span>
+    </div>
+    <div style="font-size:12px;color:var(--txt2);line-height:1.6">
+      ${sl?`راجع المادة: اليوم → بعد يوم → بعد 3 أيام → بعد أسبوع → بعد شهر
+      <br>هذه الطريقة تثبّت المعلومات في الذاكرة طويلة الأمد 🧠`
+      :`Review material: Today → Next day → 3 days later → 1 week → 1 month
+      <br>This method locks information into long-term memory 🧠`}
+    </div>
+  </div>`;
+
+  document.getElementById('pageExams').innerHTML=html;
+}
+
+/* ═══════════════════════════════════════════════════
+   ACTIONS
+═══════════════════════════════════════════════════ */
+function toggleDone(id, dayIdx){
+  STATE.done[id]=!STATE.done[id];
+  saveState();
+  renderHeader();
+  if(activePage==='week')renderWeek();
+  else if(activePage==='today')renderToday();
+}
+function delTask(id, dayIdx, isBase){
+  if(isBase)STATE.deleted[id]=true;
+  else if(STATE.added[dayIdx])STATE.added[dayIdx]=STATE.added[dayIdx].filter(t=>t.id!==id);
+  delete STATE.done[id];
+  saveState();
+  renderHeader();
+  renderWeek();
+}
+function togExpand(i){
+  if(STATE.expanded.has(i))STATE.expanded.delete(i);
+  else STATE.expanded.add(i);
+  saveState();
+  renderWeek();
+}
+function openForm(i,e){
+  e&&e.stopPropagation();
+  STATE.formDay=i;
+  STATE.expanded.add(i);
+  saveState();
+  renderWeek();
+}
+function closeForm(i){
+  STATE.formDay=null;
+  renderWeek();
+}
+function addTask(i){
+  const txt=(document.getElementById(`inp-${i}`)?.value||'').trim();
+  if(!txt)return;
+  const cat=document.getElementById(`cat-${i}`)?.value||'STUDY';
+  const time=document.getElementById(`tim-${i}`)?.value||'';
+  if(!STATE.added[i])STATE.added[i]=[];
+  STATE.added[i].push({id:'u'+Date.now(),ar:txt,en:txt,cat,time,isBase:false});
+  STATE.formDay=null;
+  saveState();
+  renderHeader();
+  renderWeek();
+}
+function toggleHabit(id){
+  STATE.habits[id]=!STATE.habits[id];
+  saveState();
+  renderHeader();
+}
+function addWater(idx){
+  STATE.water=idx>=STATE.water?idx+1:idx;
+  if(STATE.water>8)STATE.water=0;
+  saveState();
+  renderToday();
+}
+function toggleChapter(subjId,n){
+  if(!STATE.chapters[subjId])STATE.chapters[subjId]=[];
+  const arr=STATE.chapters[subjId];
+  const i=arr.indexOf(n);
+  if(i>=0)arr.splice(i,1);else arr.push(n);
+  saveState();
+  renderExams();
+}
+function saveExamDate(subjId){
+  const el=document.getElementById(`edate-${subjId}`);
+  if(el)STATE.exams[subjId]=el.value;
+  saveState();
+  renderExams();
+}
+function doReset(){
+  STATE.done={};STATE.added={};STATE.deleted={};
+  STATE.water=0;STATE.habits={};
+  STATE.pomo.sessions=[];
+  STATE.expanded=new Set([todayIdx]);
+  STATE.formDay=null;
+  saveState();
+  closeModal();
+  renderAll();
+}
+function closeModal(){ document.getElementById('resetModal').classList.remove('show'); }
+function toggleLang(){
+  lang=lang==='ar'?'en':'ar';
+  try{localStorage.setItem('ros_lang',lang);}catch(e){}
+  document.body.className=lang==='ar'?'rtl':'ltr';
+  document.documentElement.lang=lang;
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  renderAll();
+}
+
+/* ═══════════════════════════════════════════════════
+   PAGE NAVIGATION
+═══════════════════════════════════════════════════ */
+let activePage='week';
+function setPage(name, btn){
+  activePage=name;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`page${name.charAt(0).toUpperCase()+name.slice(1)}`).classList.add('active');
+  btn.classList.add('active');
+  if(name==='week')renderWeek();
+  else if(name==='today')renderToday();
+  else if(name==='pomo')renderPomo();
+  else if(name==='exams')renderExams();
+}
+
+function renderAll(){
+  renderHeader();
+  if(activePage==='week')renderWeek();
+  else if(activePage==='today')renderToday();
+  else if(activePage==='pomo')renderPomo();
+  else if(activePage==='exams')renderExams();
+}
+
+/* ═══════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════ */
+loadState();
+document.body.className=lang==='ar'?'rtl':'ltr';
+document.documentElement.lang=lang;
+document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+timerRemaining=getCurrentModeDuration()*60;
+renderAll();
+
+// Auto-scroll to today in week view
+setTimeout(()=>{
+  const el=document.querySelector('.day-card.is-today');
+  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+},200);
+
+// Notification permission
+try{if('Notification' in window&&Notification.permission==='default')Notification.requestPermission();}catch(e){}
 </script>
-
 </body>
 </html>
